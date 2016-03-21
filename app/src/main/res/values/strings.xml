@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Lexio</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="LexioTitle">Lexio dictionary</string>
+    <string name="lexio.Decsription">Lexio is a language dictionary with train capabilities</string>
+    <string name="nav.MyDictionaries">My dictionaries</string>
+    <string name="nav.Training">Training</string>
+    <string name="nav.Statistics">Statistics</string>
+    <string name="nav.Settings">Settings</string>
+    <string name="dictionaries.Add">Add dictionary</string>
+    <string name="dialog.Create">Create</string>
+    <string name="dialog.Cancel">Cancel</string>
+    <string name="dictionaries.EnterTitle">Enter dictionary name</string>
+    <string name="dialog.EnterTextHint">Enter text here..</string>
+    <string name="dictionaries.EnterLanguage">Enter dictionary language</string>
+    <string name="dictionaries.Delete">Delete dictionary</string>
+    <string name="dictionaries.Delete.Alert">Are you sure you want to delete the selected dictionaries? (this will also delete your words)</string>
+    <string name="dialog.Delete">Delete</string>
+    <string name="dictionaries.Deletion">Dictionary deletion</string>
+    <string name="dictionaries.Active">Make your active</string>
+    <string name="dictionaries.ActiveFlag">active</string>
+    <string name="nav.MyDictionary">No active dictionary</string>
+    <string name="nav.MyDictionariesGroup">Dictionaries and words</string>
+    <string name="train.WordTrans">Word - Tranaslation</string>
+    <string name="train.TransWord">Translation - Word</string>
+    <string name="train.WordAudio">Audio - Translation</string>
+    <string name="stat.HardWords">Hard words</string>
+    <string name="train.WordsByDay">Words, trained by days</string>
+</resources>

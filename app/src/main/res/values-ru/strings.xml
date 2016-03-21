@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lexio</string>
+    <string name="action_settings">Настройки</string>
+    <string name="LexioTitle">Словарь Lexio</string>
+    <string name="lexio.Decsription">Словарь с возможностями тренировки слов</string>
+    <string name="navigation_drawer_close">Закрыть навигацию</string>
+    <string name="navigation_drawer_open">Открыть навигацию</string>
+    <string name="nav.MyDictionaries">Мои словари</string>
+    <string name="nav.Settings">Настройки</string>
+    <string name="nav.Statistics">Статистика</string>
+    <string name="nav.Training">Тренировки</string>
+    <string name="dictionaries.Add">Добавить словарь</string>
+    <string name="dialog.Create">Создать</string>
+    <string name="dialog.Cancel">Отмена</string>
+    <string name="dictionaries.EnterTitle">Введите название словаря</string>
+    <string name="dialog.EnterTextHint">Введите текст</string>
+    <string name="dictionaries.EnterLanguage">Выберите язык</string>
+    <string name="dictionaries.Delete">Удалить словарь</string>
+    <string name="dictionaries.Delete.Alert">Вы действительно хотите удалить словарь? (это так же удалит все слова в этом словаре)</string>
+    <string name="dialog.Delete">Удалить</string>
+    <string name="dictionaries.Deletion">Удаление словаря</string>
+    <string name="dictionaries.Active">Сделать текущим активным</string>
+    <string name="dictionaries.ActiveFlag">активный</string>
+    <string name="nav.MyDictionary">Нет активного словаря</string>
+    <string name="nav.MyDictionariesGroup">Dictionaries and words</string>
+    <string name="train.WordTrans">Слово - Перевод</string>
+    <string name="train.TransWord">Перевод - Слово</string>
+    <string name="train.WordAudio">Аудио слово - Перевод</string>
+    <string name="stat.HardWords">Самые сложные слова</string>
+    <string name="train.WordsByDay">Слова по дням</string>
+</resources>

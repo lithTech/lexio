@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dictionaries_group"
+            android:title="@string/nav.MyDictionariesGroup">
+            <menu>
+                <item
+                    android:id="@+id/dict_dictionaries"
+                    android:icon="@drawable/ic_menu_dictionaries"
+                    android:title="@string/nav.MyDictionaries">
+                </item>
+                <item
+                    android:id="@+id/dict_dictionary"
+                    android:icon="@drawable/ic_menu_word"
+                    android:title="@string/nav.MyDictionary">
+                </item>
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/nav_training"
+            android:icon="@drawable/ic_menu_training"
+            android:title="@string/nav.Training">
+            <menu>
+                <item android:id="@+id/training_word_trans"
+                    android:title="@string/train.WordTrans"
+                    android:icon="@drawable/ic_menu_training"/>
+                <item android:id="@+id/training_trans_word"
+                    android:title="@string/train.TransWord"
+                    android:icon="@drawable/ic_menu_training"/>
+                <item android:id="@+id/training_word_audio"
+                    android:title="@string/train.WordAudio"
+                    android:icon="@drawable/ic_menu_training"/>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_statistics"
+            android:title="@string/nav.Statistics">
+            <menu>
+                <item android:id="@+id/stat_hard_words"
+                    android:title="@string/stat.HardWords"
+                    android:icon="@drawable/ic_menu_statistics" />
+                <item android:id="@+id/stat_train_words_by_day"
+                    android:title="@string/train.WordsByDay"
+                    android:icon="@drawable/ic_menu_statistics" />
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/nav.Settings" />
+    </group>
+
+</menu>

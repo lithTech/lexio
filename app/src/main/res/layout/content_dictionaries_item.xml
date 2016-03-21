@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTintMode="src_in"
+    android:baselineAligned="false"
+    android:descendantFocusability="afterDescendants"
+    android:divider="@android:color/holo_green_light">
+
+    <CheckBox
+        android:id="@+id/cbDictionary"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="12dp"
+        android:focusable="false"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Мой основной словарь"
+        android:id="@+id/tvTitle"
+        android:padding="7dp"
+        android:layout_margin="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="356"
+            android:id="@+id/tvWordCnt" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:paddingTop="1dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:id="@+id/tvActive" />
+    </LinearLayout>
+
+</LinearLayout>

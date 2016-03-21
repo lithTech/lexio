@@ -1,0 +1,161 @@
+package lt.ru.lexio.ui;
+
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ViewGroup;
+
+import lt.ru.lexio.R;
+import lt.ru.lexio.db.Db;
+import lt.ru.lexio.db.Dictionary;
+import lt.ru.lexio.db.DictionaryDAO;
+import lt.ru.lexio.ui.dictionary.DictionariesFragment;
+
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+    Dictionary currentDictionary = null;
+    Menu navMenu = null;
+    ContentFragment currentFragment = null;
+
+    public Dictionary getCurrentDictionary() {
+        return currentDictionary;
+    }
+
+    public void setCurrentDictionary(Dictionary currentDictionary) {
+        this.currentDictionary = currentDictionary;
+        if (navMenu != null) {
+            MenuItem menuItem = navMenu.findItem(R.id.dict_dictionary);
+            menuItem.setTitle(currentDictionary.getTitle());
+        }
+    }
+
+    private void initUI(Menu navMenu) {
+        this.navMenu = navMenu;
+        selectContent(R.id.dict_dictionaries);
+
+        //init current dictionary
+        DictionaryDAO dictionaryDAO = new DictionaryDAO(this);
+        Cursor cursor = dictionaryDAO.getActive().execute();
+        if (cursor.moveToNext()) {
+            setCurrentDictionary(dictionaryDAO.read(cursor.getLong(cursor.getColumnIndex(Db.Common.ID))));
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        initUI(navigationView.getMenu());
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_activity_main_actionbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        /*if (id == R.id.action_settings) {
+            return true;
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        return selectContent(id);
+    }
+
+    private boolean selectContent(int id) {
+        FragmentManager fragmentManager = getFragmentManager();
+        ContentFragment fragment = null;
+        Bundle args = new Bundle();
+        String title = null;
+        //select the proper content layout to load into the fragment
+        if (id == R.id.dict_dictionaries) {
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_dictionaries);
+            args.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_dictionaries);
+            title = getResources().getString(R.string.nav_MyDictionaries);
+            fragment = new DictionariesFragment();
+        } else if (id == R.id.nav_settings) {
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_settings);
+            title = getResources().getString(R.string.nav_Settings);
+            fragment = new SettingsFragment();
+        } else if (id == R.id.stat_hard_words) {
+
+
+        } else if (id == R.id.stat_train_words_by_day) {
+
+
+        } else if (id == R.id.training_trans_word) {
+
+        } else if (id == R.id.training_word_audio) {
+
+        } else if (id == R.id.training_word_trans) {
+
+        } else if (id == R.id.dict_dictionary) {
+
+        }
+        //if we selected the content, load it into fragment
+        if (args.size() > 0) {
+            //need to remove all old views from parent container
+            ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content_fragment_parent);
+            viewGroup.removeAllViews();
+            //
+            if (fragment == null)
+                fragment = new ContentFragment();
+            fragment.setArguments(args);
+            FragmentTransaction fragmentTransaction = fragmentManager
+                    .beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.replace(R.id.content_fragment_parent, fragment)
+                    .commit();
+            currentFragment = fragment;
+            if (title != null)
+                setTitle(getResources().getString(R.string.app_name)+": "+title);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+}

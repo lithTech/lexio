@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_dictionaries_add"
+        android:title="@string/dictionaries.Add"
+        />
+    <item
+        android:id="@+id/action_dictionaries_del"
+        android:title="@string/dictionaries.Delete" />
+    <item
+        android:id="@+id/action_dictionary_active"
+        android:title="@string/dictionaries.Active" />
+
+</menu>
