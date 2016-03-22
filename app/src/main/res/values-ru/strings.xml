@@ -23,10 +23,16 @@
     <string name="dictionaries.Active">Сделать текущим активным</string>
     <string name="dictionaries.ActiveFlag">активный</string>
     <string name="nav.MyDictionary">Нет активного словаря</string>
-    <string name="nav.MyDictionariesGroup">Dictionaries and words</string>
+    <string name="nav.MyDictionariesGroup">Словари и слова</string>
     <string name="train.WordTrans">Слово - Перевод</string>
     <string name="train.TransWord">Перевод - Слово</string>
     <string name="train.WordAudio">Аудио слово - Перевод</string>
     <string name="stat.HardWords">Самые сложные слова</string>
     <string name="train.WordsByDay">Слова по дням</string>
+    <string name="word.Del">Удалить выделенные слова</string>
+    <string name="word.Add">Добавить слово</string>
+    <string name="word.EnterWordHint">Enter word</string>
+    <string name="word_get_translation">Get translation</string>
+    <string name="word.EnterTranslationHint">Enter translation</string>
+    <string name="word.EnterContextHint">Enter word context</string>
 </resources>

@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 
 import lt.ru.lexio.R;
@@ -19,13 +21,15 @@ import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
+import lt.ru.lexio.ui.words.WordFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     Dictionary currentDictionary = null;
     Menu navMenu = null;
     ContentFragment currentFragment = null;
+    WordFragment wordFragment = null;
 
     public Dictionary getCurrentDictionary() {
         return currentDictionary;
@@ -67,6 +71,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initUI(navigationView.getMenu());
+
+        FloatingActionButton btnWordAdd = (FloatingActionButton) findViewById(R.id.word_add_global);
+        btnWordAdd.setOnClickListener(this);
     }
 
     @Override
@@ -122,9 +129,7 @@ public class MainActivity extends AppCompatActivity
             fragment = new SettingsFragment();
         } else if (id == R.id.stat_hard_words) {
 
-
         } else if (id == R.id.stat_train_words_by_day) {
-
 
         } else if (id == R.id.training_trans_word) {
 
@@ -133,7 +138,17 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.training_word_trans) {
 
         } else if (id == R.id.dict_dictionary) {
-
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_words);
+            args.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_words);
+            title = getResources().getString(R.string.nav_MyDictionary);
+            if (currentDictionary != null)
+                title = currentDictionary.getTitle();
+            if (wordFragment == null) {
+                fragment = new WordFragment();
+                wordFragment = (WordFragment) fragment;
+            }
+            else
+                args.putBoolean(ContentFragment.ARG_NEED_REFRESH, true);
         }
         //if we selected the content, load it into fragment
         if (args.size() > 0) {
@@ -157,5 +172,17 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * When word_add_global clicked
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        if (wordFragment == null)
+            selectContent(R.id.dict_dictionary);
+
+        wordFragment.createWord(this);
     }
 }

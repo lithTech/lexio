@@ -21,6 +21,7 @@ public class ContentFragment extends Fragment {
 
     public static final String ARG_LAYOUT_TO_APPEND = "layoutToAppend";
     public static final String ARG_ACTION_MENU_ID = "actionMenuId";
+    public static final String ARG_NEED_REFRESH = "needRefresh";
 
     int actionMenuId;
 

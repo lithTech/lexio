@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class DbHelper extends AbstractDBOpenHelper {
 
-    public static final int DB_VER = 2;
+    public static final int DB_VER = 3;
 
     public DbHelper(Context ctx) {
         super(ctx, "lexio.db", DB_VER);
@@ -46,5 +46,8 @@ public class DbHelper extends AbstractDBOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         addMissingColumns(db, Dictionary.class);
         addMissingColumns(db, Word.class);
+
+        createIndex(db, Db.Word.TABLE, false, Db.Word.DICTIONARY_ID);
+        createIndex(db, Db.Word.TABLE, true, Db.Common.TITLE);
     }
 }

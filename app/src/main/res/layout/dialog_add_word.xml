@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/edWord"
+        android:layout_width="fill_parent"
+        android:textColorHint="@color/colorMandatory"
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:hint="@string/word.EnterWordHint"
+        android:padding="15dp" />
+
+    <EditText
+        android:id="@+id/edTranslation"
+        android:layout_width="fill_parent"
+        android:textColorHint="@color/colorMandatory"
+        android:layout_height="wrap_content"
+        android:inputType="textCapWords"
+        android:hint="@string/word.EnterTranslationHint"
+        android:padding="15dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:text="@string/word_get_translation"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edContext"
+        android:layout_width="fill_parent"
+        android:inputType="textCapWords"
+        android:layout_height="wrap_content"
+        android:hint="@string/word.EnterContextHint"
+        android:padding="15dp" />
+
+
+</LinearLayout>

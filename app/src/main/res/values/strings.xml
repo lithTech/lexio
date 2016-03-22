@@ -30,4 +30,10 @@
     <string name="train.WordAudio">Audio - Translation</string>
     <string name="stat.HardWords">Hard words</string>
     <string name="train.WordsByDay">Words, trained by days</string>
+    <string name="word.Add">Add word</string>
+    <string name="word.Del">Delete word</string>
+    <string name="word.EnterWordHint">Enter word</string>
+    <string name="word_get_translation">Get translation</string>
+    <string name="word.EnterTranslationHint">Enter translation</string>
+    <string name="word.EnterContextHint">Enter word context</string>
 </resources>

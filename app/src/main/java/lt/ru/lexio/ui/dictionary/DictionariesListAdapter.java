@@ -70,7 +70,6 @@ public class DictionariesListAdapter extends SimpleCursorAdapter {
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("", "On check click " + this);
                 CheckBox cb = (CheckBox) v.findViewById(R.id.cbDictionary);
                 backInfo.get(position).checked = cb.isChecked();
                 if (cb.isChecked())
