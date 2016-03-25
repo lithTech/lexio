@@ -4,6 +4,8 @@ import org.droidparts.annotation.sql.Column;
 import org.droidparts.annotation.sql.Table;
 import org.droidparts.model.Entity;
 
+import java.util.Date;
+
 /**
  * Created by lithTech on 15.03.2016.
  */
@@ -21,6 +23,28 @@ public class Word extends Entity {
 
     @Column(name = Db.Word.CONTEXT, nullable = true)
     String context;
+
+    @Column(name = Db.Common.CREATE_DATE, nullable = false)
+    Date created;
+
+    @Column(name = Db.Common.MOD_DATE, nullable = true)
+    Date lastModified;
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
     public String getContext() {
         return context;

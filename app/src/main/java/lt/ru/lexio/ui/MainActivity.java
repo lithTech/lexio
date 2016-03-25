@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
             title = getResources().getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();
+            fragment = wordFragment;
             if (wordFragment == null) {
                 fragment = new WordFragment();
                 wordFragment = (WordFragment) fragment;
@@ -150,12 +151,12 @@ public class MainActivity extends AppCompatActivity
             else
                 args.putBoolean(ContentFragment.ARG_NEED_REFRESH, true);
         }
+        if (currentFragment == fragment) return false;
         //if we selected the content, load it into fragment
         if (args.size() > 0) {
             //need to remove all old views from parent container
             ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content_fragment_parent);
             viewGroup.removeAllViews();
-            //
             if (fragment == null)
                 fragment = new ContentFragment();
             fragment.setArguments(args);

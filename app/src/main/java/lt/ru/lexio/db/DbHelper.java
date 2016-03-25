@@ -15,14 +15,12 @@ import java.util.Date;
  */
 public class DbHelper extends AbstractDBOpenHelper {
 
-    public static final int DB_VER = 3;
-
     public DbHelper(Context ctx) {
-        super(ctx, "lexio.db", DB_VER);
+        super(ctx, "lexio.db", Db.VER);
     }
 
     public static int getDbVer() {
-        return DB_VER;
+        return Db.VER;
     }
 
     @Override

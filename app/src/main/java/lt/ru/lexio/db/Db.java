@@ -4,13 +4,14 @@ package lt.ru.lexio.db;
  * Created by lithTech on 15.03.2016.
  */
 public interface Db {
-    public static final int VER = 1;
+    public static final int VER = 4;
 
     public static interface Common {
         public static final String TITLE = "TITLE";
         public static final String DESC = "DESC";
         public static final String MOD_DATE = "MOD_DATE";
         public static final String ID = "_id";
+        public static final String CREATE_DATE = "CREATE_DATE";
     }
 
     public static interface Dictionary{

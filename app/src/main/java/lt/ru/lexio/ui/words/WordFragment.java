@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.Date;
+
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
@@ -130,6 +132,7 @@ public class WordFragment extends ContentFragment {
         w.setContext(context);
         w.setTranslation(translation);
         w.setDictionary(dict);
+        w.setCreated(new Date());
 
         wordDAO.create(w);
         return w;
