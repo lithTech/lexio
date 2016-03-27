@@ -28,22 +28,15 @@ public class DbHelper extends AbstractDBOpenHelper {
         createTables(db, Dictionary.class);
         createTables(db, Word.class);
 
-        Cursor cursor = db.rawQuery("SELECT * FROM sqlite_master WHERE type='table';", null);
-        while (cursor.moveToNext()) {
-            String[] columnNames = cursor.getColumnNames();
-            for (int i = 0; i < columnNames.length; i++) {
-                String val = cursor.getString(i);
-                System.out.println(val);
-            }
-
-        }
-        System.out.println(cursor);
+        createIndex(db, Db.Word.TABLE, false, Db.Word.DICTIONARY_ID);
+        createIndex(db, Db.Word.TABLE, true, Db.Common.TITLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         addMissingColumns(db, Dictionary.class);
         addMissingColumns(db, Word.class);
+
 
         createIndex(db, Db.Word.TABLE, false, Db.Word.DICTIONARY_ID);
         createIndex(db, Db.Word.TABLE, true, Db.Common.TITLE);

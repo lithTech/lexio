@@ -1,8 +1,10 @@
 package lt.ru.lexio.ui.dictionary;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -41,6 +43,15 @@ public class DictionariesFragment extends ContentFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         activity = (MainActivity) context;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < 23) {
+            this.activity = (MainActivity) activity;
+        }
     }
 
     @Nullable
@@ -86,12 +97,17 @@ public class DictionariesFragment extends ContentFragment {
     private void makeCurrent() {
         Set<Integer> selectedItems = ((DictionariesListAdapter) lDictionaries.getAdapter()).selectedItems;
         if (!selectedItems.isEmpty()) {
-            Dictionary cd = dictionaryDAO.setActive(lDictionaries
-                    .getItemIdAtPosition(selectedItems.iterator().next()));
-            if (activity != null) {
-                activity.setCurrentDictionary(cd);
-            }
+            long dictId = lDictionaries
+                    .getItemIdAtPosition(selectedItems.iterator().next());
+            setActiveDictionary(dictId);
             refreshDictionaryList();
+        }
+    }
+
+    private void setActiveDictionary(long dictId) {
+        Dictionary cd = dictionaryDAO.setActive(dictId);
+        if (activity != null) {
+            activity.setCurrentDictionary(cd);
         }
     }
 
@@ -157,13 +173,16 @@ public class DictionariesFragment extends ContentFragment {
     }
 
     private void createDictionaryObject(String title, String desc, String lang) {
+        int dictCnt = dictionaryDAO.select().count();
         Dictionary dictionary = new Dictionary();
         dictionary.setWords(0);
         dictionary.setTitle(title);
-        dictionary.setLastModified(new Date());
         dictionary.setDesc(desc);
         dictionary.setLanguage(lang);
+        if (dictCnt == 0)
+            dictionary.setActive(1);
         dictionaryDAO.create(dictionary);
+        setActiveDictionary(dictionary.id);
     }
 
 }

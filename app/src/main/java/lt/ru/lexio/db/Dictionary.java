@@ -14,16 +14,16 @@ public class Dictionary extends Entity {
 
     @Column(name = Db.Common.TITLE, nullable = false, unique = true)
     String title;
-    @Column(name = Db.Common.DESC)
+    @Column(name = Db.Common.DESC, nullable = true)
     String desc;
-    @Column(name = Db.Dictionary.LANG)
+    @Column(name = Db.Dictionary.LANG, nullable = true)
     String language;
     @Column(name = Db.Dictionary.WORDS_CNT)
     int words;
-    @Column(name = Db.Common.MOD_DATE)
+    @Column(name = Db.Common.MOD_DATE, nullable = true)
     Date lastModified;
 
-    @Column(name = Db.Dictionary.ACTIVE)
+    @Column(name = Db.Dictionary.ACTIVE, nullable = false)
     int active = 0;
 
     public int getActive() {
