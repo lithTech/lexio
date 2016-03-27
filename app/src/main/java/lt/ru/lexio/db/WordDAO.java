@@ -6,6 +6,7 @@ import android.database.SQLException;
 
 import org.droidparts.persist.sql.EntityManager;
 import org.droidparts.persist.sql.stmt.Is;
+import org.droidparts.persist.sql.stmt.Where;
 
 /**
  * Created by lithTech on 15.03.2016.
@@ -65,7 +66,10 @@ public class WordDAO extends EntityManager<Word> {
     }
 
     public Cursor getAllFiltered(long dictId, String titleFilter) {
-        return select().where("UPPER(" + Db.Common.TITLE + ")", Is.LIKE, titleFilter)
+        Where where = new Where("UPPER(" + Db.Common.TITLE + ")", Is.LIKE, titleFilter);
+        where = where.or("UPPER(" + Db.Word.TRANSLATION + ")", Is.LIKE, titleFilter);
+
+        return select().where(where)
                 .orderBy(Db.Common.TITLE, true).execute();
     }
 }
