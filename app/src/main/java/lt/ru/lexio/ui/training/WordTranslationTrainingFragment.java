@@ -22,7 +22,7 @@ import lt.ru.lexio.db.Word;
 /**
  * Created by lithTech on 27.03.2016.
  */
-public class WordTranslationTraining extends TrainingFragmentBase implements View.OnClickListener {
+public class WordTranslationTrainingFragment extends TrainingFragmentBase implements View.OnClickListener {
 
     Word currentWord = null;
     long currentSessionId = 0;
@@ -30,6 +30,11 @@ public class WordTranslationTraining extends TrainingFragmentBase implements Vie
     List<Word> sessionWords = null;
     List<String> sessionAnswers = null;
     Random random = new Random(System.nanoTime());
+
+    Button bAns1 = null;
+    Button bAns2 = null;
+    Button bAns3 = null;
+    Button bAns4 = null;
 
     @Override
     protected TrainingType getTrainingType() {
@@ -41,20 +46,27 @@ public class WordTranslationTraining extends TrainingFragmentBase implements Vie
         nextQuestion();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    protected void startTraining() {
+        questionNum = 0;
         trainingWordBuilder.dictId = getCurrentDictionary().id;
         sessionWords = trainingWordBuilder.build(5, TrainingWordMethod.UNTRAINING_WORDS);
         sessionAnswers = trainingWordBuilder.buildRandomAnswers(5, 4);
+
+        nextQuestion();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        startTraining();
     }
 
     private void nextQuestion() {
-        Word word = sessionWords.get(questionNum);
-        String correctAnswer = word.getTranslation();
+        currentWord = sessionWords.get(questionNum);
+        String correctAnswer = currentWord.getTranslation();
         int s = sessionAnswers.size();
         String[] ans = new String[]{
-                word.getTranslation(),
+                currentWord.getTranslation(),
                 sessionAnswers.get(random.nextInt(s)),
                 sessionAnswers.get(random.nextInt(s)),
                 sessionAnswers.get(random.nextInt(s))
@@ -63,7 +75,7 @@ public class WordTranslationTraining extends TrainingFragmentBase implements Vie
         Collections.shuffle(answers, random);
         int correctNum = answers.indexOf(correctAnswer) + 1;
 
-        setQuestion(word.getTitle(), word.getContext(), answers.get(0),
+        setQuestion(currentWord.getTitle(), currentWord.getContext(), answers.get(0),
                 answers.get(1),
                 answers.get(2),
                 answers.get(3),
@@ -76,10 +88,6 @@ public class WordTranslationTraining extends TrainingFragmentBase implements Vie
                                int correctNum) {
         EditText edWord = (EditText) getView().findViewById(R.id.edTrainingWord);
         TextView tvContext = (TextView) getView().findViewById(R.id.tvTrainingContext);
-        Button bAns1 = (Button) getView().findViewById(R.id.bWordTransAnswer1);
-        Button bAns2 = (Button) getView().findViewById(R.id.bWordTransAnswer2);
-        Button bAns3 = (Button) getView().findViewById(R.id.bWordTransAnswer3);
-        Button bAns4 = (Button) getView().findViewById(R.id.bWordTransAnswer4);
 
         edWord.setText(word);
         tvContext.setText(context);
@@ -101,6 +109,17 @@ public class WordTranslationTraining extends TrainingFragmentBase implements Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        bAns1 = (Button) view.findViewById(R.id.bWordTransAnswer1);
+        bAns2 = (Button) view.findViewById(R.id.bWordTransAnswer2);
+        bAns3 = (Button) view.findViewById(R.id.bWordTransAnswer3);
+        bAns4 = (Button) view.findViewById(R.id.bWordTransAnswer4);
+
+        bAns1.setOnClickListener(this);
+        bAns2.setOnClickListener(this);
+        bAns3.setOnClickListener(this);
+        bAns4.setOnClickListener(this);
+
         return view;
     }
 

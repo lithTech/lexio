@@ -4,7 +4,7 @@ import org.droidparts.annotation.sql.Column;
 import org.droidparts.annotation.sql.Table;
 import org.droidparts.model.Entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by lithTech on 27.03.2016.

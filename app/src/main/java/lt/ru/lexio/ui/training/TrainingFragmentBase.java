@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import lt.ru.lexio.db.Dictionary;
@@ -70,7 +70,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         statistic.setWord(wordDummy);
         if (sessionId > 0)
             statistic.setSessionId(sessionId);
-        statistic.setTrainedOn(new Date(new java.util.Date().getTime()));
+        statistic.setTrainedOn(new Date());
         statistic.setTrainingResult(isSuccess ? 1 : 0);
         statistic.setTrainingType(getTrainingType().ordinal());
 

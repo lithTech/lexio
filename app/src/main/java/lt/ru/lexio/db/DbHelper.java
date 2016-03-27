@@ -25,8 +25,8 @@ public class DbHelper extends AbstractDBOpenHelper {
         createTables(db, WordStatistic.class);
 
         createIndex(db, Db.Word.TABLE, false, Db.Word.DICTIONARY_ID);
-        createIndex(db, Db.Word.TABLE, true, "UPPER(" + Db.Common.TITLE + ")");
-        createIndex(db, Db.Word.TABLE, true, "UPPER(" + Db.Word.TRANSLATION + ")");
+        //createIndex(db, Db.Word.TABLE, true, "UPPER(" + Db.Common.TITLE + ")");
+        //createIndex(db, Db.Word.TABLE, true, "UPPER(" + Db.Word.TRANSLATION + ")");
 
         createIndex(db, Db.WordStatistic.TABLE, false, Db.WordStatistic.WORD_ID, Db.WordStatistic.TRAINING_TYPE);
         createIndex(db, Db.WordStatistic.TABLE, false, Db.WordStatistic.TRAINING_SESSION_ID);

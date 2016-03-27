@@ -21,6 +21,7 @@ import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
+import lt.ru.lexio.ui.training.WordTranslationTrainingFragment;
 import lt.ru.lexio.ui.words.WordFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -136,7 +137,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.training_word_audio) {
 
         } else if (id == R.id.training_word_trans) {
-
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_word_trans);
+            title = getResources().getString(R.string.train_WordTrans);
+            fragment = new WordTranslationTrainingFragment();
         } else if (id == R.id.dict_dictionary) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_words);
             args.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_words);
