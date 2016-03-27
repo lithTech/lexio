@@ -38,4 +38,5 @@
     <string name="words_Deletion">Удаление слов</string>
     <string name="words_Delete_Alert">Вы действительно желаете удалить выделенные слова?</string>
     <string name="common.Search">Поиск</string>
+    <string name="train.TransWrite">Перевод - Написать слово</string>
 </resources>

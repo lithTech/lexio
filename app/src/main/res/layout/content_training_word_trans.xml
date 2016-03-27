@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edTrainingWord"
+        android:layout_width="match_parent"
+        android:paddingTop="50dp"
+        android:text="Dread"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvTrainingContext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="The dread gouse bathing in the water of the river good lord you are multiline!"
+        android:maxLines="3"
+        android:ellipsize="none"
+        android:singleLine="false"
+        android:scrollHorizontally="false"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Смерть"
+        android:id="@+id/bWordTransAnswer1"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="65dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ужасный"
+        android:id="@+id/bWordTransAnswer2"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Прекрасный"
+        android:id="@+id/bWordTransAnswer3"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Принцесса"
+        android:id="@+id/bWordTransAnswer4"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        />
+
+</LinearLayout>

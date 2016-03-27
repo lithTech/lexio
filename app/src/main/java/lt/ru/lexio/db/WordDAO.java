@@ -72,4 +72,8 @@ public class WordDAO extends EntityManager<Word> {
         return select().where(where)
                 .orderBy(Db.Common.TITLE, true).execute();
     }
+
+    public Cursor execComplexSql(String sql, String[] args) {
+        return getDB().rawQuery(sql, args);
+    }
 }

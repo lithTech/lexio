@@ -27,6 +27,7 @@
     <string name="nav.MyDictionariesGroup">Dictionaries and words</string>
     <string name="train.WordTrans">Word - Tranaslation</string>
     <string name="train.TransWord">Translation - Word</string>
+    <string name="train.TransWrite">Write word by translation</string>
     <string name="train.WordAudio">Audio - Translation</string>
     <string name="stat.HardWords">Hard words</string>
     <string name="train.WordsByDay">Words, trained by days</string>
