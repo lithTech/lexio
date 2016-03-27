@@ -63,4 +63,9 @@ public class WordDAO extends EntityManager<Word> {
         return select().where(Db.Word.DICTIONARY_ID, Is.EQUAL, dictId).orderBy(Db.Common.TITLE, true)
                 .execute();
     }
+
+    public Cursor getAllFiltered(long dictId, String titleFilter) {
+        return select().where("UPPER(" + Db.Common.TITLE + ")", Is.LIKE, titleFilter)
+                .orderBy(Db.Common.TITLE, true).execute();
+    }
 }

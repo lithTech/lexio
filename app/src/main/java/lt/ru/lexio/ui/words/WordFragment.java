@@ -4,17 +4,25 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
+import org.droidparts.persist.sql.stmt.Is;
+
 import java.util.Date;
+import java.util.Set;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
@@ -22,16 +30,18 @@ import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.DialogHandler;
 import lt.ru.lexio.ui.MainActivity;
 
 /**
  * Created by lithTech on 21.03.2016.
  */
-public class WordFragment extends ContentFragment {
+public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener{
 
     MainActivity activity;
     WordDAO wordDAO = null;
     ListView lWords = null;
+    EditText edFilter = null;
 
     @Override
     public void onAttach(Context context) {
@@ -55,18 +65,32 @@ public class WordFragment extends ContentFragment {
         lWords = (ListView) view.findViewById(R.id.lvWords);
         lWords.setAdapter(initAdapter(view.getContext()));
 
+        edFilter = (EditText) view.findViewById(R.id.edWordsFilter);
+        edFilter.addTextChangedListener(this);
+
+        ImageButton bCancelFilter = (ImageButton) view.findViewById(R.id.bWordsFilterClear);
+        bCancelFilter.setOnClickListener(this);
+
         return view;
     }
 
     private WordListAdapter initAdapter(Context context) {
-        long dictId = 0;
+        final long dictId;
         if (activity != null && activity.getCurrentDictionary() != null)
             dictId = activity.getCurrentDictionary().id;
+        else dictId = 0;
 
         WordListAdapter adapter = new WordListAdapter(context, R.layout.content_word_item,
                 wordDAO.getAll(dictId),
                 new String[]{Db.Common.TITLE, Db.Word.TRANSLATION},
                 new int[]{R.id.tvWord, R.id.tvTranslation});
+
+        adapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+                return wordDAO.getAllFiltered(dictId, constraint.toString().toUpperCase() + "%");
+            }
+        });
 
         return adapter;
     }
@@ -76,11 +100,31 @@ public class WordFragment extends ContentFragment {
         if (item.getItemId() == R.id.action_word_add) {
             createWord(getActivity());
         }
-        else if (item.getItemId() == R.id.action_word_del){
-
+        else if (item.getItemId() == R.id.action_word_del) {
+            deleteWords();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteWords() {
+        final Set<Integer> checkedPos = ((WordListAdapter) lWords.getAdapter()).getSelectedWords();
+        if (!checkedPos.isEmpty()) {
+            DialogHandler.Confirm(getActivity(),
+                    getResources().getString(R.string.words_Deletion),
+                    getResources().getString(R.string.words_Delete_Alert),
+                    getResources().getString(R.string.dialog_Cancel),
+                    getResources().getString(R.string.dialog_Delete),
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int pos : checkedPos) {
+                                wordDAO.delete(lWords.getItemIdAtPosition(pos));
+                                refreshList();
+                            }
+                        }
+                    }, null);
+        }
     }
 
     private void refreshList() {
@@ -89,6 +133,9 @@ public class WordFragment extends ContentFragment {
             act = activity;
         if (act == null)
             return;
+
+        lWords.setFilterText("");
+        edFilter.setText("");
 
         act.runOnUiThread(
                 new Runnable() {
@@ -151,6 +198,29 @@ public class WordFragment extends ContentFragment {
         if (getArguments().getBoolean(ContentFragment.ARG_NEED_REFRESH)) {
             getArguments().remove(ContentFragment.ARG_NEED_REFRESH);
             refreshList();
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        ((WordListAdapter) lWords.getAdapter()).getFilter().filter(s);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.bWordsFilterClear) {
+            ((WordListAdapter) lWords.getAdapter()).getFilter().filter("");
+            ((EditText) ((View) v.getParent()).findViewById(R.id.edWordsFilter)).setText("");
         }
     }
 }

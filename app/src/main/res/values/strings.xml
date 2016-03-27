@@ -36,4 +36,7 @@
     <string name="word_get_translation">Get translation</string>
     <string name="word.EnterTranslationHint">Enter translation</string>
     <string name="word.EnterContextHint">Enter word context</string>
+    <string name="words_Deletion">Words deletion</string>
+    <string name="words_Delete_Alert">Would you like to delete selected words?</string>
+    <string name="common.Search">Search</string>
 </resources>

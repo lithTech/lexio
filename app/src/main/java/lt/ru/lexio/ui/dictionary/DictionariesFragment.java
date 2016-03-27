@@ -122,7 +122,6 @@ public class DictionariesFragment extends ContentFragment {
     }
 
     private void deleteDictionaries() {
-        Log.d("", "on delete dict " + lDictionaries.getAdapter());
         final Set<Integer> checkedPos = ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems();
         if (!checkedPos.isEmpty()) {
             DialogHandler.Confirm(getActivity(),

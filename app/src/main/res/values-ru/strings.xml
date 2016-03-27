@@ -31,8 +31,11 @@
     <string name="train.WordsByDay">Слова по дням</string>
     <string name="word.Del">Удалить выделенные слова</string>
     <string name="word.Add">Добавить слово</string>
-    <string name="word.EnterWordHint">Enter word</string>
-    <string name="word_get_translation">Get translation</string>
-    <string name="word.EnterTranslationHint">Enter translation</string>
-    <string name="word.EnterContextHint">Enter word context</string>
+    <string name="word.EnterWordHint">Введите слово</string>
+    <string name="word_get_translation">Перевести</string>
+    <string name="word.EnterTranslationHint">Введите перевод</string>
+    <string name="word.EnterContextHint">Введите текст, где встерчается это слово</string>
+    <string name="words_Deletion">Удаление слов</string>
+    <string name="words_Delete_Alert">Вы действительно желаете удалить выделенные слова?</string>
+    <string name="common.Search">Поиск</string>
 </resources>
