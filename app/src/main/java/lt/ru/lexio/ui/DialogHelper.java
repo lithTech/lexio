@@ -7,12 +7,12 @@ import android.content.DialogInterface;
 /**
  * Created by lithTech on 19.03.2016.
  */
-public class DialogHandler {
+public class DialogHelper {
 
-    public static boolean Confirm(Activity act, String title, String confirmText,
-                           String cancelBtn, String okBtn,
-                           final Runnable done,
-                           final Runnable cancel) {
+    public static boolean confirm(Activity act, String title, String confirmText,
+                                  String cancelBtn, String okBtn,
+                                  final Runnable done,
+                                  final Runnable cancel) {
         AlertDialog dialog = new AlertDialog.Builder(act).create();
         dialog.setTitle(title);
         dialog.setMessage(confirmText);

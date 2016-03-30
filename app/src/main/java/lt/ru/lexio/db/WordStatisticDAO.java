@@ -33,4 +33,8 @@ public class WordStatisticDAO extends EntityManager<WordStatistic> {
         return select().where(Db.WordStatistic.WORD_ID, Is.EQUAL, wordId).execute();
     }
 
+    public void clear() {
+        getDB().execSQL("delete from " + Db.WordStatistic.TABLE);
+    }
+
 }

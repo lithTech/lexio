@@ -19,8 +19,6 @@ import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import org.droidparts.persist.sql.stmt.Is;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +28,7 @@ import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
-import lt.ru.lexio.ui.DialogHandler;
+import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.MainActivity;
 
 /**
@@ -38,22 +36,24 @@ import lt.ru.lexio.ui.MainActivity;
  */
 public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener{
 
-    MainActivity activity;
+    MainActivity mainActivity;
     WordDAO wordDAO = null;
     ListView lWords = null;
     EditText edFilter = null;
 
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (MainActivity) context;
+        mainActivity = (MainActivity) context;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (MainActivity) activity;
+        this.mainActivity = (MainActivity) activity;
     }
 
     @Nullable
@@ -76,8 +76,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     private WordListAdapter initAdapter(Context context) {
         final long dictId;
-        if (activity != null && activity.getCurrentDictionary() != null)
-            dictId = activity.getCurrentDictionary().id;
+        if (mainActivity != null && mainActivity.getCurrentDictionary() != null)
+            dictId = mainActivity.getCurrentDictionary().id;
         else dictId = 0;
 
         WordListAdapter adapter = new WordListAdapter(context, R.layout.content_word_item,
@@ -98,7 +98,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_word_add) {
-            createWord(getActivity());
+            createWord(getActivity(), mainActivity.getCurrentDictionary());
         }
         else if (item.getItemId() == R.id.action_word_del) {
             deleteWords();
@@ -110,7 +110,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     private void deleteWords() {
         final Set<Integer> checkedPos = ((WordListAdapter) lWords.getAdapter()).getSelectedWords();
         if (!checkedPos.isEmpty()) {
-            DialogHandler.Confirm(getActivity(),
+            DialogHelper.confirm(getActivity(),
                     getResources().getString(R.string.words_Deletion),
                     getResources().getString(R.string.words_Delete_Alert),
                     getResources().getString(R.string.dialog_Cancel),
@@ -130,7 +130,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     private void refreshList() {
         Activity act = getActivity();
         if (getActivity() == null)
-            act = activity;
+            act = mainActivity;
         if (act == null)
             return;
 
@@ -146,12 +146,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 });
     }
 
-    public void createWord(Context context) {
-        if (activity == null || activity.getCurrentDictionary() == null) {
-            //TODO message to user
-            return;
-        }
-
+    public void createWord(Context context, final Dictionary dictionary) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -165,7 +160,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                         EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
                         EditText edContext = (EditText) promptView.findViewById(R.id.edContext);
                         saveWordObject(edWord.getText().toString(), edTranslation.getText().toString(),
-                                edContext.getText().toString(), activity.getCurrentDictionary());
+                                edContext.getText().toString(), dictionary);
                         refreshList();
                     }
                 })

@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    android:layout_height="match_parent"
+    android:nestedScrollingEnabled="true"
+    android:columnCount="3"
+    android:rowCount="5">
 
     <TextView
         android:layout_width="wrap_content"
+        android:text="Clear the statistics?"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Settings"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        android:layout_row="1"
+        android:layout_column="0" />
+
+    <Button
+        android:id="@+id/bSettingsClearStatistics"
+        android:text="@string/settings.ClearStatistics"
+        android:layout_width="wrap_content"
+        android:onClick="clearStatistics"
+        android:layout_height="wrap_content"
+        android:layout_row="1"
+        android:layout_column="2" />
+
+</GridLayout>

@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -141,18 +142,11 @@ public class MainActivity extends AppCompatActivity
             title = getResources().getString(R.string.train_WordTrans);
             fragment = new WordTranslationTrainingFragment();
         } else if (id == R.id.dict_dictionary) {
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_words);
-            args.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_words);
             title = getResources().getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();
-            fragment = wordFragment;
-            if (wordFragment == null) {
-                fragment = new WordFragment();
-                wordFragment = (WordFragment) fragment;
-            }
-            else
-                args.putBoolean(ContentFragment.ARG_NEED_REFRESH, true);
+
+            fragment = createWordFragment(args);
         }
         if (currentFragment == fragment) return false;
         //if we selected the content, load it into fragment
@@ -178,6 +172,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @NonNull
+    private ContentFragment createWordFragment(Bundle outArgs) {
+        ContentFragment fragment;
+        outArgs.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_words);
+        outArgs.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_words);
+
+        fragment = wordFragment;
+        if (wordFragment == null) {
+            fragment = new WordFragment();
+            wordFragment = (WordFragment) fragment;
+        }
+        else
+            outArgs.putBoolean(ContentFragment.ARG_NEED_REFRESH, true);
+        return fragment;
+    }
+
     /**
      * When word_add_global clicked
      * @param v
@@ -185,8 +195,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         if (wordFragment == null)
-            selectContent(R.id.dict_dictionary);
+            createWordFragment(new Bundle(3));
 
-        wordFragment.createWord(this);
+        wordFragment.createWord(this, currentDictionary);
     }
 }

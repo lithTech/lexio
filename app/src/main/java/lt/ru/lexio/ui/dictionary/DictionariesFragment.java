@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
-import java.util.Date;
 import java.util.Set;
 
 import lt.ru.lexio.R;
@@ -26,7 +24,7 @@ import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.ContentFragment;
-import lt.ru.lexio.ui.DialogHandler;
+import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.MainActivity;
 
 /**
@@ -124,7 +122,7 @@ public class DictionariesFragment extends ContentFragment {
     private void deleteDictionaries() {
         final Set<Integer> checkedPos = ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems();
         if (!checkedPos.isEmpty()) {
-            DialogHandler.Confirm(getActivity(),
+            DialogHelper.confirm(getActivity(),
                     getResources().getString(R.string.dictionaries_Deletion),
                     getResources().getString(R.string.dictionaries_Delete_Alert),
                     getResources().getString(R.string.dialog_Cancel),
