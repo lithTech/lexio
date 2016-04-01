@@ -40,4 +40,5 @@
     <string name="common.Search">Поиск</string>
     <string name="train.TransWrite">Перевод - Написать слово</string>
     <string name="settings.ClearStatistics">Clear statistics</string>
+    <string name="training.DontKnowButton">Не знаю</string>
 </resources>

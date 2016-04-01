@@ -9,4 +9,6 @@
 
     <dimen name="button_elevation">2dp</dimen>
     <dimen name="button_press_elevation">4dp</dimen>
+    <integer name="animation_correct_answer">400</integer>
+    <integer name="animation_incorrect_answer">2000</integer>
 </resources>

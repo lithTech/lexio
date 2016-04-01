@@ -41,4 +41,5 @@
     <string name="words_Delete_Alert">Would you like to delete selected words?</string>
     <string name="common.Search">Search</string>
     <string name="settings.ClearStatistics">Clear</string>
+    <string name="training.DontKnowButton">Не знаю</string>
 </resources>
