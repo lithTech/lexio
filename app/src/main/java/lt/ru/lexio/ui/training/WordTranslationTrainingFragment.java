@@ -3,10 +3,8 @@ package lt.ru.lexio.ui.training;
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -26,6 +24,7 @@ import java.util.Random;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Word;
+import lt.ru.lexio.util.ColorAnimateHelper;
 
 /**
  * Created by lithTech on 27.03.2016.
@@ -42,10 +41,8 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
     Animation aniCloseLastQuestion;
     Animation aniStartNewQuestion;
 
-    Button bAns1 = null;
-    Button bAns2 = null;
-    Button bAns3 = null;
-    Button bAns4 = null;
+    Button[] bAnsArray;
+
     View parentLayout = null;
     private Drawable initialButtonBkg;
 
@@ -56,36 +53,40 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
 
     protected void onAnswer(boolean isCorrect, final Button clickedButton) {
         currentSessionId = storeStatistic(currentWord.id, isCorrect, currentSessionId);
-        if (!isCorrect)
-            animateBetweenColors(clickedButton,
-                    android.R.drawable.btn_default,
-                    getResources().getColor(R.color.colorMandatory), 1500, null);
         final Button correct = findCorrectAnswerButton();
-        animateBetweenColors(correct,
+        Animator.AnimatorListener onEndAnimation = new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                clickedButton.setBackground(initialButtonBkg);
+                correct.setBackground(initialButtonBkg);
+                nextQuestion(true);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        };
+
+        if (!isCorrect) {
+            ColorAnimateHelper.animateBetweenColors(clickedButton,
+                    android.R.drawable.btn_default,
+                    getResources().getColor(R.color.colorMandatory), 2000, onEndAnimation);
+            onEndAnimation = null;      //animation of wrong answer is longer, so put onEndAnimation event there
+        }
+        ColorAnimateHelper.animateBetweenColors(correct,
                 android.R.drawable.btn_default,
-                getResources().getColor(R.color.correctAnswer), 1500, new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        clickedButton.setBackground(initialButtonBkg);
-                        correct.setBackground(initialButtonBkg);
-                        nextQuestion(true);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
+                getResources().getColor(R.color.correctAnswer), 400, onEndAnimation);
     }
 
     protected void startTraining() {
@@ -137,10 +138,7 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
             List<String> answers = buildQuestionAnswers(correctAnswer);
             int correctNum = answers.indexOf(correctAnswer) + 1;
 
-            setQuestion(currentWord.getTitle(), currentWord.getContext(), answers.get(0),
-                    answers.get(1),
-                    answers.get(2),
-                    answers.get(3),
+            setQuestion(currentWord.getTitle(), currentWord.getContext(), answers,
                     correctNum);
 
             questionNum++;
@@ -154,22 +152,15 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
     }
 
     protected Button findCorrectAnswerButton() {
-        if (((boolean) bAns1.getTag())) {
-            return bAns1;
+        for (Button ans : bAnsArray) {
+            if (((boolean) ans.getTag())) {
+                return ans;
+            }
         }
-        else if (((boolean) bAns2.getTag())) {
-            return bAns2;
-        }
-        else if (((boolean) bAns3.getTag())) {
-            return bAns3;
-        }
-        else {
-            return bAns4;
-        }
+        return null;
     }
 
-    protected void setQuestion(String word, String context, String ans1, String ans2, String ans3, String ans4,
-                               int correctNum) {
+    protected void setQuestion(String word, String context, List<String> answers, int correctNumIndex) {
         EditText edWord = (EditText) getView().findViewById(R.id.edTrainingWord);
         TextView tvContext = (TextView) getView().findViewById(R.id.tvTrainingContext);
 
@@ -179,14 +170,11 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
             tvContext.setVisibility(View.INVISIBLE);
         else tvContext.setVisibility(View.VISIBLE);
 
-        bAns1.setText(ans1);
-        bAns1.setTag(correctNum == 1);
-        bAns2.setText(ans2);
-        bAns2.setTag(correctNum == 2);
-        bAns3.setText(ans3);
-        bAns3.setTag(correctNum == 3);
-        bAns4.setText(ans4);
-        bAns4.setTag(correctNum == 4);
+        for (int i = 0; i < bAnsArray.length; i++) {
+            Button ans = bAnsArray[i];
+            ans.setTag(correctNumIndex == i);
+            ans.setTag(answers.get(i));
+        }
     }
 
     @Nullable
@@ -196,12 +184,14 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
 
         parentLayout = view.findViewById(R.id.layout_word_train);
 
-        bAns1 = (Button) view.findViewById(R.id.bWordTransAnswer1);
-        bAns2 = (Button) view.findViewById(R.id.bWordTransAnswer2);
-        bAns3 = (Button) view.findViewById(R.id.bWordTransAnswer3);
-        bAns4 = (Button) view.findViewById(R.id.bWordTransAnswer4);
+        bAnsArray = new Button[4];
 
-        initialButtonBkg = bAns1.getBackground();
+        bAnsArray[0] = (Button) view.findViewById(R.id.bWordTransAnswer1);
+        bAnsArray[1] = (Button) view.findViewById(R.id.bWordTransAnswer2);
+        bAnsArray[2] = (Button) view.findViewById(R.id.bWordTransAnswer3);
+        bAnsArray[3] = (Button) view.findViewById(R.id.bWordTransAnswer4);
+
+        initialButtonBkg = bAnsArray[0].getBackground();
 
         aniCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.anim_word_translation_closeold);
@@ -224,10 +214,10 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
         aniStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.anim_word_translation_startnew);
 
-        bAns1.setOnClickListener(this);
-        bAns2.setOnClickListener(this);
-        bAns3.setOnClickListener(this);
-        bAns4.setOnClickListener(this);
+        for (Button ans : bAnsArray) {
+            ans.setOnClickListener(this);
+        }
+
 
         return view;
     }
@@ -239,23 +229,4 @@ public class WordTranslationTrainingFragment extends TrainingFragmentBase implem
         onAnswer(correct, bAns);
     }
 
-    public static void animateBetweenColors(final View viewToAnimateItBackground, final int colorFrom, final int colorTo,
-                                            final int durationInMs, Animator.AnimatorListener animationListener) {
-        final ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            ColorDrawable colorDrawable = new ColorDrawable(colorFrom);
-
-            @Override
-            public void onAnimationUpdate(final ValueAnimator animator) {
-                colorDrawable.setColor((Integer) animator.getAnimatedValue());
-                viewToAnimateItBackground.setBackground(colorDrawable);
-            }
-        });
-        if (animationListener != null)
-            colorAnimation.addListener(animationListener);
-        if (durationInMs >= 0)
-            colorAnimation.setDuration(durationInMs);
-        colorAnimation.setInterpolator(new DecelerateInterpolator(3.0f));
-        colorAnimation.start();
-    }
 }
