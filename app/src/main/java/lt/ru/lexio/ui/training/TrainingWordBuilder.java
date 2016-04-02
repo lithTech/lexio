@@ -28,7 +28,8 @@ public class TrainingWordBuilder {
 
     public List<Word> build(int count, TrainingWordMethod method, TrainingType trainingType) {
         List<Word> words = new ArrayList<>(count);
-        if (method == TrainingWordMethod.UNTRAINING_WORDS) {
+        if (method == TrainingWordMethod.UNTRAINING_WORDS &&
+                (trainingType == TrainingType.WORD_TRANS || trainingType == TrainingType.TRANS_WORD)) {
             buildForUntrainingWords(count, trainingType, words);
         }
         return words;
@@ -75,15 +76,15 @@ public class TrainingWordBuilder {
         }
     }
 
-    public List<String> buildRandomAnswers(int wordCount, int answerCount) {
+    public List<String> buildRandomAnswers(int wordCount, int answerCount, String dbField) {
         int total = wordCount * answerCount + answerCount;
         List<String> answers = new ArrayList<>(total);
         Cursor cur = wordDAO.select()
-                .columns(Db.Word.TRANSLATION)
+                .columns(dbField)
                 .where(Db.Word.DICTIONARY_ID, Is.EQUAL, dictId)
                 .orderBy("RANDOM()", true)
                 .limit(total).execute();
-        int c = cur.getColumnIndex(Db.Word.TRANSLATION);
+        int c = cur.getColumnIndex(dbField);
         while (cur.moveToNext()) {
             String trans = cur.getString(c);
             answers.add(trans);

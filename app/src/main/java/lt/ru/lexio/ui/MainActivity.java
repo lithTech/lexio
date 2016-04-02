@@ -22,6 +22,7 @@ import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
+import lt.ru.lexio.ui.training.TranslationWordTrainingFragment;
 import lt.ru.lexio.ui.training.WordTranslationTrainingFragment;
 import lt.ru.lexio.ui.words.WordFragment;
 
@@ -115,7 +116,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean selectContent(int id) {
-        FragmentManager fragmentManager = getFragmentManager();
         ContentFragment fragment = null;
         Bundle args = new Bundle();
         String title = null;
@@ -125,15 +125,20 @@ public class MainActivity extends AppCompatActivity
             args.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_dictionaries);
             title = getResources().getString(R.string.nav_MyDictionaries);
             fragment = new DictionariesFragment();
+
         } else if (id == R.id.nav_settings) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_settings);
             title = getResources().getString(R.string.nav_Settings);
             fragment = new SettingsFragment();
+
         } else if (id == R.id.stat_hard_words) {
 
         } else if (id == R.id.stat_train_words_by_day) {
 
         } else if (id == R.id.training_trans_word) {
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_word);
+            title = getResources().getString(R.string.train_TransWord);
+            fragment = new TranslationWordTrainingFragment();
 
         } else if (id == R.id.training_word_audio) {
 
@@ -141,35 +146,42 @@ public class MainActivity extends AppCompatActivity
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_word_trans);
             title = getResources().getString(R.string.train_WordTrans);
             fragment = new WordTranslationTrainingFragment();
+
         } else if (id == R.id.dict_dictionary) {
             title = getResources().getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();
 
             fragment = createWordFragment(args);
+
         }
-        if (currentFragment == fragment) return false;
+
         //if we selected the content, load it into fragment
-        if (args.size() > 0) {
+        if (args.size() > 0 && currentFragment != fragment) {
             //need to remove all old views from parent container
-            ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content_fragment_parent);
-            viewGroup.removeAllViews();
-            if (fragment == null)
-                fragment = new ContentFragment();
-            fragment.setArguments(args);
-            FragmentTransaction fragmentTransaction = fragmentManager
-                    .beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.replace(R.id.content_fragment_parent, fragment)
-                    .commit();
-            currentFragment = fragment;
-            if (title != null)
-                setTitle(getResources().getString(R.string.app_name)+": "+title);
+            changeFragment(fragment, args, title);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void changeFragment(ContentFragment fragment, Bundle args, String title) {
+        FragmentManager fragmentManager = getFragmentManager();
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content_fragment_parent);
+        viewGroup.removeAllViews();
+        if (fragment == null)
+            fragment = new ContentFragment();
+        fragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.replace(R.id.content_fragment_parent, fragment)
+                .commit();
+        currentFragment = fragment;
+        if (title != null)
+            setTitle(getResources().getString(R.string.app_name) + ": " + title);
     }
 
     @NonNull

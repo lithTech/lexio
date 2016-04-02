@@ -1,9 +1,7 @@
 package lt.ru.lexio.ui.training;
 
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.List;
 import java.util.Random;
@@ -15,19 +13,13 @@ import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatisticDAO;
 
 /**
- * Created by lithTech on 27.03.2016.
+ * Created by lithTech on 01.04.2016.
  */
-public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragment implements View.OnClickListener {
-
-    @Override
-    protected TrainingType getTrainingType() {
-        return TrainingType.WORD_TRANS;
-    }
-
+public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragment {
 
     @Override
     protected int getTrainingPageContainerId() {
-        return R.id.layout_word_train;
+        return R.id.layout_trans_word_train;
     }
 
     @Override
@@ -37,37 +29,37 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
 
     @Override
     protected int[] getButtonAnswersId() {
-        return new int[]{
-                R.id.bWordTransAnswer1,
-                R.id.bWordTransAnswer2,
-                R.id.bWordTransAnswer3,
-                R.id.bWordTransAnswer4
-        };
+        return new int[]{R.id.bTransAnswer1, R.id.bTransAnswer2, R.id.bTransAnswer3,
+                R.id.bTransAnswer4};
     }
 
     @Override
     protected int getDontKnowButtonAnswerId() {
-        return R.id.bWordTransDontKnow;
+        return R.id.bTransDontKnow;
     }
 
     @Override
     protected List<String> buildAnswers(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
-        return trainingWordBuilder.buildRandomAnswers(20, 4, Db.Word.TRANSLATION);
+        return trainingWordBuilder.buildRandomAnswers(20, bAnsArray.length, Db.Common.TITLE);
     }
 
     @Override
     protected List<Word> buildWords(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
-        return trainingWordBuilder.build(20, TrainingWordMethod.UNTRAINING_WORDS, TrainingType.WORD_TRANS);
+        return trainingWordBuilder.build(20, TrainingWordMethod.UNTRAINING_WORDS, TrainingType.TRANS_WORD);
     }
 
     @Override
     protected String getCorrectAnswer(Word word) {
-        return word.getTranslation();
+        return word.getTitle();
     }
 
     @Override
     protected void setQuestion(Word word, List<String> answers, int correctNumIndex) {
-        ((EditText) getView().findViewById(R.id.edTrainingWord)).setText(word.getTitle());
-        ((TextView) getView().findViewById(R.id.tvTrainingContext)).setText(word.getContext());
+        ((EditText) getView().findViewById(R.id.edTrainingTranslation)).setText(word.getTranslation());
+    }
+
+    @Override
+    protected TrainingType getTrainingType() {
+        return TrainingType.TRANS_WORD;
     }
 }
