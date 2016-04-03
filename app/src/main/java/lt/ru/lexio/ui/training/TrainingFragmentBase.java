@@ -31,6 +31,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     protected MainActivity activity = null;
     protected TrainingWordBuilder trainingWordBuilder = null;
 
+
     public Dictionary getCurrentDictionary() {
         Dictionary dictionary = null;
         if (activity != null) {

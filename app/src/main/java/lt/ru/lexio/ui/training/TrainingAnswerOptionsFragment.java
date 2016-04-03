@@ -107,6 +107,9 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
         sessionWords = buildWords(random, wordDAO, wordStatisticDAO);
         sessionAnswers = buildAnswers(random, wordDAO, wordStatisticDAO);
 
+        endPageContainer.setVisibility(View.GONE);
+        trainingPageContainer.setVisibility(View.VISIBLE);
+
         nextQuestion(false);
     }
 
@@ -165,13 +168,30 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
         trainingPageContainer.setVisibility(View.GONE);
         trainingPageContainer.invalidate();
 
-        endPageContainer.setVisibility(View.VISIBLE);
-
         Cursor statCur = wordStatisticDAO.getTrainStatisticsBySession(currentSessionId);
+        int correct = 0;
+        int total = 0;
+        List<WordStatistic> wordStatistics = new ArrayList<>();
         while (statCur.moveToNext()) {
             WordStatistic wordStatistic = wordStatisticDAO.readRow(statCur);
-
+            total++;
+            if (wordStatistic.getTrainingResult() == 1)
+                correct++;
+            wordStatistics.add(wordStatistic);
         }
+
+        setEndPageStatistics(wordStatistics, correct, total - correct);
+        endPageContainer.setVisibility(View.VISIBLE);
+    }
+
+    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
+                                        int incorrect) {
+        ViewGroup viewGroup = (ViewGroup) getView().findViewById(R.id.layout_train_end_page);
+        View fragment = viewGroup.getChildAt(0);
+        ((TextView) fragment.findViewById(R.id.tvTrainingEndPageCorrect))
+                .setText(String.valueOf(correct));
+        ((TextView) fragment.findViewById(R.id.tvTrainingEndPageInCorrect))
+                .setText(String.valueOf(incorrect));
     }
 
     protected Button findCorrectAnswerButton() {
