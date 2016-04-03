@@ -2,6 +2,7 @@ package lt.ru.lexio.ui;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -206,8 +207,9 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onClick(View v) {
-        if (wordFragment == null)
+        if (wordFragment == null) {
             createWordFragment(new Bundle(3));
+        }
 
         wordFragment.createWord(this, currentDictionary);
     }

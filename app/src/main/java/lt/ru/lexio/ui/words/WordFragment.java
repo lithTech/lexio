@@ -41,8 +41,6 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     ListView lWords = null;
     EditText edFilter = null;
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -60,6 +58,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+
         wordDAO = new WordDAO(view.getContext());
 
         lWords = (ListView) view.findViewById(R.id.lvWords);
@@ -146,7 +145,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 });
     }
 
-    public void createWord(Context context, final Dictionary dictionary) {
+    public void createWord(final Context context, final Dictionary dictionary) {
+        final boolean needRefresh = this.getView() != null;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -159,9 +159,11 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                         EditText edWord = (EditText) promptView.findViewById(R.id.edWord);
                         EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
                         EditText edContext = (EditText) promptView.findViewById(R.id.edContext);
-                        saveWordObject(edWord.getText().toString(), edTranslation.getText().toString(),
+                        saveWordObject(context, edWord.getText().toString(),
+                                edTranslation.getText().toString(),
                                 edContext.getText().toString(), dictionary);
-                        refreshList();
+                        if (needRefresh)
+                            refreshList();
                     }
                 })
                 .setNegativeButton(R.string.dialog_Cancel,
@@ -175,13 +177,18 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         alert.show();
     }
 
-    private Word saveWordObject(String word, String translation, String context, Dictionary dict) {
+    private Word saveWordObject(Context daoContext,
+                                String word, String translation,
+                                String context, Dictionary dict) {
         Word w = new Word();
         w.setTitle(word);
         w.setContext(context);
         w.setTranslation(translation);
         w.setDictionary(dict);
         w.setCreated(new Date());
+
+        if (wordDAO == null)
+            wordDAO = new WordDAO(daoContext);
 
         wordDAO.create(w);
         return w;
