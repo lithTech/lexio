@@ -42,4 +42,6 @@
     <string name="common.Search">Search</string>
     <string name="settings.ClearStatistics">Clear</string>
     <string name="training.DontKnowButton">Не знаю</string>
+    <string name="chart.HardWords.IncorrectLabel">Incorrect answers to the word</string>
+    <string name="chart.HardWords.CorrectLabel">Correct answers to the word</string>
 </resources>

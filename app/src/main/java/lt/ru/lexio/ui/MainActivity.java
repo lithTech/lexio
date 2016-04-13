@@ -22,6 +22,7 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
+import lt.ru.lexio.ui.charts.HardWordsFragment;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
 import lt.ru.lexio.ui.training.TranslationWordTrainingFragment;
 import lt.ru.lexio.ui.training.WordTranslationTrainingFragment;
@@ -127,34 +128,40 @@ public class MainActivity extends AppCompatActivity
             title = getResources().getString(R.string.nav_MyDictionaries);
             fragment = new DictionariesFragment();
 
-        } else if (id == R.id.nav_settings) {
+        }
+        else if (id == R.id.nav_settings) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_settings);
             title = getResources().getString(R.string.nav_Settings);
             fragment = new SettingsFragment();
+        }
+        else if (id == R.id.stat_hard_words) {
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_graph_hard);
+            title = getResources().getString(R.string.stat_HardWords);
+            fragment = new HardWordsFragment();
+        }
+        else if (id == R.id.stat_train_words_by_day) {
 
-        } else if (id == R.id.stat_hard_words) {
-
-        } else if (id == R.id.stat_train_words_by_day) {
-
-        } else if (id == R.id.training_trans_word) {
+        }
+        else if (id == R.id.training_trans_word) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_word);
             title = getResources().getString(R.string.train_TransWord);
             fragment = new TranslationWordTrainingFragment();
 
-        } else if (id == R.id.training_word_audio) {
+        }
+        else if (id == R.id.training_word_audio) {
 
-        } else if (id == R.id.training_word_trans) {
+        }
+        else if (id == R.id.training_word_trans) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_word_trans);
             title = getResources().getString(R.string.train_WordTrans);
             fragment = new WordTranslationTrainingFragment();
-
-        } else if (id == R.id.dict_dictionary) {
+        }
+        else if (id == R.id.dict_dictionary) {
             title = getResources().getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();
 
             fragment = createWordFragment(args);
-
         }
 
         //if we selected the content, load it into fragment

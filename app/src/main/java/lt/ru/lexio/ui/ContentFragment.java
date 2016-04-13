@@ -1,7 +1,10 @@
 package lt.ru.lexio.ui;
 
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -23,9 +26,26 @@ public class ContentFragment extends Fragment {
     public static final String ARG_ACTION_MENU_ID = "actionMenuId";
     public static final String ARG_NEED_REFRESH = "needRefresh";
 
+    protected MainActivity mainActivity;
+
     int actionMenuId;
 
     public ContentFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mainActivity = (MainActivity) context;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < 23) {
+            this.mainActivity = (MainActivity) activity;
+        }
     }
 
     @Override

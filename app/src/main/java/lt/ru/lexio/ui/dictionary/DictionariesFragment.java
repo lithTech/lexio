@@ -33,24 +33,8 @@ import lt.ru.lexio.ui.MainActivity;
 public class DictionariesFragment extends ContentFragment {
 
     ListView lDictionaries;
-    MainActivity activity;
 
     DictionaryDAO dictionaryDAO;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        activity = (MainActivity) context;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (Build.VERSION.SDK_INT < 23) {
-            this.activity = (MainActivity) activity;
-        }
-    }
 
     @Nullable
     @Override
@@ -104,8 +88,8 @@ public class DictionariesFragment extends ContentFragment {
 
     private void setActiveDictionary(long dictId) {
         Dictionary cd = dictionaryDAO.setActive(dictId);
-        if (activity != null) {
-            activity.setCurrentDictionary(cd);
+        if (mainActivity != null) {
+            mainActivity.setCurrentDictionary(cd);
         }
     }
 

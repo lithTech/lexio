@@ -41,4 +41,6 @@
     <string name="train.TransWrite">Перевод - Написать слово</string>
     <string name="settings.ClearStatistics">Очистить</string>
     <string name="training.DontKnowButton">Не знаю</string>
+    <string name="chart.HardWords.IncorrectLabel">Incorrect answers to the word</string>
+    <string name="chart.HardWords.CorrectLabel">Correct answers to the word</string>
 </resources>

@@ -37,4 +37,9 @@ public class WordStatisticDAO extends EntityManager<WordStatistic> {
         getDB().execSQL("delete from " + Db.WordStatistic.TABLE);
     }
 
+    public Cursor query(String q, String[] args)
+    {
+        return getDB().rawQuery(q, args);
+    }
+
 }

@@ -36,23 +36,9 @@ import lt.ru.lexio.ui.MainActivity;
  */
 public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener{
 
-    MainActivity mainActivity;
     WordDAO wordDAO = null;
     ListView lWords = null;
     EditText edFilter = null;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mainActivity = (MainActivity) context;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mainActivity = (MainActivity) activity;
-    }
 
     @Nullable
     @Override
