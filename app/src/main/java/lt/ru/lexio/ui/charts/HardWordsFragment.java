@@ -43,6 +43,7 @@ public class HardWordsFragment extends ContentFragment {
         barChart.setData(getData());
         barChart.animateXY(1000, 2000);
         barChart.getXAxis().setDrawLabels(true);
+        barChart.getViewPortHandler().setMinimumScaleX(2.0f);
         barChart.getXAxis().setLabelRotationAngle(90);
         barChart.getAxisLeft().setDrawLabels(false);
         barChart.getAxisRight().setDrawLabels(false);
@@ -105,7 +106,7 @@ public class HardWordsFragment extends ContentFragment {
                 .append("w.").append(Db.Common.ID)
                 .append(")")
                 .append("where I_CNT > 0 ")
-                .append("order by I_CNT desc ")
+                .append("order by I_CNT desc,R_CNT asc ")
                 .append("limit ").append(40);
     }
 
