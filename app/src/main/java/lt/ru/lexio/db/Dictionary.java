@@ -46,6 +46,19 @@ public class Dictionary extends Entity {
         this.title = title;
     }
 
+    public String getLanguageTag() {
+        if ("English".equals(language)) {
+            return "en-US";
+        }
+        else if ("Deutsch".equals(language)) {
+            return "de";
+        }
+        else if ("Français".equals(language)) {
+            return "fr";
+        }
+        return "en-US";
+    }
+
     public String getDesc() {
         return desc;
     }

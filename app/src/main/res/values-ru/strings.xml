@@ -41,6 +41,12 @@
     <string name="train.TransWrite">Перевод - Написать слово</string>
     <string name="settings.ClearStatistics">Очистить</string>
     <string name="training.DontKnowButton">Не знаю</string>
-    <string name="chart.HardWords.IncorrectLabel">Incorrect answers to the word</string>
-    <string name="chart.HardWords.CorrectLabel">Correct answers to the word</string>
+    <string name="chart.HardWords.IncorrectLabel">Неправильные ответы</string>
+    <string name="chart.HardWords.CorrectLabel">Правильные ответы</string>
+    <string name="Word.WordAddedMessage"> добавлено в словарь</string>
+    <string name="train.TransVoice">Перевод - Произнести слово</string>
+    <string name="training_trans_voice_taponmic">Нажмите "Микрофон" чтобы произнести слово</string>
+    <string name="TransVoiceSpeechPromt">Произнесите слово согласно переводу</string>
+    <string name="speech_not_supported">Определение речи не поддерживается вашим устройством</string>
+    <string name="Training.TransVoice.AnswerPrefix">Вы произнесли:</string>
 </resources>

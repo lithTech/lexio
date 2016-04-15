@@ -30,6 +30,9 @@
                 <item android:id="@+id/training_trans_word"
                     android:title="@string/train.TransWord"
                     android:icon="@drawable/ic_menu_training"/>
+                <item android:id="@+id/training_trans_audio"
+                    android:title="@string/train.TransVoice"
+                    android:icon="@drawable/ic_menu_training"/>
                 <item android:id="@+id/training_word_audio"
                     android:title="@string/train.WordAudio"
                     android:icon="@drawable/ic_menu_training"/>

@@ -1,5 +1,6 @@
 package lt.ru.lexio.ui.training;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 

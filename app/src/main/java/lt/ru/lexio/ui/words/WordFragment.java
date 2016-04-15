@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Set;
@@ -150,6 +151,10 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                                 edContext.getText().toString(), dictionary);
                         if (needRefresh)
                             refreshList();
+
+                        Toast.makeText(context, edWord.getText() + " " +
+                                context.getResources().getString(R.string.Word_WordAddedMessage),
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton(R.string.dialog_Cancel,

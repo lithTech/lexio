@@ -2,7 +2,7 @@ package lt.ru.lexio.ui;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
@@ -24,6 +25,7 @@ import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.charts.HardWordsFragment;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
+import lt.ru.lexio.ui.training.TrainingTranslationVoice;
 import lt.ru.lexio.ui.training.TranslationWordTrainingFragment;
 import lt.ru.lexio.ui.training.WordTranslationTrainingFragment;
 import lt.ru.lexio.ui.words.WordFragment;
@@ -142,6 +144,11 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.stat_train_words_by_day) {
 
         }
+        else if (id == R.id.training_trans_audio) {
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_voice);
+            title = getResources().getString(R.string.train_TransVoice);
+            fragment = new TrainingTranslationVoice();
+        }
         else if (id == R.id.training_trans_word) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_word);
             title = getResources().getString(R.string.train_TransWord);
@@ -219,5 +226,12 @@ public class MainActivity extends AppCompatActivity
         }
 
         wordFragment.createWord(this, currentDictionary);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(getApplicationContext(), "RC: " + resultCode,
+                Toast.LENGTH_LONG);
     }
 }

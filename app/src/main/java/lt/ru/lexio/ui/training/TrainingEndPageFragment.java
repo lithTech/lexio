@@ -26,8 +26,8 @@ public class TrainingEndPageFragment extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = getActivity().getFragmentManager()
                         .findFragmentById(R.id.content_fragment_parent);
-                if (fragment != null && fragment instanceof TrainingAnswerOptionsFragment) {
-                    ((TrainingAnswerOptionsFragment) fragment).startTraining();
+                if (fragment != null && fragment instanceof TrainingFragmentBase) {
+                    ((TrainingFragmentBase) fragment).onStart();
                 }
             }
         });

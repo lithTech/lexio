@@ -42,6 +42,12 @@
     <string name="common.Search">Search</string>
     <string name="settings.ClearStatistics">Clear</string>
     <string name="training.DontKnowButton">Не знаю</string>
-    <string name="chart.HardWords.IncorrectLabel">Incorrect answers to the word</string>
-    <string name="chart.HardWords.CorrectLabel">Correct answers to the word</string>
+    <string name="chart.HardWords.IncorrectLabel">Incorrect answers</string>
+    <string name="chart.HardWords.CorrectLabel">Correct answers</string>
+    <string name="Word.WordAddedMessage"> added to dictionary</string>
+    <string name="train.TransVoice">Translation - Voice input</string>
+    <string name="training_trans_voice_taponmic">Tap on mic to speak the word</string>
+    <string name="TransVoiceSpeechPromt">Say the word according to translation</string>
+    <string name="speech_not_supported">Voice recognition does not supported by your android device</string>
+    <string name="Training.TransVoice.AnswerPrefix">You answered:</string>
 </resources>

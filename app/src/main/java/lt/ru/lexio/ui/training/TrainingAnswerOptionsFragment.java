@@ -30,15 +30,9 @@ import lt.ru.lexio.util.ColorAnimateHelper;
  */
 public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase implements View.OnClickListener {
 
-    Word currentWord = null;
-    long currentSessionId = 0;
-    protected int currentQuestionNum = 0;
-    protected List<Word> sessionWords = null;
-    protected List<String> sessionAnswers = null;
-    protected Random random = new Random(System.nanoTime());
 
-    Animation aniCloseLastQuestion;
-    Animation aniStartNewQuestion;
+
+    protected List<String> sessionAnswers = null;
 
     Button[] bAnsArray;
     private Button bDontKnow;
@@ -57,6 +51,11 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
 
     protected abstract int getDontKnowButtonAnswerId();
 
+    @Override
+    protected void startTraining() {
+        sessionAnswers = buildAnswers(random, wordDAO, wordStatisticDAO);
+    }
+
     protected void onAnswer(boolean isCorrect, final Button clickedButton) {
         currentSessionId = storeStatistic(currentWord.id, isCorrect, currentSessionId);
         final Button correct = findCorrectAnswerButton();
@@ -70,7 +69,7 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
             public void onAnimationEnd(Animator animation) {
                 clickedButton.setBackground(initialButtonBkg);
                 correct.setBackground(initialButtonBkg);
-                nextQuestion(true);
+                nextQuestion();
             }
 
             @Override
@@ -99,26 +98,6 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
 
     protected abstract List<String> buildAnswers(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO);
 
-    protected abstract List<Word> buildWords(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO);
-
-    protected void startTraining() {
-        currentQuestionNum = 0;
-        trainingWordBuilder.dictId = getCurrentDictionary().id;
-        sessionWords = buildWords(random, wordDAO, wordStatisticDAO);
-        sessionAnswers = buildAnswers(random, wordDAO, wordStatisticDAO);
-
-        endPageContainer.setVisibility(View.GONE);
-        trainingPageContainer.setVisibility(View.VISIBLE);
-
-        nextQuestion(false);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        startTraining();
-    }
-
     protected abstract String getCorrectAnswer(Word word);
 
     private List<String> buildQuestionAnswers(String correctAnswer) {
@@ -138,50 +117,15 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
         return answers;
     }
 
+    @Override
+    protected void onNextQuestion() {
+        String correctAnswer = getCorrectAnswer(currentWord);
+        List<String> answers = buildQuestionAnswers(correctAnswer);
+        int correctNum = answers.indexOf(correctAnswer);
 
-    private void nextQuestion(boolean animateQuestionExit) {
-        //exit from old question is not yet animated
-        if (animateQuestionExit) {
-            trainingPageContainer.startAnimation(aniCloseLastQuestion);
-        }
-        //animation on end question is ended, present new question
-        else {
-            if (currentQuestionNum >= sessionWords.size()) {
-                exitTraining();
-                return;
-            }
-            currentWord = sessionWords.get(currentQuestionNum);
-            String correctAnswer = getCorrectAnswer(currentWord);
-            List<String> answers = buildQuestionAnswers(correctAnswer);
-            int correctNum = answers.indexOf(correctAnswer);
+        setQuestionToUI(currentWord, answers, correctNum);
 
-            setQuestionToUI(currentWord, answers, correctNum);
-
-            currentQuestionNum++;
-
-            toggleEnabledControls(true);
-            trainingPageContainer.startAnimation(aniStartNewQuestion);
-        }
-    }
-
-    private void exitTraining() {
-        trainingPageContainer.setVisibility(View.GONE);
-        trainingPageContainer.invalidate();
-
-        Cursor statCur = wordStatisticDAO.getTrainStatisticsBySession(currentSessionId);
-        int correct = 0;
-        int total = 0;
-        List<WordStatistic> wordStatistics = new ArrayList<>();
-        while (statCur.moveToNext()) {
-            WordStatistic wordStatistic = wordStatisticDAO.readRow(statCur);
-            total++;
-            if (wordStatistic.getTrainingResult() == 1)
-                correct++;
-            wordStatistics.add(wordStatistic);
-        }
-
-        setEndPageStatistics(wordStatistics, correct, total - correct);
-        endPageContainer.setVisibility(View.VISIBLE);
+        toggleEnabledControls(true);
     }
 
     protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
@@ -220,9 +164,6 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        trainingPageContainer = view.findViewById(getTrainingPageContainerId());
-        endPageContainer = view.findViewById(getEndPageContainerId());
-
         int[] buttonAns = getButtonAnswersId();
         bAnsArray = new Button[buttonAns.length];
         for (int i = 0; i < buttonAns.length; i++) {
@@ -234,27 +175,6 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
 
 
         initialButtonBkg = bAnsArray[0].getBackground();
-
-        aniCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
-                R.anim.anim_word_translation_closeold);
-        aniCloseLastQuestion.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                nextQuestion(false);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        aniStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
-                R.anim.anim_word_translation_startnew);
 
         for (Button ans : bAnsArray) {
             ans.setOnClickListener(this);
