@@ -29,7 +29,9 @@ public class TrainingWordBuilder {
     public List<Word> build(int count, TrainingWordMethod method, TrainingType trainingType) {
         List<Word> words = new ArrayList<>(count);
         if (method == TrainingWordMethod.UNTRAINING_WORDS &&
-                (trainingType == TrainingType.WORD_TRANS || trainingType == TrainingType.TRANS_WORD)) {
+                (trainingType == TrainingType.WORD_TRANS ||
+                        trainingType == TrainingType.TRANS_WORD ||
+                        trainingType == TrainingType.TRANS_VOICE)) {
             buildForUntrainingWords(count, trainingType, words);
         }
         return words;

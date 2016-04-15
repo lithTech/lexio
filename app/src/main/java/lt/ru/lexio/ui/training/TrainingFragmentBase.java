@@ -92,11 +92,13 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     protected abstract void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
                                         int incorrect);
 
-    protected void nextQuestion() {
-        nextQuestion(true);
+    protected void nextQuestion(boolean isLastQuestionCorrect) {
+        if (currentWord != null)
+            currentSessionId = storeStatistic(currentWord.id, isLastQuestionCorrect, currentSessionId);
+        nextQuestionInternal(true);
     }
 
-    private void nextQuestion(boolean animateQuestionExit) {
+    private void nextQuestionInternal(boolean animateQuestionExit) {
         //exit from old question is not yet animated
         if (animateQuestionExit) {
             trainingPageContainer.startAnimation(aniCloseLastQuestion);
@@ -126,7 +128,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         endPageContainer.setVisibility(View.GONE);
         trainingPageContainer.setVisibility(View.VISIBLE);
         startTraining();
-        nextQuestion(false);
+        nextQuestionInternal(false);
     }
 
     @Override
@@ -184,7 +186,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                nextQuestion(false);
+                nextQuestionInternal(false);
             }
 
             @Override

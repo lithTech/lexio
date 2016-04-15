@@ -56,8 +56,7 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
         sessionAnswers = buildAnswers(random, wordDAO, wordStatisticDAO);
     }
 
-    protected void onAnswer(boolean isCorrect, final Button clickedButton) {
-        currentSessionId = storeStatistic(currentWord.id, isCorrect, currentSessionId);
+    protected void onAnswer(final boolean isCorrect, final Button clickedButton) {
         final Button correct = findCorrectAnswerButton();
         Animator.AnimatorListener onEndAnimation = new Animator.AnimatorListener() {
             @Override
@@ -69,7 +68,7 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
             public void onAnimationEnd(Animator animation) {
                 clickedButton.setBackground(initialButtonBkg);
                 correct.setBackground(initialButtonBkg);
-                nextQuestion();
+                nextQuestion(isCorrect);
             }
 
             @Override

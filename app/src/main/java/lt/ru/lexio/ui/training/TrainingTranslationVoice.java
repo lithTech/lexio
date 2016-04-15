@@ -1,8 +1,11 @@
 package lt.ru.lexio.ui.training;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
@@ -24,6 +27,7 @@ import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
+import lt.ru.lexio.util.ColorAnimateHelper;
 
 /**
  * Created by lithTech on 14.04.2016.
@@ -33,6 +37,8 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     private EditText edWord;
     private FloatingActionButton bMic;
     private TextView tvAnswer;
+    private String correctAnswer;
+    private Drawable defaultAnswerBg;
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
     @Override
@@ -52,7 +58,10 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
     @Override
     protected void onNextQuestion() {
-
+        edWord.setText(currentWord.getTranslation());
+        correctAnswer = currentWord.getTitle();
+        tvAnswer.setText("");
+        tvAnswer.setBackground(defaultAnswerBg);
     }
 
     @Override
@@ -85,6 +94,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         edWord = (EditText) view.findViewById(R.id.edTrainingTransVoiceWord);
         tvAnswer = (TextView) view.findViewById(R.id.tvTrainingTransVoiceAnswer);
 
+        defaultAnswerBg = tvAnswer.getBackground();
         return view;
     }
 
@@ -108,6 +118,36 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         tvAnswer.setText(getResources()
                 .getString(R.string.Training_TransVoice_AnswerPrefix) + " " +
                 speech);
+
+        final boolean isCorrect = correctAnswer.toLowerCase().trim().equals(speech.toLowerCase().trim());
+        int color = getResources().getColor(R.color.colorMandatory);
+        if (isCorrect)
+            color = getResources().getColor(R.color.correctAnswer);
+
+        Animator.AnimatorListener onEndAnimation = new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                nextQuestion(isCorrect);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        };
+
+        ColorAnimateHelper.animateBetweenColors(tvAnswer, android.R.drawable.menuitem_background,
+                color, 2000, onEndAnimation);
     }
 
     private void promptSpeechInput() {
