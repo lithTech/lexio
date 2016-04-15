@@ -30,8 +30,19 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="You said: CAT"
             android:gravity="center"
+            android:padding="8dp"
             android:id="@+id/tvTrainingTransVoiceAnswer"
             android:layout_below="@+id/edTrainingTransVoiceWord"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Correct answer: CAT"
+            android:gravity="center"
+            android:padding="8dp"
+            android:id="@+id/tvTrainingTransVoiceCorrectAnswer"
+            android:layout_below="@+id/tvTrainingTransVoiceAnswer"
             android:layout_centerHorizontal="true" />
 
         <LinearLayout

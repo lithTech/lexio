@@ -50,4 +50,5 @@
     <string name="TransVoiceSpeechPromt">Say the word according to translation</string>
     <string name="speech_not_supported">Voice recognition does not supported by your android device</string>
     <string name="Training.TransVoice.AnswerPrefix">You answered:</string>
+    <string name="Training_TransVoice_CorrectAnswerPrefix">Correct answer:</string>
 </resources>
