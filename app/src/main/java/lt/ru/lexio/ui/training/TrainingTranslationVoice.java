@@ -34,7 +34,7 @@ import lt.ru.lexio.util.ColorAnimateHelper;
  */
 public class TrainingTranslationVoice extends TrainingFragmentBase implements View.OnClickListener {
 
-    private EditText edWord;
+    private TextView edWord;
     private FloatingActionButton bMic;
     private FloatingActionButton bNext;
     private TextView tvAnswer;
