@@ -36,11 +36,13 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
     private EditText edWord;
     private FloatingActionButton bMic;
+    private FloatingActionButton bNext;
     private TextView tvAnswer;
     private TextView tvCorrectAnswer;
     private String correctAnswer;
     private Drawable defaultAnswerBg;
     private final int REQ_CODE_SPEECH_INPUT = 100;
+    boolean lastResult = false;
 
     @Override
     protected int getTrainingPageContainerId() {
@@ -59,6 +61,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
     @Override
     protected void onNextQuestion() {
+        lastResult = false;
         edWord.setText(currentWord.getTranslation());
         correctAnswer = currentWord.getTitle();
         tvAnswer.setText("");
@@ -93,7 +96,9 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         bMic = (FloatingActionButton) view.findViewById(R.id.bTrainingTransVoiceMic);
+        bNext = (FloatingActionButton) view.findViewById(R.id.bTrainingTransVoiceNext);
         bMic.setOnClickListener(this);
+        bNext.setOnClickListener(this);
         edWord = (EditText) view.findViewById(R.id.edTrainingTransVoiceWord);
         tvAnswer = (TextView) view.findViewById(R.id.tvTrainingTransVoiceAnswer);
         tvCorrectAnswer = (TextView) view.findViewById(R.id.tvTrainingTransVoiceCorrectAnswer);
@@ -111,27 +116,20 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
                     List<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                    checkResult(result);
+                    checkResult(result.toString(), isCorrectAnswer(result), false);
                 }
                 break;
             }
         }
     }
 
-    private void checkResult(List<String> speech) {
+    private void checkResult(String result, boolean isCorrectAnswer, final boolean showCorrect) {
         tvAnswer.setText(getResources()
                 .getString(R.string.Training_TransVoice_AnswerPrefix) + " " +
-                speech);
+                result);
 
-        boolean r = false;
-        for (String sp : speech) {
-            if (correctAnswer.toLowerCase().trim().equals(sp.toLowerCase().trim()))
-            {
-                r = true;
-                break;
-            }
-        }
-        final boolean isCorrect = r;
+        final boolean isCorrect = isCorrectAnswer;
+        lastResult = isCorrectAnswer;
         int color = getResources().getColor(R.color.colorMandatory);
         if (isCorrect)
             color = getResources().getColor(R.color.correctAnswer);
@@ -144,7 +142,8 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                nextQuestion(isCorrect);
+                if (isCorrect || showCorrect)
+                    nextQuestion(isCorrect);
             }
 
             @Override
@@ -159,19 +158,33 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         };
 
         ColorAnimateHelper.animateBetweenColors(tvAnswer, android.R.drawable.menuitem_background,
-                color, 2000, onEndAnimation);
-        if (!isCorrect) {
+                color, getResources().getInteger(R.integer.animation_incorrect_answer), onEndAnimation);
+        if (!isCorrect && showCorrect) {
             tvCorrectAnswer.setText(getResources()
                     .getString(R.string.Training_TransVoice_CorrectAnswerPrefix) + " " +correctAnswer);
             ColorAnimateHelper.animateBetweenColors(tvCorrectAnswer, android.R.drawable.menuitem_background,
-                    getResources().getColor(R.color.correctAnswer), 1000, null);
+                    getResources().getColor(R.color.correctAnswer),
+                    getResources().getInteger(R.integer.animation_correct_answer), null);
         }
+    }
+
+    private boolean isCorrectAnswer(List<String> speech) {
+        boolean r = false;
+        for (String sp : speech) {
+            if (correctAnswer.toLowerCase().trim().equals(sp.toLowerCase().trim()))
+            {
+                r = true;
+                break;
+            }
+        }
+        return r;
     }
 
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_RESULTS, 10);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, mainActivity.getCurrentDictionary().getLanguageTag());
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 getString(R.string.TransVoiceSpeechPromt));
@@ -186,6 +199,11 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
     @Override
     public void onClick(View v) {
-        promptSpeechInput();
+        if (v == bMic)
+            promptSpeechInput();
+        if (v == bNext)
+        {
+            checkResult(tvAnswer.getText().toString(), lastResult, true);
+        }
     }
 }

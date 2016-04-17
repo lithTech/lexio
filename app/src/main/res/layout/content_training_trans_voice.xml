@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="?attr/actionBarSize"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -61,14 +62,32 @@
                 android:layout_gravity="center"
                 android:textStyle="normal" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/bTrainingTransVoiceMic"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_menu_mic" />
+                android:layout_height="wrap_content">
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/bTrainingTransVoiceMic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:borderWidth="0dp"
+                    app:elevation="6dp"
+                    android:src="@drawable/ic_menu_mic" />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/bTrainingTransVoiceNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:borderWidth="0dp"
+                    app:elevation="6dp"
+                    android:src="@drawable/ic_right_arrow" />
+            </LinearLayout>
         </LinearLayout>
+
     </RelativeLayout>
 
     <LinearLayout
