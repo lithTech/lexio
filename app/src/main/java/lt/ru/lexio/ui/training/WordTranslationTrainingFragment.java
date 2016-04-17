@@ -36,6 +36,11 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
     }
 
     @Override
+    protected int getProgressBarId() {
+        return R.id.trainingProgress;
+    }
+
+    @Override
     protected int[] getButtonAnswersId() {
         return new int[]{
                 R.id.bWordTransAnswer1,
@@ -67,7 +72,7 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
 
     @Override
     protected void setQuestion(Word word, List<String> answers, int correctNumIndex) {
-        ((EditText) getView().findViewById(R.id.edTrainingWord)).setText(word.getTitle());
+        ((TextView) getView().findViewById(R.id.edTrainingWord)).setText(word.getTitle());
         ((TextView) getView().findViewById(R.id.tvTrainingContext)).setText(word.getContext());
     }
 }

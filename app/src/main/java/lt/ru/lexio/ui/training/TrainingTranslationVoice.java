@@ -55,6 +55,11 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     }
 
     @Override
+    protected int getProgressBarId() {
+        return R.id.trainingProgress;
+    }
+
+    @Override
     protected void startTraining() {
 
     }

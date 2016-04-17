@@ -3,6 +3,7 @@ package lt.ru.lexio.ui.training;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.Random;
@@ -26,6 +27,11 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
     @Override
     protected int getEndPageContainerId() {
         return R.id.layout_train_end_page;
+    }
+
+    @Override
+    protected int getProgressBarId() {
+        return R.id.trainingProgress;
     }
 
     @Override
@@ -56,7 +62,7 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
 
     @Override
     protected void setQuestion(Word word, List<String> answers, int correctNumIndex) {
-        ((EditText) getView().findViewById(R.id.edTrainingTranslation)).setText(word.getTranslation());
+        ((TextView) getView().findViewById(R.id.edTrainingTranslation)).setText(word.getTranslation());
     }
 
     @Override

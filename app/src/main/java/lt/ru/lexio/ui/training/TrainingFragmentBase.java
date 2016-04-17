@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +46,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     private View trainingPageContainer = null;
     private View endPageContainer = null;
+    private ProgressBar progressBar;
 
     Animation aniCloseLastQuestion;
     Animation aniStartNewQuestion;
@@ -52,6 +54,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     protected abstract int getTrainingPageContainerId();
 
     protected abstract int getEndPageContainerId();
+
+    protected abstract int getProgressBarId();
 
     public Dictionary getCurrentDictionary() {
         Dictionary dictionary = null;
@@ -111,6 +115,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
             }
             currentWord = sessionWords.get(currentQuestionNum);
             onNextQuestion();
+            progressBar.setProgress(currentQuestionNum);
             currentQuestionNum++;
             trainingPageContainer.startAnimation(aniStartNewQuestion);
         }
@@ -127,6 +132,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         sessionWords = buildWords(random, wordDAO, wordStatisticDAO);
         endPageContainer.setVisibility(View.GONE);
         trainingPageContainer.setVisibility(View.VISIBLE);
+        progressBar.setMax(sessionWords.size()-1);
+        progressBar.setProgress(0);
         startTraining();
         nextQuestionInternal(false);
     }
@@ -196,6 +203,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         });
         aniStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.anim_word_translation_startnew);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.trainingProgress);
 
         return view;
     }

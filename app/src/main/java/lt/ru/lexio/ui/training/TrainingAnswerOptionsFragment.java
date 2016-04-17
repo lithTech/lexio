@@ -37,9 +37,6 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
     Button[] bAnsArray;
     private Button bDontKnow;
 
-    private View trainingPageContainer = null;
-    private View endPageContainer = null;
-
     private Drawable initialButtonBkg;
 
 
@@ -54,6 +51,7 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
     @Override
     protected void startTraining() {
         sessionAnswers = buildAnswers(random, wordDAO, wordStatisticDAO);
+
     }
 
     protected void onAnswer(final boolean isCorrect, final Button clickedButton) {
