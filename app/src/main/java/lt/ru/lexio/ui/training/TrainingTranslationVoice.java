@@ -104,7 +104,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         bNext = (FloatingActionButton) view.findViewById(R.id.bTrainingTransVoiceNext);
         bMic.setOnClickListener(this);
         bNext.setOnClickListener(this);
-        edWord = (EditText) view.findViewById(R.id.edTrainingTransVoiceWord);
+        edWord = (TextView) view.findViewById(R.id.edTrainingTransVoiceWord);
         tvAnswer = (TextView) view.findViewById(R.id.tvTrainingTransVoiceAnswer);
         tvCorrectAnswer = (TextView) view.findViewById(R.id.tvTrainingTransVoiceCorrectAnswer);
 
