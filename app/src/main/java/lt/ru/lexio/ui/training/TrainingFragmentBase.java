@@ -119,7 +119,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         }
         //animation on end question is ended, present new question
         else {
-            if (currentQuestionNum == sessionWords.size()) {
+            if (currentQuestionNum + 1 == sessionWords.size()) {
                 exitTraining();
                 return;
             }
@@ -133,7 +133,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     private void prevQuestionInternal(boolean animateQuestionExit) {
         //exit from old question is not yet animated
-        if (animateQuestionExit) {
+        if (animateQuestionExit && currentQuestionNum > 0) {
             trainingPageContainer.startAnimation(aniPrevCloseLastQuestion);
         }
         //animation on end question is ended, present new question

@@ -43,7 +43,7 @@ public class HardWordsFragment extends ContentFragment {
         barChart.setData(getData());
         barChart.animateXY(1000, 2000);
         barChart.getXAxis().setDrawLabels(true);
-        barChart.getViewPortHandler().setMinimumScaleX(2.0f);
+        barChart.getViewPortHandler().setMinimumScaleX(3.0f);
         barChart.getXAxis().setLabelRotationAngle(90);
         barChart.getAxisLeft().setDrawLabels(false);
         barChart.getAxisRight().setDrawLabels(false);
