@@ -49,5 +49,6 @@
     <string name="TransVoiceSpeechPromt">Произнесите слово согласно переводу</string>
     <string name="speech_not_supported">Определение речи не поддерживается вашим устройством</string>
     <string name="Training.TransVoice.AnswerPrefix">Вы произнесли:</string>
-    <string name="Training_TransVoice_CorrectAnswerPrefix">Correct answer:</string>
+    <string name="Training_TransVoice_CorrectAnswerPrefix">Правильный ответ:</string>
+    <string name="train.Cards">Карточки</string>
 </resources>

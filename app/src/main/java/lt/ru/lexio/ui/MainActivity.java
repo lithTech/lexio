@@ -25,6 +25,7 @@ import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.charts.HardWordsFragment;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
+import lt.ru.lexio.ui.training.TrainingCards;
 import lt.ru.lexio.ui.training.TrainingTranslationVoice;
 import lt.ru.lexio.ui.training.TranslationWordTrainingFragment;
 import lt.ru.lexio.ui.training.WordTranslationTrainingFragment;
@@ -144,26 +145,26 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.stat_train_words_by_day) {
 
         }
-        else if (id == R.id.training_trans_audio) {
+        else if (id == R.id.training_cards) {
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_cards);
+            title = getResources().getString(R.string.train_Cards);
+            fragment = new TrainingCards();
+        } else if (id == R.id.training_trans_audio) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_voice);
             title = getResources().getString(R.string.train_TransVoice);
             fragment = new TrainingTranslationVoice();
-        }
-        else if (id == R.id.training_trans_word) {
+        } else if (id == R.id.training_trans_word) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_word);
             title = getResources().getString(R.string.train_TransWord);
             fragment = new TranslationWordTrainingFragment();
 
-        }
-        else if (id == R.id.training_word_audio) {
+        } else if (id == R.id.training_word_audio) {
 
-        }
-        else if (id == R.id.training_word_trans) {
+        } else if (id == R.id.training_word_trans) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_word_trans);
             title = getResources().getString(R.string.train_WordTrans);
             fragment = new WordTranslationTrainingFragment();
-        }
-        else if (id == R.id.dict_dictionary) {
+        } else if (id == R.id.dict_dictionary) {
             title = getResources().getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();

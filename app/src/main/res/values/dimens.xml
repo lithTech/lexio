@@ -11,4 +11,7 @@
     <dimen name="button_press_elevation">4dp</dimen>
     <integer name="animation_correct_answer">400</integer>
     <integer name="animation_incorrect_answer">2000</integer>
+    <integer name="card_flip_time_full">1000</integer>
+    <integer name="card_flip_time_half">500</integer>
+
 </resources>

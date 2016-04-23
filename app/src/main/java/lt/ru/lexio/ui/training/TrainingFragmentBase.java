@@ -48,8 +48,12 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     private View endPageContainer = null;
     private ProgressBar progressBar;
 
-    Animation aniCloseLastQuestion;
-    Animation aniStartNewQuestion;
+    Animation aniNextCloseLastQuestion;
+    Animation aniNextStartNewQuestion;
+
+    Animation aniPrevCloseLastQuestion;
+    Animation aniPrevStartNewQuestion;
+
 
     protected abstract int getTrainingPageContainerId();
 
@@ -96,28 +100,52 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     protected abstract void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
                                         int incorrect);
 
-    protected void nextQuestion(boolean isLastQuestionCorrect) {
-        if (currentWord != null)
+    protected void nextQuestion(Boolean isLastQuestionCorrect) {
+        if (currentWord != null && isLastQuestionCorrect != null)
             currentSessionId = storeStatistic(currentWord.id, isLastQuestionCorrect, currentSessionId);
         nextQuestionInternal(true);
+    }
+
+    protected void prevQuestion(Boolean isLastQuestionCorrect) {
+        if (currentWord != null && isLastQuestionCorrect != null)
+            currentSessionId = storeStatistic(currentWord.id, isLastQuestionCorrect, currentSessionId);
+        prevQuestionInternal(true);
     }
 
     private void nextQuestionInternal(boolean animateQuestionExit) {
         //exit from old question is not yet animated
         if (animateQuestionExit) {
-            trainingPageContainer.startAnimation(aniCloseLastQuestion);
+            trainingPageContainer.startAnimation(aniNextCloseLastQuestion);
         }
         //animation on end question is ended, present new question
         else {
-            if (currentQuestionNum >= sessionWords.size()) {
+            if (currentQuestionNum == sessionWords.size()) {
                 exitTraining();
                 return;
             }
+            currentQuestionNum++;
             currentWord = sessionWords.get(currentQuestionNum);
             onNextQuestion();
             progressBar.setProgress(currentQuestionNum);
-            currentQuestionNum++;
-            trainingPageContainer.startAnimation(aniStartNewQuestion);
+            trainingPageContainer.startAnimation(aniNextStartNewQuestion);
+        }
+    }
+
+    private void prevQuestionInternal(boolean animateQuestionExit) {
+        //exit from old question is not yet animated
+        if (animateQuestionExit) {
+            trainingPageContainer.startAnimation(aniPrevCloseLastQuestion);
+        }
+        //animation on end question is ended, present new question
+        else {
+            if (currentQuestionNum == 0) {
+                return;
+            }
+            currentQuestionNum--;
+            currentWord = sessionWords.get(currentQuestionNum);
+            onNextQuestion();
+            progressBar.setProgress(currentQuestionNum);
+            trainingPageContainer.startAnimation(aniPrevStartNewQuestion);
         }
     }
 
@@ -127,7 +155,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     public void onStart() {
         super.onStart();
         trainingWordBuilder.dictId = getCurrentDictionary().id;
-        currentQuestionNum = 0;
+        currentQuestionNum = -1;
         trainingWordBuilder.dictId = getCurrentDictionary().id;
         sessionWords = buildWords(random, wordDAO, wordStatisticDAO);
         endPageContainer.setVisibility(View.GONE);
@@ -183,9 +211,9 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         wordDAO = new WordDAO(view.getContext());
         trainingWordBuilder = new TrainingWordBuilder(wordDAO, 0);
 
-        aniCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
-                R.anim.anim_word_translation_closeold);
-        aniCloseLastQuestion.setAnimationListener(new Animation.AnimationListener() {
+        aniNextCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
+                R.anim.anim_word_translation_nextcloseold);
+        aniNextCloseLastQuestion.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 
@@ -201,8 +229,29 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
             }
         });
-        aniStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
-                R.anim.anim_word_translation_startnew);
+        aniNextStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
+                R.anim.anim_word_translation_nextopennew);
+
+        aniPrevCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
+                R.anim.anim_word_translation_prevcloseold);
+        aniPrevCloseLastQuestion.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                prevQuestionInternal(false);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        aniPrevStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
+                R.anim.anim_word_translation_prevopennew);
 
         progressBar = (ProgressBar) view.findViewById(R.id.trainingProgress);
 

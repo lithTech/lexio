@@ -6,4 +6,12 @@
     <color name="colorMandatory">#e21417</color>
     <color name="textColor">#000000</color>
     <color name="correctAnswer">#00c853</color>
+
+    <!--<color name="card_start">#cccccc</color>-->
+    <!--<color name="card_center">#aeaeae</color>-->
+    <!--<color name="card_end">#b3b3b3</color>-->
+
+    <color name="card_start">#893c4eb7</color>
+    <color name="card_center">#d53f51b5</color>
+    <color name="card_end">#bb3f51b5</color>
 </resources>

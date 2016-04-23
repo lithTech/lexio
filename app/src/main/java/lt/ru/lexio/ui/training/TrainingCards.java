@@ -1,0 +1,221 @@
+package lt.ru.lexio.ui.training;
+
+import android.app.ActionBar;
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.Layout;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
+
+import java.util.List;
+import java.util.Random;
+
+import lt.ru.lexio.R;
+import lt.ru.lexio.db.Word;
+import lt.ru.lexio.db.WordDAO;
+import lt.ru.lexio.db.WordStatistic;
+import lt.ru.lexio.db.WordStatisticDAO;
+import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.Flip3dAnimation;
+
+/**
+ * Created by lithTech on 19.04.2016.
+ */
+public class TrainingCards extends TrainingFragmentBase implements View.OnTouchListener {
+
+    TextView tvWord;
+    View content;
+    LinearLayout card;
+
+    RotateAnimation aRotate;
+
+    float nqSWIPE_MIN = 150;
+    float nqX1, nqX2;
+
+    float fcSWIPE_MIN = 150;
+    float fcX1, fcX2;
+
+    Flip3dAnimation flip3dAnimationRtL;
+    Flip3dAnimation flip3dAnimationLtR;
+
+    @Override
+    protected int getTrainingPageContainerId() {
+        return R.id.layout_trans_cards_container;
+    }
+
+    @Override
+    protected int getEndPageContainerId() {
+        return R.id.layout_train_end_page;
+    }
+
+    @Override
+    protected int getProgressBarId() {
+        return R.id.trainingProgress;
+    }
+
+    @Override
+    protected void startTraining() {
+
+    }
+
+    @Override
+    protected void onNextQuestion() {
+        tvWord.setText(currentWord.getTitle());
+        tvWord.setTag(true);
+    }
+
+    public void flipCard() {
+
+        if (tvWord.getTag() == true) {
+            tvWord.setText(currentWord.getTranslation());
+        }
+        else
+            tvWord.setText(currentWord.getTitle());
+        tvWord.setTag(!(boolean)tvWord.getTag());
+    }
+
+    @Override
+    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
+
+    }
+
+    @Override
+    protected List<Word> buildWords(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
+        return trainingWordBuilder.build(20, TrainingWordMethod.UNTRAINING_WORDS, TrainingType.TRANS_WORD);
+    }
+
+    private Flip3dAnimation getFlipAnimation(float fD, float tD, Animation.AnimationListener onEnd) {
+        float center = card.getMeasuredWidth() / 2.0f;
+        Flip3dAnimation flip3dAnimation = new Flip3dAnimation(fD, tD, center, center);
+        flip3dAnimation.setDuration(150);
+        flip3dAnimation.setFillAfter(false);
+        flip3dAnimation.setInterpolator(new AccelerateInterpolator());
+        flip3dAnimation.setAnimationListener(onEnd);
+        return flip3dAnimation;
+    }
+
+    @Override
+    protected TrainingType getTrainingType() {
+        return TrainingType.TRANS_WORD;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        card = (LinearLayout) view.findViewById(R.id.cTrainingCard);
+        card.setOnTouchListener(this);
+        tvWord = (TextView) card.findViewById(R.id.tvWord);
+
+        content = view.findViewById(R.id.layout_trans_cards_container);
+        content.setOnTouchListener(this);
+
+        final Animation.AnimationListener onFlipEnd = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                flipCard();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        };
+
+        ViewTreeObserver vto = card.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                flip3dAnimationLtR = getFlipAnimation(0, 180, onFlipEnd);
+                flip3dAnimationRtL = getFlipAnimation(0, -180, onFlipEnd);
+
+                ViewTreeObserver obs = card.getViewTreeObserver();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    obs.removeOnGlobalLayoutListener(this);
+                } else {
+                    obs.removeGlobalOnLayoutListener(this);
+                }
+            }
+
+        });
+
+        return view;
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (v == content) {
+            switch(event.getAction())
+            {
+                case MotionEvent.ACTION_DOWN:
+                    nqX1 = event.getX();
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    nqX2 = event.getX();
+                    float deltaX = nqX2 - nqX1;
+                    boolean isR2L = deltaX < 0;
+                    boolean isSwipe = Math.abs(deltaX) > nqSWIPE_MIN;
+                    if (isSwipe && isR2L)
+                    {
+                        nextQuestion(null);
+                        return true;
+                    }
+                    else if (isSwipe && !isR2L)
+                    {
+                        prevQuestion(null);
+                        return true;
+                    }
+                    break;
+            }
+        }
+        else if (v == card) {
+            switch(event.getAction())
+            {
+                case MotionEvent.ACTION_DOWN:
+                    fcX1 = event.getX();
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    fcX2 = event.getX();
+                    float deltaX = fcX2 - fcX1;
+                    boolean isR2L = deltaX < 0;
+                    boolean isSwipe = Math.abs(deltaX) > fcSWIPE_MIN;
+                    if (isSwipe)
+                    {
+                        Animation animation = flip3dAnimationLtR;
+                        if (isR2L)
+                            animation = flip3dAnimationRtL;
+                        card.startAnimation(animation);
+                        return true;
+                    }
+                    break;
+            }
+        }
+
+        return false;
+    }
+}

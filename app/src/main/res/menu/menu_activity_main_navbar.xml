@@ -24,6 +24,9 @@
             android:icon="@drawable/ic_menu_training"
             android:title="@string/nav.Training">
             <menu>
+                <item android:id="@+id/training_cards"
+                    android:title="@string/train.Cards"
+                    android:icon="@drawable/ic_menu_training"/>
                 <item android:id="@+id/training_word_trans"
                     android:title="@string/train.WordTrans"
                     android:icon="@drawable/ic_menu_training"/>
