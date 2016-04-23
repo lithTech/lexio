@@ -52,4 +52,5 @@
     <string name="Training.TransVoice.AnswerPrefix">You answered:</string>
     <string name="Training_TransVoice_CorrectAnswerPrefix">Correct answer:</string>
     <string name="train.Cards">Cards</string>
+    <string name="Training.Cards.EndPageLabel">You are just trained %d cards. You can try training it again or traing next</string>
 </resources>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Layout;
 import android.util.Log;
 import android.view.DragEvent;
@@ -38,13 +40,14 @@ import lt.ru.lexio.ui.Flip3dAnimation;
 /**
  * Created by lithTech on 19.04.2016.
  */
-public class TrainingCards extends TrainingFragmentBase implements View.OnTouchListener {
+public class TrainingCards extends TrainingFragmentBase implements View.OnTouchListener, View.OnClickListener {
 
     TextView tvWord;
     View content;
     LinearLayout card;
 
-    RotateAnimation aRotate;
+    FloatingActionButton bReload;
+    FloatingActionButton bNext;
 
     float nqSWIPE_MIN = 150;
     float nqX1, nqX2;
@@ -93,7 +96,16 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     @Override
     protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
+        View endPage = getView().findViewById(getEndPageContainerId());
 
+        bReload = (FloatingActionButton) endPage.findViewById(R.id.bTrainingEndPageTryAgain);
+        bNext = (FloatingActionButton) endPage.findViewById(R.id.bTrainingEndPageNext);
+        TextView endPageLabel = (TextView) endPage.findViewById(R.id.tvTrainingCardsEndPageLabel);
+        endPageLabel.setText(String.format(getResources().getString(R.string.Training_Cards_EndPageLabel),
+                sessionWords.size()));
+
+        bReload.setOnClickListener(this);
+        bNext.setOnClickListener(this);
     }
 
     @Override
@@ -128,6 +140,12 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
         content = view.findViewById(R.id.layout_trans_cards_container);
         content.setOnTouchListener(this);
 
+        createAnimationsAndResolveWidths();
+
+        return view;
+    }
+
+    private void createAnimationsAndResolveWidths() {
         final Animation.AnimationListener onFlipEnd = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -162,8 +180,6 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
             }
 
         });
-
-        return view;
     }
 
 
@@ -217,5 +233,15 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
         }
 
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == bReload) {
+            onStart();
+        } else if (v == bNext) {
+            sessionWords = buildWords(random, wordDAO, wordStatisticDAO);
+            onStart();
+        }
     }
 }

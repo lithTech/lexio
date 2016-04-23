@@ -51,4 +51,5 @@
     <string name="Training.TransVoice.AnswerPrefix">Вы произнесли:</string>
     <string name="Training_TransVoice_CorrectAnswerPrefix">Правильный ответ:</string>
     <string name="train.Cards">Карточки</string>
+    <string name="Training.Cards.EndPageLabel">Вы только что прошли %d карточек. Вы можете заново их пройти, либо пройти следующие в наборе</string>
 </resources>

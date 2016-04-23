@@ -21,6 +21,7 @@
         android:id="@+id/layout_trans_cards_container"
         android:orientation="vertical"
         android:paddingTop="30dp"
+        android:visibility="gone"
         android:layout_alignParentStart="true">
 
 
@@ -51,15 +52,51 @@
 
     <LinearLayout
         android:id="@+id/layout_train_end_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
-        <fragment
+        android:visibility="visible">
+
+
+
+        <TextView
+            android:id="@+id/tvTrainingCardsEndPageLabel"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/Training.Cards.EndPageLabel"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:name="lt.ru.lexio.ui.training.TrainingEndPageFragment"
-            tools:layout="@layout/content_training_end_page" />
+            android:gravity="bottom"
+            android:layout_gravity="center_horizontal"
+            >
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/bTrainingEndPageTryAgain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                app:borderWidth="0dp"
+                app:elevation="6dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_menu_reload" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/bTrainingEndPageNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                app:borderWidth="0dp"
+                app:elevation="6dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_right_arrow" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
