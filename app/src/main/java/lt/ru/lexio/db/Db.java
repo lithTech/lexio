@@ -4,7 +4,7 @@ package lt.ru.lexio.db;
  * Created by lithTech on 15.03.2016.
  */
 public interface Db {
-    public static final int VER = 5;
+    public static final int VER = 6;
 
     public static interface Common {
         public static final String TITLE = "TITLE";

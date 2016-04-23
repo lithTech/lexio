@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="?attr/actionBarSize"
     android:orientation="vertical">
+
+    <lt.ru.lexio.ui.widget.TrainingPositionBar
+        android:id="@+id/trainingProgress"
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="50dp"
+        android:progressDrawable="@drawable/training_progress_bar"
+        android:indeterminate="false"
+        android:indeterminateOnly="false" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,24 +35,15 @@
             android:textSize="20dp"
             android:layout_height="wrap_content" />
 
-        <lt.ru.lexio.ui.widget.TrainingPositionBar
-            android:id="@+id/trainingProgress"
-            android:layout_width="fill_parent"
-            android:layout_height="8dp"
-            android:progressDrawable="@drawable/training_progress_bar"
-            android:layout_below="@id/edTrainingTransVoiceWord"
-            android:indeterminate="false"
-            android:indeterminateOnly="false" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="You said: CAT"
             android:gravity="center"
-            android:padding="8dp"
+            android:padding="18dp"
             android:id="@+id/tvTrainingTransVoiceAnswer"
-            android:layout_below="@+id/trainingProgress"
+            android:layout_below="@+id/edTrainingTransVoiceWord"
             android:layout_centerHorizontal="true" />
         <TextView
             android:layout_width="match_parent"
@@ -113,4 +113,4 @@
             tools:layout="@layout/content_training_end_page" />
     </LinearLayout>
 
-</RelativeLayout>
+</FrameLayout>

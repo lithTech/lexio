@@ -67,7 +67,11 @@ public class Word extends Entity {
     }
 
     public void setTitle(String title) {
-        if (title != null) title = title.trim();
+        if (title != null){
+            title = title.trim();
+            title = title.substring(0, 0).toUpperCase() + title.substring(1);
+        }
+
         this.title = title;
     }
 
@@ -76,6 +80,10 @@ public class Word extends Entity {
     }
 
     public void setTranslation(String translation) {
+        if (translation != null) {
+            translation = translation.trim().toLowerCase();
+        }
+
         this.translation = translation;
     }
 }

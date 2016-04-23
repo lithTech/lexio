@@ -1,5 +1,6 @@
 package lt.ru.lexio.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -34,6 +35,6 @@ public class DbHelper extends AbstractDBOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
+
 }
