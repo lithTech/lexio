@@ -21,15 +21,15 @@
         android:id="@+id/layout_trans_cards_container"
         android:orientation="vertical"
         android:paddingTop="30dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_alignParentStart="true">
 
 
         <LinearLayout
             android:id="@+id/cTrainingCard"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/card.Width"
             android:layout_centerInParent="true"
-            android:layout_height="280dp"
+            android:layout_height="@dimen/card.Height"
             android:background="@drawable/training_card"
             >
             <lt.ru.lexio.ui.widget.AutoResizeTextView
@@ -44,7 +44,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
                 android:textSize="30dp"
-                android:textColor="#EEEEEE"
+                android:textColor="@color/textColor"
                 />
         </LinearLayout>
 
@@ -56,15 +56,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="visible">
-
-
-
         <TextView
             android:id="@+id/tvTrainingCardsEndPageLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:paddingLeft="15dp"
+            android:visibility="gone"
             android:paddingRight="15dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/Training.Cards.EndPageLabel"
@@ -74,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="bottom"
+            android:visibility="gone"
             android:layout_gravity="center_horizontal"
             >
 

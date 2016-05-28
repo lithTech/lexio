@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,11 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     protected TrainingWordBuilder trainingWordBuilder = null;
     protected List<Word> sessionWords = null;
     protected Random random = new Random(System.nanoTime());
+    protected int currentPage = 0;
+    protected Date sessionDate = new Date();
+
+    protected int wordCount;
+    protected TrainingWordOrder[] wordOrder;
 
     Word currentWord = null;
     long currentSessionId = 0;
@@ -149,15 +155,26 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         }
     }
 
-    protected abstract List<Word> buildWords(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO);
+    protected abstract List<Word> buildWords(Random random,
+                                             Date sessionDate,
+                                             int currentPage,
+                                             WordDAO wordDAO,
+                                             WordStatisticDAO wordStatisticDAO);
 
-        @Override
+    @Override
     public void onStart() {
         super.onStart();
         trainingWordBuilder.dictId = getCurrentDictionary().id;
         currentQuestionNum = -1;
         trainingWordBuilder.dictId = getCurrentDictionary().id;
-        sessionWords = buildWords(random, wordDAO, wordStatisticDAO);
+        currentPage++;
+        sessionWords = buildWords(random, sessionDate, currentPage, wordDAO, wordStatisticDAO);
+        if (sessionWords.isEmpty()) {
+            Toast.makeText(getView().getContext(), getResources().getString(R.string.training_Word_Empty),
+                    Toast.LENGTH_SHORT).show();
+            currentPage--;
+            return;
+        }
         endPageContainer.setVisibility(View.GONE);
         trainingPageContainer.setVisibility(View.VISIBLE);
         progressBar.setMax(sessionWords.size()-1);
@@ -255,6 +272,20 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         progressBar = (ProgressBar) view.findViewById(R.id.trainingProgress);
 
+        wordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
+        wordOrder = new TrainingWordOrder[3];
+        wordOrder[0] = TrainingWordOrder.values()[1+getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER1)];
+        wordOrder[1] = TrainingWordOrder.values()[getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER2)];
+        wordOrder[2] = TrainingWordOrder.values()[getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER3)];
+
         return view;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 }

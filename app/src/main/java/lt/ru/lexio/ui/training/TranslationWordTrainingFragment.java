@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -47,12 +48,17 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
 
     @Override
     protected List<String> buildAnswers(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
-        return trainingWordBuilder.buildRandomAnswers(20, bAnsArray.length, Db.Common.TITLE);
+        return trainingWordBuilder.buildRandomAnswers(wordCount, bAnsArray.length, Db.Common.TITLE);
     }
 
     @Override
-    protected List<Word> buildWords(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
-        return trainingWordBuilder.build(20, TrainingWordMethod.UNTRAINING_WORDS, TrainingType.TRANS_WORD);
+    protected List<Word> buildWords(Random random,
+                                    Date sessionDate,
+                                    int currentPage,
+                                    WordDAO wordDAO,
+                                    WordStatisticDAO wordStatisticDAO) {
+        return trainingWordBuilder.build(wordCount, currentPage, sessionDate, wordOrder,
+                getTrainingType());
     }
 
     @Override

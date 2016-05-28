@@ -69,7 +69,7 @@ public class Word extends Entity {
     public void setTitle(String title) {
         if (title != null){
             title = title.trim();
-            title = title.substring(0, 0).toUpperCase() + title.substring(1);
+            title = title.substring(0, 1).toUpperCase() + title.substring(1);
         }
 
         this.title = title;

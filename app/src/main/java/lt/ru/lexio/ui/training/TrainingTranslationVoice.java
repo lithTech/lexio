@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -86,8 +87,13 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     }
 
     @Override
-    protected List<Word> buildWords(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
-        return trainingWordBuilder.build(20, TrainingWordMethod.UNTRAINING_WORDS, getTrainingType());
+    protected List<Word> buildWords(Random random,
+                                    Date sessionDate,
+                                    int currentPage,
+                                    WordDAO wordDAO,
+                                    WordStatisticDAO wordStatisticDAO) {
+        return trainingWordBuilder.build(wordCount, currentPage, sessionDate, wordOrder,
+                getTrainingType());
     }
 
     @Override

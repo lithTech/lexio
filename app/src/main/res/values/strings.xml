@@ -41,7 +41,7 @@
     <string name="words_Delete_Alert">Would you like to delete selected words?</string>
     <string name="common.Search">Search</string>
     <string name="settings.ClearStatistics">Clear</string>
-    <string name="training.DontKnowButton">Не знаю</string>
+    <string name="training.DontKnowButton">НЕ ЗНАЮ</string>
     <string name="chart.HardWords.IncorrectLabel">Incorrect answers</string>
     <string name="chart.HardWords.CorrectLabel">Correct answers</string>
     <string name="Word.WordAddedMessage"> added to dictionary</string>
@@ -53,4 +53,13 @@
     <string name="Training_TransVoice_CorrectAnswerPrefix">Correct answer:</string>
     <string name="train.Cards">Cards</string>
     <string name="Training.Cards.EndPageLabel">You are just trained %d cards. You can try training it again or traing next</string>
+    <string name="training.Order.Hard">Mistaken</string>
+    <string name="training.Order.New">New</string>
+    <string name="training.Order.Old">Old</string>
+    <string name="training.Start">Start training</string>
+    <string name="training.Start.WordCount">Word count:</string>
+    <string name="training.Start.WordOrder">Word order:</string>
+    <string name="training.Start.Title">Setup your training</string>
+    <string name="training_order_None">-</string>
+    <string name="training.Word.Empty">There are no words to train. Choose another training or choose another order options</string>
 </resources>

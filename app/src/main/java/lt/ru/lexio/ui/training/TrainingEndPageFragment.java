@@ -16,7 +16,7 @@ import lt.ru.lexio.R;
 /**
  * Created by lithTech on 02.04.2016.
  */
-public class TrainingEndPageFragment extends Fragment {
+public class TrainingEndPageFragment extends Fragment implements View.OnClickListener{
 
     ListView lWordStatistic;
 
@@ -25,21 +25,24 @@ public class TrainingEndPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_training_end_page, container, false);
 
-        view.findViewById(R.id.bTrainingEndPageTryAgain).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = getActivity().getFragmentManager()
-                        .findFragmentById(R.id.content_fragment_parent);
-                if (fragment != null && fragment instanceof TrainingFragmentBase) {
-                    fragment.onStart();
-                }
-            }
-        });
+        view.findViewById(R.id.bTrainingEndPageTryAgain).setOnClickListener(this);
+        view.findViewById(R.id.bTrainingEndPageNext).setOnClickListener(this);
 
         lWordStatistic = (ListView) view.findViewById(R.id.lvTrainingEndPageWordStat);
-        
-
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Fragment fragment = getActivity().getFragmentManager()
+                .findFragmentById(R.id.content_fragment_parent);
+        if (fragment != null && fragment instanceof TrainingFragmentBase) {
+            if (v.getId() == R.id.bTrainingEndPageTryAgain) {
+                int page = ((TrainingFragmentBase) fragment).getCurrentPage();
+                ((TrainingFragmentBase) fragment).setCurrentPage(page - 1);
+            }
+            fragment.onStart();
+        }
     }
 }

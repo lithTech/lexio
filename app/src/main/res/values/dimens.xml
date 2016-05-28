@@ -9,9 +9,16 @@
 
     <dimen name="button_elevation">2dp</dimen>
     <dimen name="button_press_elevation">4dp</dimen>
+
+    <dimen name="card.Width">250dp</dimen>
+    <dimen name="card.Height">320dp</dimen>
+
     <integer name="animation_correct_answer">400</integer>
     <integer name="animation_incorrect_answer">2000</integer>
     <integer name="card_flip_time_full">1000</integer>
     <integer name="card_flip_time_half">500</integer>
+
+    <integer name="training_max_words">100</integer>
+    <integer name="training_min_words">5</integer>
 
 </resources>

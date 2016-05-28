@@ -26,6 +26,7 @@ import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.charts.HardWordsFragment;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
 import lt.ru.lexio.ui.training.TrainingCards;
+import lt.ru.lexio.ui.training.TrainingManager;
 import lt.ru.lexio.ui.training.TrainingTranslationVoice;
 import lt.ru.lexio.ui.training.TranslationWordTrainingFragment;
 import lt.ru.lexio.ui.training.WordTranslationTrainingFragment;
@@ -130,7 +131,6 @@ public class MainActivity extends AppCompatActivity
             args.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_dictionaries);
             title = getResources().getString(R.string.nav_MyDictionaries);
             fragment = new DictionariesFragment();
-
         }
         else if (id == R.id.nav_settings) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_settings);
@@ -143,28 +143,40 @@ public class MainActivity extends AppCompatActivity
             fragment = new HardWordsFragment();
         }
         else if (id == R.id.stat_train_words_by_day) {
-
+            //TODO implement chart
         }
         else if (id == R.id.training_cards) {
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_cards);
-            title = getResources().getString(R.string.train_Cards);
-            fragment = new TrainingCards();
-        } else if (id == R.id.training_trans_audio) {
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_voice);
-            title = getResources().getString(R.string.train_TransVoice);
-            fragment = new TrainingTranslationVoice();
-        } else if (id == R.id.training_trans_word) {
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_trans_word);
-            title = getResources().getString(R.string.train_TransWord);
-            fragment = new TranslationWordTrainingFragment();
-
-        } else if (id == R.id.training_word_audio) {
-
-        } else if (id == R.id.training_word_trans) {
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_word_trans);
-            title = getResources().getString(R.string.train_WordTrans);
-            fragment = new WordTranslationTrainingFragment();
-        } else if (id == R.id.dict_dictionary) {
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_cards);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_Cards);
+            title = getResources().getString(R.string.training_Start);
+            fragment = new TrainingManager();
+        }
+        else if (id == R.id.training_trans_audio) {
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_trans_voice);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_TransVoice);
+            title = getResources().getString(R.string.training_Start);
+            fragment = new TrainingManager();
+        }
+        else if (id == R.id.training_trans_word) {
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_trans_word);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_TransWord);
+            title = getResources().getString(R.string.training_Start);
+            fragment = new TrainingManager();
+        }
+        else if (id == R.id.training_word_audio) {
+            //TODO Implament traingnin word audio
+        }
+        else if (id == R.id.training_word_trans) {
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_word_trans);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_WordTrans);
+            title = getResources().getString(R.string.training_Start);
+            fragment = new TrainingManager();
+        }
+        else if (id == R.id.dict_dictionary) {
             title = getResources().getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();
@@ -183,7 +195,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void changeFragment(ContentFragment fragment, Bundle args, String title) {
+    public void changeFragment(ContentFragment fragment, Bundle args, String title) {
         FragmentManager fragmentManager = getFragmentManager();
         ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content_fragment_parent);
         viewGroup.removeAllViews();

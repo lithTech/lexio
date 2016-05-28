@@ -74,6 +74,7 @@
             android:text="@string/training.DontKnowButton"
             android:id="@+id/bTransDontKnow"
             android:textStyle="bold"
+            android:textAllCaps="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="25dp"

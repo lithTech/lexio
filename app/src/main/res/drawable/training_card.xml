@@ -8,7 +8,7 @@
         android:right="9dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#66111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item
@@ -18,7 +18,7 @@
         android:right="8dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#5a111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item
@@ -28,7 +28,7 @@
         android:right="7dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#52111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item
@@ -38,7 +38,7 @@
         android:right="6dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#3f111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item
@@ -48,7 +48,7 @@
         android:right="5dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#33111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item
@@ -58,7 +58,7 @@
         android:right="4dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#28111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item
@@ -68,7 +68,7 @@
         android:right="3dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#1e111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item
@@ -78,7 +78,7 @@
         android:right="2dp">
         <shape>
             <corners android:radius="10dp"></corners>
-            <solid android:color="#16111111"></solid>
+            <solid android:color="#11111111"></solid>
         </shape>
     </item>
     <item

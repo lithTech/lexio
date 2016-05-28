@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -52,7 +53,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     float nqSWIPE_MIN = 150;
     float nqX1, nqX2;
 
-    float fcSWIPE_MIN = 150;
+    float fcSWIPE_MIN = 10;
     float fcX1, fcX2;
 
     Flip3dAnimation flip3dAnimationRtL;
@@ -104,13 +105,21 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
         endPageLabel.setText(String.format(getResources().getString(R.string.Training_Cards_EndPageLabel),
                 sessionWords.size()));
 
+        content.setVisibility(View.GONE);
+        endPage.setVisibility(View.VISIBLE);
+
         bReload.setOnClickListener(this);
         bNext.setOnClickListener(this);
     }
 
     @Override
-    protected List<Word> buildWords(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
-        return trainingWordBuilder.build(20, TrainingWordMethod.UNTRAINING_WORDS, TrainingType.TRANS_WORD);
+    protected List<Word> buildWords(Random random,
+                                    Date sessionDate,
+                                    int currentPage,
+                                    WordDAO wordDAO,
+                                    WordStatisticDAO wordStatisticDAO) {
+        return trainingWordBuilder.build(wordCount, currentPage, sessionDate, wordOrder,
+                getTrainingType());
     }
 
     private Flip3dAnimation getFlipAnimation(float fD, float tD, Animation.AnimationListener onEnd) {
@@ -220,7 +229,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
                     float deltaX = fcX2 - fcX1;
                     boolean isR2L = deltaX < 0;
                     boolean isSwipe = Math.abs(deltaX) > fcSWIPE_MIN;
-                    if (isSwipe)
+                    if (!isSwipe)
                     {
                         Animation animation = flip3dAnimationLtR;
                         if (isR2L)
@@ -228,6 +237,10 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
                         card.startAnimation(animation);
                         return true;
                     }
+                    else if (isR2L)
+                        nextQuestion(null);
+                    else
+                        prevQuestion(null);
                     break;
             }
         }
@@ -238,9 +251,9 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     @Override
     public void onClick(View v) {
         if (v == bReload) {
+            setCurrentPage(currentPage - 1);
             onStart();
         } else if (v == bNext) {
-            sessionWords = buildWords(random, wordDAO, wordStatisticDAO);
             onStart();
         }
     }

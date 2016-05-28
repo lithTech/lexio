@@ -85,6 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/training.DontKnowButton"
+            android:textAllCaps="true"
             android:id="@+id/bWordTransDontKnow"
             android:layout_marginLeft="15dp"
             android:textStyle="bold"

@@ -52,4 +52,13 @@
     <string name="Training_TransVoice_CorrectAnswerPrefix">Правильный ответ:</string>
     <string name="train.Cards">Карточки</string>
     <string name="Training.Cards.EndPageLabel">Вы только что прошли %d карточек. Вы можете заново их пройти, либо пройти следующие в наборе</string>
+    <string name="training.Order.New">Новые</string>
+    <string name="training.Order.Hard">Ошибочные</string>
+    <string name="training.Order.Old">Старые</string>
+    <string name="training.Start">Запуск тренировки</string>
+    <string name="training.Start.WordCount">Количество слов:</string>
+    <string name="training.Start.WordOrder">Порядок подбора:</string>
+    <string name="training.Start.Title">Настройте Вашу тренировку</string>
+    <string name="training_order_None"> - </string>
+    <string name="training.Word.Empty">Закончились слова для тренировки. Выберите другую тренировку или выберите другой порядок подбора слов</string>
 </resources>
