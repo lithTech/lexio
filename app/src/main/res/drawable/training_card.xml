@@ -130,8 +130,8 @@
             <gradient
                 android:angle="135"
                 android:centerColor="@color/card_center"
-                android:startColor="@color/card_end"
-                android:endColor="@color/card_start"
+                android:startColor="@color/card_start"
+                android:endColor="@color/card_end"
                 android:type="linear">
             </gradient>
 

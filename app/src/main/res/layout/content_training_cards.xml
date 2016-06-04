@@ -44,7 +44,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
                 android:textSize="30dp"
-                android:textColor="@color/textColor"
+                android:textColor="#eeeeee"
                 />
         </LinearLayout>
 

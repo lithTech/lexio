@@ -273,7 +273,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         progressBar = (ProgressBar) view.findViewById(R.id.trainingProgress);
 
         wordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
-        wordOrder = TrainingWordOrder.values()[1+getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER)];
+        wordOrder = TrainingWordOrder.values()[getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER)];
 
         return view;
     }
