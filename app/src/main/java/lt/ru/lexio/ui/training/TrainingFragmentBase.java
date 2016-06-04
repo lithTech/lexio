@@ -44,7 +44,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     protected Date sessionDate = new Date();
 
     protected int wordCount;
-    protected TrainingWordOrder[] wordOrder;
+    protected TrainingWordOrder wordOrder;
 
     Word currentWord = null;
     long currentSessionId = 0;
@@ -273,10 +273,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         progressBar = (ProgressBar) view.findViewById(R.id.trainingProgress);
 
         wordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
-        wordOrder = new TrainingWordOrder[3];
-        wordOrder[0] = TrainingWordOrder.values()[1+getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER1)];
-        wordOrder[1] = TrainingWordOrder.values()[getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER2)];
-        wordOrder[2] = TrainingWordOrder.values()[getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER3)];
+        wordOrder = TrainingWordOrder.values()[1+getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER)];
 
         return view;
     }

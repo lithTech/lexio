@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    android:layout_height="match_parent">
+
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingBottom="5dp"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:text="@string/training.Start.Title"-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_gravity="center_horizontal" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/training.Start.WordCount"
+            android:paddingLeft="50dp"
+            android:paddingRight="15dp"
+            android:id="@+id/textView2"
+            android:layout_weight="0.3"
+            android:layout_gravity="center_vertical" />
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:id="@+id/npCount"
+            android:layout_weight="1"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:layout_marginRight="50dp"
+            android:orientation="vertical"
+            android:transitionGroup="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/training.Start.WordOrder"
+            android:paddingLeft="50dp"
+            android:paddingRight="15dp"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"
+                android:id="@+id/npWordOrder1"
+                android:layout_gravity="center_horizontal"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="bottom">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/bTrainingStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_menu_start" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -33,7 +33,7 @@ public class TrainingWordBuilder {
     public List<Word> build(int wordCount,
                             int page,
                             Date toDate,
-                            TrainingWordOrder[] wordOrder,
+                            TrainingWordOrder wordOrder,
                             TrainingType trainingType) {
         List<Word> words = new ArrayList<>(wordCount);
         build(wordCount, page, toDate, trainingType, wordOrder, words);
@@ -67,42 +67,34 @@ public class TrainingWordBuilder {
                        int page,
                        Date toDate,
                        TrainingType trainingType,
-                       TrainingWordOrder[] orders,
+                       TrainingWordOrder order,
                        List<Word> words) {
-        Set<TrainingWordOrder> uqOrders = new HashSet<>(Arrays.asList(orders));
-        int parts = 0;
-        for (TrainingWordOrder order : uqOrders)
-            if (order != TrainingWordOrder.NONE) parts++;
+        List<String> arg = new ArrayList<>();
+        StringBuilder sql = generateSql(trainingType, toDate);
+        if (trainingType != null)
+            arg.add(String.valueOf(trainingType.ordinal()));
+        arg.add(String.valueOf(dictId));
+        if (toDate != null)
+            arg.add(String.valueOf(toDate.getTime()));
+        int limit = count;
+        int offset = limit * (page - 1);
+        sql.append(" order by ")
+                .append(order.getSqlOrder())
+                .append(" limit ").append(limit)
+                .append(" offset ").append(offset);
 
-        for (TrainingWordOrder order : uqOrders) {
-            if (order == TrainingWordOrder.NONE) continue;
-            List<String> arg = new ArrayList<>();
-            StringBuilder sql = generateSql(trainingType, toDate);
-            if (trainingType != null)
-                arg.add(String.valueOf(trainingType.ordinal()));
-            arg.add(String.valueOf(dictId));
-            if (toDate != null)
-                arg.add(String.valueOf(toDate.getTime()));
-            int limit = count / parts;
-            int offset = limit * (page - 1);
-            sql.append(" order by ")
-                    .append(order.getSqlOrder())
-                    .append(" limit ").append(limit)
-                    .append(" offset ").append(offset);
-
-            try {
-                Cursor cur = wordDAO.execComplexSql(sql.toString(), arg.toArray(new String[0]));
-                SqlHelper.dumpCursor(cur);
-                cur = wordDAO.execComplexSql(sql.toString(), arg.toArray(new String[0]));
-                int c = 0;
-                while (cur.moveToNext() && (c++) <= count) {
-                    Word word = wordDAO.readRow(cur);
-                    words.add(word);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw e;
+        try {
+            Cursor cur = wordDAO.execComplexSql(sql.toString(), arg.toArray(new String[0]));
+            SqlHelper.dumpCursor(cur);
+            cur = wordDAO.execComplexSql(sql.toString(), arg.toArray(new String[0]));
+            int c = 0;
+            while (cur.moveToNext() && (c++) <= count) {
+                Word word = wordDAO.readRow(cur);
+                words.add(word);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 
