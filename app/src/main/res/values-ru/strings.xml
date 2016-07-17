@@ -34,7 +34,7 @@
     <string name="word.EnterWordHint">Введите слово</string>
     <string name="word_get_translation">Перевести</string>
     <string name="word.EnterTranslationHint">Введите перевод</string>
-    <string name="word.EnterContextHint">Введите текст, где встерчается это слово</string>
+    <string name="word.EnterContextHint">Где встречается это слово</string>
     <string name="words_Deletion">Удаление слов</string>
     <string name="words_Delete_Alert">Вы действительно желаете удалить выделенные слова?</string>
     <string name="common.Search">Поиск</string>
@@ -61,4 +61,18 @@
     <string name="training.Start.Title">Настройте Вашу тренировку</string>
     <string name="training_order_None"> - </string>
     <string name="training.Word.Empty">Закончились слова для тренировки. Выберите другую тренировку или выберите другой порядок подбора слов</string>
+    <string name="pref_word_order">pref_word_order</string>
+    <string name="pref_word_count">pref_word_count</string>
+    <string name="settings.Clear.Stat">Очистить всю статистику по словам?</string>
+    <string name="settings.ClearAlert.Header">Удаление статистики</string>
+    <string name="settings.ClearAlert.Message">Вы действительно хотите удалить всю статистику по словам (очистится вся ваша история по ошибочным словам, по новым и т.д.)?</string>
+    <string name="dialog_Clear">Очистить</string>
+    <string name="training.Start.AnswerTimer">Время на одно \nслово (в секундах)</string>
+    <string-array name="training_Start_AnswerTimerOptions">
+        <item>Неограничено</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+    </string-array>
 </resources>

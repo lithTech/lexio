@@ -61,6 +61,11 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     }
 
     @Override
+    protected void onQuestionTimeExpire() {
+        checkResult("", false, true);
+    }
+
+    @Override
     protected void startTraining() {
 
     }
@@ -74,6 +79,8 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         tvAnswer.setBackground(defaultAnswerBg);
         tvCorrectAnswer.setText("");
         tvCorrectAnswer.setBackground(defaultAnswerBg);
+
+        promptSpeechInput();
     }
 
     @Override

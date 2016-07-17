@@ -41,7 +41,7 @@
     <string name="words_Delete_Alert">Would you like to delete selected words?</string>
     <string name="common.Search">Search</string>
     <string name="settings.ClearStatistics">Clear</string>
-    <string name="training.DontKnowButton">НЕ ЗНАЮ</string>
+    <string name="training.DontKnowButton">I DO NOT KNOW</string>
     <string name="chart.HardWords.IncorrectLabel">Incorrect answers</string>
     <string name="chart.HardWords.CorrectLabel">Correct answers</string>
     <string name="Word.WordAddedMessage"> added to dictionary</string>
@@ -62,4 +62,18 @@
     <string name="training.Start.Title">Setup your training</string>
     <string name="training_order_None">-</string>
     <string name="training.Word.Empty">There are no words to train. Choose another training or choose another order options</string>
+    <string name="pref_word_order">pref_word_order</string>
+    <string name="pref_word_count">pref_word_count</string>
+    <string name="settings.Clear.Stat">Clear the statistics?</string>
+    <string name="settings.ClearAlert.Header">Statistics clear</string>
+    <string name="settings.ClearAlert.Message">Are you sure you would like to delete all word statistics? (This will erase you wrong word statistic, new/old word. etc)</string>
+    <string name="dialog_Clear">Clear</string>
+    <string name="training.Start.AnswerTimer">Limit time for \none question (in seconds)</string>
+    <string-array name="training_Start_AnswerTimerOptions">
+        <item>No limit</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+    </string-array>
 </resources>

@@ -38,6 +38,7 @@
                     android:icon="@drawable/ic_menu_training"/>
                 <item android:id="@+id/training_word_audio"
                     android:title="@string/train.WordAudio"
+                    android:visible="false"
                     android:icon="@drawable/ic_menu_training"/>
                 <item android:id="@+id/training_trans_write"
                     android:title="@string/train.TransWrite"
@@ -53,6 +54,7 @@
                     android:icon="@drawable/ic_menu_statistics" />
                 <item android:id="@+id/stat_train_words_by_day"
                     android:title="@string/train.WordsByDay"
+                    android:visible="false"
                     android:icon="@drawable/ic_menu_statistics" />
             </menu>
         </item>

@@ -30,8 +30,12 @@ public class SettingsFragment extends ContentFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bSettingsClearStatistics) {
-            if (DialogHelper.confirm(getActivity(), "Statistics clear", "Are you sure?!?", "Cancel",
-                    "Sure", new Runnable() {
+            if (DialogHelper.confirm(getActivity(),
+                    mainActivity.getString(R.string.settings_ClearAlert_Header),
+                    mainActivity.getString(R.string.settings_ClearAlert_Message),
+                    mainActivity.getString(R.string.dialog_Cancel),
+                    mainActivity.getString(R.string.dialog_Clear),
+                    new Runnable() {
                         @Override
                         public void run() {
                             wordStatisticDAO.clear();

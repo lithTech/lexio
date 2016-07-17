@@ -75,6 +75,11 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     }
 
     @Override
+    protected void onQuestionTimeExpire() {
+        nextQuestion(false);
+    }
+
+    @Override
     protected void startTraining() {
 
     }

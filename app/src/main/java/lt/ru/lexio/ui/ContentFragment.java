@@ -28,6 +28,7 @@ public class ContentFragment extends Fragment {
     public static final String ARG_TRAINING_TO_RUN_TITLE = "trainingToRunTitle";
     public static final String ARG_TRAINING_TO_RUN = "trainingToRun";
     public static final String ARG_TRAINING_WORD_ORDER = "trainingWordOrder";
+    public static final String ARG_TRAINING_ANSWER_TIMER = "trainingAnswerTimer";
     public static final String ARG_TRAINING_WORD_COUNT = "trainingWordCount";
 
     protected MainActivity mainActivity;

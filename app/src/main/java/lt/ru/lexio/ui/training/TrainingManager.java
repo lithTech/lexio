@@ -1,14 +1,13 @@
 package lt.ru.lexio.ui.training;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
-
-import java.util.Arrays;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.ui.ContentFragment;
@@ -23,6 +22,8 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
     private TrainingWordOrder[] wordOrders;
     NumberPicker nbTrainingWordCount;
     NumberPicker nbTrainingWordOrder1;
+    NumberPicker nbTrainingAnswerTimer;
+    String[] answerTimerOptions;
 
     @Nullable
     @Override
@@ -53,6 +54,14 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         nbTrainingWordOrder1.setWrapSelectorWheel(true);
         nbTrainingWordCount.setWrapSelectorWheel(true);
 
+        nbTrainingAnswerTimer = (NumberPicker) view.findViewById(R.id.npAnswerTimer);
+        answerTimerOptions = getResources().getStringArray(R.array.training_Start_AnswerTimerOptions);
+        nbTrainingAnswerTimer.setMinValue(0);
+        nbTrainingAnswerTimer.setMaxValue(answerTimerOptions.length - 1);
+        nbTrainingAnswerTimer.setDisplayedValues(answerTimerOptions);
+        nbTrainingAnswerTimer.setWrapSelectorWheel(true);
+        nbTrainingWordOrder1.setValue(0);
+
         FloatingActionButton bStart = (FloatingActionButton) view.findViewById(R.id.bTrainingStart);
         bStart.setOnClickListener(this);
 
@@ -69,6 +78,10 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, loadTrainingId);
         args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT, count);
         args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER, wordOrder1.ordinal());
+
+        String timerOption = answerTimerOptions[nbTrainingAnswerTimer.getValue()];
+        if (nbTrainingAnswerTimer.getValue() == 0) timerOption = "0";
+        args.putInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER, Integer.valueOf(timerOption));
         ContentFragment trainingContent;
 
         switch (loadTrainingId) {

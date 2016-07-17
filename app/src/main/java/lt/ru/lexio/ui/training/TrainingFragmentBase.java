@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import lt.ru.lexio.R;
@@ -33,6 +35,35 @@ import lt.ru.lexio.ui.MainActivity;
  */
 public abstract class TrainingFragmentBase extends ContentFragment {
 
+    protected class QuestionExpireTimer extends CountDownTimer {
+
+        boolean isNextQuestion;
+        TrainingFragmentBase training = null;
+
+        public QuestionExpireTimer(long millisInFuture, TrainingFragmentBase training) {
+            super(millisInFuture, 1000);
+            if (millisInFuture > 0)         //use training == null flag to obtain, is there a timer at all
+                this.training = training;
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            training.onQuestionTimeExpire();
+        }
+
+        public void run() {
+            if (training != null) {                 //timer is not set by user, so do not do anything
+                start();
+            }
+        }
+    }
+
+    protected QuestionExpireTimer onQuestionExpireTimer;
     private Word wordDummy = new Word();
     protected WordStatisticDAO wordStatisticDAO = null;
     protected WordDAO wordDAO = null;
@@ -59,6 +90,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     Animation aniPrevCloseLastQuestion;
     Animation aniPrevStartNewQuestion;
+    private int answerTime;
 
 
     protected abstract int getTrainingPageContainerId();
@@ -78,6 +110,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         }
         return dictionary;
     }
+
+    protected abstract void onQuestionTimeExpire();
 
     protected abstract void startTraining();
 
@@ -228,6 +262,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         wordDAO = new WordDAO(view.getContext());
         trainingWordBuilder = new TrainingWordBuilder(wordDAO, 0);
 
+        //we are using 2 animations: the first for the old question gone, the second is for the new question arrive
         aniNextCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.anim_word_translation_nextcloseold);
         aniNextCloseLastQuestion.setAnimationListener(new Animation.AnimationListener() {
@@ -248,6 +283,22 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         });
         aniNextStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.anim_word_translation_nextopennew);
+        aniNextStartNewQuestion.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                onQuestionExpireTimer.run();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         aniPrevCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.anim_word_translation_prevcloseold);
@@ -269,11 +320,30 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         });
         aniPrevStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
                 R.anim.anim_word_translation_prevopennew);
+        aniPrevStartNewQuestion.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                onQuestionExpireTimer.run();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         progressBar = (ProgressBar) view.findViewById(R.id.trainingProgress);
 
         wordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
         wordOrder = TrainingWordOrder.values()[getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER)];
+        answerTime = getArguments().getInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER);
+
+        onQuestionExpireTimer = new QuestionExpireTimer(answerTime * 1000, this);
 
         return view;
     }

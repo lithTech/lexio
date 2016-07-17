@@ -42,6 +42,11 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
     }
 
     @Override
+    protected void onQuestionTimeExpire() {
+        onAnswer(false, (Button) getView().findViewById(getDontKnowButtonAnswerId()));
+    }
+
+    @Override
     protected int[] getButtonAnswersId() {
         return new int[]{
                 R.id.bWordTransAnswer1,

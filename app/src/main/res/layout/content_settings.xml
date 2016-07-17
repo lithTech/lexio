@@ -5,23 +5,25 @@
     android:paddingTop="?attr/actionBarSize"
     android:layout_height="match_parent"
     android:nestedScrollingEnabled="true"
-    android:columnCount="3"
+    android:columnCount="5"
     android:rowCount="5">
 
     <TextView
+        android:layout_marginLeft="15dp"
         android:layout_width="wrap_content"
-        android:text="Clear the statistics?"
+        android:text="@string/settings.Clear.Stat"
         android:layout_height="wrap_content"
         android:layout_row="1"
         android:layout_column="0" />
 
     <Button
+        android:layout_marginRight="15dp"
         android:id="@+id/bSettingsClearStatistics"
         android:text="@string/settings.ClearStatistics"
         android:layout_width="wrap_content"
         android:onClick="clearStatistics"
         android:layout_height="wrap_content"
         android:layout_row="1"
-        android:layout_column="2" />
+        android:layout_column="4" />
 
 </GridLayout>
