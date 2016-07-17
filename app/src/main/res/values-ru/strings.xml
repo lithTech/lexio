@@ -68,6 +68,7 @@
     <string name="settings.ClearAlert.Message">Вы действительно хотите удалить всю статистику по словам (очистится вся ваша история по ошибочным словам, по новым и т.д.)?</string>
     <string name="dialog_Clear">Очистить</string>
     <string name="training.Start.AnswerTimer">Время на одно \nслово (в секундах)</string>
+    <string name="Training.EnterWord.EnterWordHint">Введите перевод</string>
     <string-array name="training_Start_AnswerTimerOptions">
         <item>Неограничено</item>
         <item>5</item>

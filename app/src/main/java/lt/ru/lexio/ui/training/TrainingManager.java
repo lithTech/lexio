@@ -97,6 +97,9 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
             case R.layout.content_training_word_trans:
                 trainingContent = new WordTranslationTrainingFragment();
                 break;
+            case R.layout.content_training_enter_word:
+                trainingContent = new TrainingEnterWordByTransFragment();
+                break;
             default:
                 return;
         }

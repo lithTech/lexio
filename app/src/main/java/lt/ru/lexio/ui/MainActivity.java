@@ -26,6 +26,7 @@ import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.charts.HardWordsFragment;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
 import lt.ru.lexio.ui.training.TrainingCards;
+import lt.ru.lexio.ui.training.TrainingEnterWordByTransFragment;
 import lt.ru.lexio.ui.training.TrainingManager;
 import lt.ru.lexio.ui.training.TrainingTranslationVoice;
 import lt.ru.lexio.ui.training.TranslationWordTrainingFragment;
@@ -175,8 +176,13 @@ public class MainActivity extends AppCompatActivity
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_WordTrans);
             title = getResources().getString(R.string.training_Start);
             fragment = new TrainingManager();
-        }
-        else if (id == R.id.dict_dictionary) {
+        } else if (id == R.id.training_trans_write) {
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_enter_word);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_TransWrite);
+            title = getResources().getString(R.string.training_Start);
+            fragment = new TrainingManager();
+        } else if (id == R.id.dict_dictionary) {
             title = getResources().getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();
