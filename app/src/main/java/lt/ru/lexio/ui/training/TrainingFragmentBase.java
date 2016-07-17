@@ -37,8 +37,15 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     protected class QuestionExpireTimer extends CountDownTimer {
 
-        boolean isNextQuestion;
         TrainingFragmentBase training = null;
+
+        public TrainingFragmentBase getTraining() {
+            return training;
+        }
+
+        public void setTraining(TrainingFragmentBase training) {
+            this.training = training;
+        }
 
         public QuestionExpireTimer(long millisInFuture, TrainingFragmentBase training) {
             super(millisInFuture, 1000);
@@ -53,7 +60,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         @Override
         public void onFinish() {
-            training.onQuestionTimeExpire();
+            if (training != null)
+                training.onQuestionTimeExpire();
         }
 
         public void run() {
@@ -346,6 +354,18 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         onQuestionExpireTimer = new QuestionExpireTimer(answerTime * 1000, this);
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        onQuestionExpireTimer.setTraining(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onQuestionExpireTimer.setTraining(this);
     }
 
     public int getCurrentPage() {
