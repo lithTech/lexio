@@ -41,7 +41,10 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="You said: CAT"
             android:gravity="center"
-            android:padding="18dp"
+            android:padding="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:id="@+id/tvTrainingTransVoiceAnswer"
             android:layout_below="@+id/edTrainingTransVoiceWord"
             android:layout_centerHorizontal="true" />
@@ -52,6 +55,8 @@
             android:text="Correct answer: CAT"
             android:gravity="center"
             android:padding="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:id="@+id/tvTrainingTransVoiceCorrectAnswer"
             android:layout_below="@+id/tvTrainingTransVoiceAnswer"
             android:layout_centerHorizontal="true" />

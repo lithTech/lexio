@@ -92,7 +92,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     public void flipCard() {
 
-        if (tvWord.getTag() == true) {
+        if ((boolean)tvWord.getTag() == true) {
             tvWord.setText(currentWord.getTranslation());
         }
         else

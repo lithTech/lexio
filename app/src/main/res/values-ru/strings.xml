@@ -76,4 +76,5 @@
         <item>15</item>
         <item>30</item>
     </string-array>
+    <string name="training.Answer">Ответить</string>
 </resources>

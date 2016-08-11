@@ -43,12 +43,25 @@
             android:layout_height="wrap_content"
             android:hint="@string/Training.EnterWord.EnterWordHint"
             android:id="@+id/edInputWord"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/tvCorrectAnswer"
+            android:text="TEST STRing"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="8dp"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/training.DontKnowButton"
+            android:text="@string/training.Answer"
             android:id="@+id/bTransDontKnow"
             android:textStyle="bold"
             android:textAllCaps="true"

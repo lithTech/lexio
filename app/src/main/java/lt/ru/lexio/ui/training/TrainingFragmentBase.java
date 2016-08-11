@@ -309,6 +309,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
             @Override
             public void onAnimationEnd(Animation animation) {
                 onQuestionExpireTimer.run();
+                onQuestionShow();
             }
 
             @Override
@@ -363,6 +364,10 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         onQuestionExpireTimer = new QuestionExpireTimer(answerTime * 1000, this);
 
         return view;
+    }
+
+    protected void onQuestionShow() {
+
     }
 
     @Override

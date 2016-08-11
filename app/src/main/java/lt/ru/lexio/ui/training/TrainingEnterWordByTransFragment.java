@@ -34,4 +34,14 @@ public class TrainingEnterWordByTransFragment extends TrainingEnterTextFragment 
     protected int getInputTextId() {
         return R.id.edInputWord;
     }
+
+    @Override
+    protected int getCorrectAnswerHolderId() {
+        return R.id.tvCorrectAnswer;
+    }
+
+    @Override
+    protected String getCorrectAnswer() {
+        return currentWord.getTitle();
+    }
 }
