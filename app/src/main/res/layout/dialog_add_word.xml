@@ -20,6 +20,7 @@
         android:textColorHint="@color/colorMandatory"
         android:layout_height="wrap_content"
         android:inputType="textCapWords"
+        android:imeOptions="actionDone"
         android:hint="@string/word.EnterTranslationHint"
         android:padding="15dp" />
     <Button

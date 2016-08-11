@@ -9,15 +9,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -138,6 +141,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setView(promptView);
+        EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
 
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
@@ -163,8 +167,20 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                                 dialog.cancel();
                             }
                         });
-        AlertDialog alert = alertDialogBuilder.create();
+        final AlertDialog alert = alertDialogBuilder.create();
         alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        edTranslation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    alert.getButton(DialogInterface.BUTTON_POSITIVE).callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         alert.show();
     }
 

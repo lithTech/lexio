@@ -7,15 +7,20 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.Set;
 
@@ -126,7 +131,9 @@ public class DictionariesFragment extends ContentFragment {
     private void createDictionary() {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_dictionary, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        EditText edTitle = (EditText) promptView.findViewById(R.id.edDictionaryTitle);
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptView);
 
         // setup a dialog window
@@ -148,8 +155,19 @@ public class DictionariesFragment extends ContentFragment {
                         });
 
         // create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
+        final AlertDialog alert = alertDialogBuilder.create();
         alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        edTitle.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    alert.getButton(DialogInterface.BUTTON_POSITIVE).callOnClick();
+                    return true;
+                }
+                return false;
+            }
+        });
         alert.show();
     }
 
