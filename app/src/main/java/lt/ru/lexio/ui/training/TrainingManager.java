@@ -1,5 +1,7 @@
 package lt.ru.lexio.ui.training;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
@@ -25,16 +27,22 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
     NumberPicker nbTrainingAnswerTimer;
     String[] answerTimerOptions;
 
+    private static String START_TRAINING_SETTINGS = "trainingSettings";
+    private SharedPreferences pref;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        loadTrainingId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
+
+        pref = getActivity().getSharedPreferences(START_TRAINING_SETTINGS, Context.MODE_PRIVATE);
+
         nbTrainingWordCount = (NumberPicker) view.findViewById(R.id.npCount);
         nbTrainingWordCount.setMinValue(getResources().getInteger(R.integer.training_min_words));
         nbTrainingWordCount.setMaxValue(getResources().getInteger(R.integer.training_max_words));
 
-        loadTrainingId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
         titleId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE);
 
         nbTrainingWordOrder1 = (NumberPicker) view.findViewById(R.id.npWordOrder1);
@@ -48,8 +56,10 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
 
         nbTrainingWordOrder1.setDisplayedValues(orders);
 
-        nbTrainingWordOrder1.setValue(0);
-        nbTrainingWordCount.setValue(5);
+        int wOrder = pref.getInt(loadTrainingId + ".nbTrainingWordOrder1", 0);
+        nbTrainingWordOrder1.setValue(wOrder);
+        int wCnt = pref.getInt(loadTrainingId + ".nbTrainingWordCount", 5);
+        nbTrainingWordCount.setValue(wCnt);
 
         nbTrainingWordOrder1.setWrapSelectorWheel(true);
         nbTrainingWordCount.setWrapSelectorWheel(true);
@@ -60,7 +70,9 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         nbTrainingAnswerTimer.setMaxValue(answerTimerOptions.length - 1);
         nbTrainingAnswerTimer.setDisplayedValues(answerTimerOptions);
         nbTrainingAnswerTimer.setWrapSelectorWheel(true);
-        nbTrainingWordOrder1.setValue(0);
+
+        int aTime = pref.getInt(loadTrainingId + ".nbTrainingAnswerTimer", 0);
+        nbTrainingAnswerTimer.setValue(aTime);
 
         FloatingActionButton bStart = (FloatingActionButton) view.findViewById(R.id.bTrainingStart);
         bStart.setOnClickListener(this);
@@ -103,6 +115,12 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
             default:
                 return;
         }
+
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(loadTrainingId + ".nbTrainingAnswerTimer", Integer.valueOf(timerOption));
+        editor.putInt(loadTrainingId + ".nbTrainingWordCount", count);
+        editor.putInt(loadTrainingId + ".nbTrainingWordOrder1", wordOrder1.ordinal());
+        editor.apply();
 
         mainActivity.changeFragment(trainingContent, args, title);
     }
