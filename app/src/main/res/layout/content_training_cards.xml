@@ -28,15 +28,17 @@
         <LinearLayout
             android:id="@+id/cTrainingCard"
             android:layout_width="@dimen/card.Width"
-            android:layout_centerInParent="true"
             android:layout_height="@dimen/card.Height"
+            android:orientation="vertical"
             android:background="@drawable/training_card"
-            >
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
             <lt.ru.lexio.ui.widget.AutoResizeTextView
                 android:id="@+id/tvWord"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
                 android:text="Infidelity"
                 android:gravity="center"
                 android:maxLines="1"
@@ -45,6 +47,20 @@
                 android:paddingRight="15dp"
                 android:textSize="30dp"
                 android:textColor="#eeeeee"
+                />
+            <lt.ru.lexio.ui.widget.AutoResizeTextView
+                android:id="@+id/tvTranscription"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:text="[infidelity]"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="none"
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:textSize="25dp"
+                android:textColor="#eeeeaa"
                 />
         </LinearLayout>
 

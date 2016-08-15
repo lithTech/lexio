@@ -46,6 +46,7 @@ public class TrainingWordBuilder {
                 .append("select w._id as _id,")
                 .append("w.title as TITLE,")
                 .append("w.translation as TRANSLATION,")
+                .append("w.transcription as TRANSCRIPTION,")
                 .append("w.context as CONTEXT,")
                 .append("sum(case when IFNULL(ws.training_res,1) = 0 then 1 else 0 end) as I_CNT,")
                 .append("sum(case when IFNULL(ws.training_res,0) = 1 then 1 else 0 end) as R_CNT,")

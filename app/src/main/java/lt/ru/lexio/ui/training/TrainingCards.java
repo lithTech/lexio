@@ -44,6 +44,7 @@ import lt.ru.lexio.ui.Flip3dAnimation;
 public class TrainingCards extends TrainingFragmentBase implements View.OnTouchListener, View.OnClickListener {
 
     TextView tvWord;
+    TextView tvTranscription;
     View content;
     LinearLayout card;
 
@@ -88,6 +89,10 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     protected void onNextQuestion() {
         tvWord.setText(currentWord.getTitle());
         tvWord.setTag(true);
+
+        tvTranscription.setText("");
+        if (currentWord.getTranscription() != null && !currentWord.getTranscription().isEmpty())
+            tvTranscription.setText("[" + currentWord.getTranscription() + "]");
     }
 
     public void flipCard() {
@@ -150,6 +155,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
         card = (LinearLayout) view.findViewById(R.id.cTrainingCard);
         card.setOnTouchListener(this);
         tvWord = (TextView) card.findViewById(R.id.tvWord);
+        tvTranscription = (TextView) card.findViewById(R.id.tvTranscription);
 
         content = view.findViewById(R.id.layout_trans_cards_container);
         content.setOnTouchListener(this);
