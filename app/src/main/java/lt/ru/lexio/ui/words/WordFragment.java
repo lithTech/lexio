@@ -31,6 +31,7 @@ import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
+import lt.ru.lexio.fetcher.IPAEngFetcher;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.MainActivity;
@@ -153,6 +154,10 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                         saveWordObject(context, edWord.getText().toString(),
                                 edTranslation.getText().toString(),
                                 edContext.getText().toString(), dictionary);
+
+                        IPAEngFetcher ipaEngFetcher = new IPAEngFetcher(wordDAO);
+                        ipaEngFetcher.execute(wordDAO.getWordsWithoutIPA(dictionary.id));
+
                         if (needRefresh)
                             refreshList();
 

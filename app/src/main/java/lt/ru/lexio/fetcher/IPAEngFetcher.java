@@ -37,6 +37,8 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
 
     private WordDAO wordDAO;
 
+    private boolean succ = false;
+
     public IPAEngFetcher(WordDAO wordDAO) {
         this.wordDAO = wordDAO;
     }
@@ -59,6 +61,7 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
                     Element word = words.get(i);
                     result.get(i).setTranscription(word.text());
                 }
+                succ = true;
             }
         }
 
@@ -109,7 +112,7 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
             }
 
         } catch (Exception e) {
-            return e.getMessage();
+            return "";
         }
         return response;
     }
@@ -117,7 +120,8 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
     @Override
     protected void onPostExecute(List<Word> words) {
 
-        wordDAO.update(words);
+        if (succ)
+            wordDAO.update(words);
 
     }
 
