@@ -6,7 +6,11 @@ import android.database.SQLException;
 
 import org.droidparts.persist.sql.EntityManager;
 import org.droidparts.persist.sql.stmt.Is;
+import org.droidparts.persist.sql.stmt.Select;
 import org.droidparts.persist.sql.stmt.Where;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lithTech on 15.03.2016.
@@ -63,6 +67,14 @@ public class WordDAO extends EntityManager<Word> {
     public Cursor getAll(long dictId) {
         return select().where(Db.Word.DICTIONARY_ID, Is.EQUAL, dictId).orderBy(Db.Common.TITLE, true)
                 .execute();
+    }
+
+    public List<Word> getWordsWithoutIPA(long dictId) {
+        Where where = new Where(Db.Word.DICTIONARY_ID, Is.EQUAL, dictId);
+        where.and(Db.Word.TRANSCRIPTION, Is.NULL);
+        Select<Word> select = select().where(where);
+
+        return readAll(select);
     }
 
     public Cursor getAllFiltered(long dictId, String titleFilter) {

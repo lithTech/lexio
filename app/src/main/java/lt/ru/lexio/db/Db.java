@@ -4,7 +4,7 @@ package lt.ru.lexio.db;
  * Created by lithTech on 15.03.2016.
  */
 public interface Db {
-    public static final int VER = 6;
+    public static final int VER = 7;
 
     public static interface Common {
         public static final String TITLE = "TITLE";
@@ -26,6 +26,7 @@ public interface Db {
         public static final String TRANSLATION = "TRANSLATION";
         public static final String DICTIONARY_ID = "DICT_ID";
         public static final String CONTEXT = "CONTEXT";
+        public static final String TRANSCRIPTION = "TRANSCRIPTION";
     }
 
     public static interface WordStatistic{

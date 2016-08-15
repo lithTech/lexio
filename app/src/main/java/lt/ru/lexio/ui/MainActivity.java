@@ -19,18 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
+import lt.ru.lexio.db.Word;
+import lt.ru.lexio.db.WordDAO;
+import lt.ru.lexio.fetcher.IPAEngFetcher;
 import lt.ru.lexio.ui.charts.HardWordsFragment;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
-import lt.ru.lexio.ui.training.TrainingCards;
-import lt.ru.lexio.ui.training.TrainingEnterWordByTransFragment;
 import lt.ru.lexio.ui.training.TrainingManager;
-import lt.ru.lexio.ui.training.TrainingTranslationVoice;
-import lt.ru.lexio.ui.training.TranslationWordTrainingFragment;
-import lt.ru.lexio.ui.training.WordTranslationTrainingFragment;
 import lt.ru.lexio.ui.words.WordFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -53,6 +54,18 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void updateDictionaryWordsIPA() {
+        //sorry, only for english
+        if (!"en-US".equalsIgnoreCase(currentDictionary.getLanguageTag()))
+            return;
+        WordDAO wordDAO = new WordDAO(this);
+        List<Word> wordsWithoutIPA = wordDAO.getWordsWithoutIPA(currentDictionary.id);
+        if (wordsWithoutIPA.isEmpty()) return;
+
+        IPAEngFetcher ipaFetcher = new IPAEngFetcher(wordDAO);
+        ipaFetcher.execute(wordsWithoutIPA);
+    }
+
     private void initUI(Menu navMenu) {
         this.navMenu = navMenu;
         selectContent(R.id.dict_dictionaries);
@@ -62,6 +75,9 @@ public class MainActivity extends AppCompatActivity
         Cursor cursor = dictionaryDAO.getActive().execute();
         if (cursor.moveToNext()) {
             setCurrentDictionary(dictionaryDAO.read(cursor.getLong(cursor.getColumnIndex(Db.Common.ID))));
+
+            //request an transcription update
+            updateDictionaryWordsIPA();
         }
     }
 

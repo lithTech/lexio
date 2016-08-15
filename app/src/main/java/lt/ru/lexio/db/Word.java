@@ -18,6 +18,9 @@ public class Word extends Entity {
     @Column(name = Db.Common.TITLE, nullable = false, unique = true)
     String title;
 
+    @Column(name = Db.Word.TRANSCRIPTION, nullable = true, unique = false)
+    String transcription;
+
     @Column(name = Db.Word.TRANSLATION, nullable = false)
     String translation;
 
@@ -73,6 +76,14 @@ public class Word extends Entity {
         }
 
         this.title = title;
+    }
+
+    public String getTranscription() {
+        return transcription;
+    }
+
+    public void setTranscription(String transcription) {
+        this.transcription = transcription;
     }
 
     public String getTranslation() {
