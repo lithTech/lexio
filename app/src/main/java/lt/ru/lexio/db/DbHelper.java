@@ -35,8 +35,8 @@ public class DbHelper extends AbstractDBOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion == 6 && newVersion == 7)
-            addMissingColumns(db, Word.class);
+        if (oldVersion == 7)
+            db.execSQL("update " + Db.Word.TABLE + " set " + Db.Word.TRANSCRIPTION + " = null");
     }
 
 }

@@ -18,8 +18,11 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -31,7 +34,7 @@ import lt.ru.lexio.db.WordDAO;
  * Created by lithTech on 15.08.2016.
  */
 
-public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
+public class IPAEngFetcher extends AsyncTask<List<Word>, String, Collection<Word>> {
 
     private String _URL = "http://lingorado.com/ipa/";
 
@@ -44,28 +47,35 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
     }
 
     @Override
-    protected List<Word> doInBackground(List<Word>... params) {
+    protected Collection<Word> doInBackground(List<Word>... params) {
         if (params[0].isEmpty()) return new ArrayList<>(0);
 
         String data = fetchFromInternet(params[0]);
-        List<Word> result = new ArrayList<>(params[0]);
 
         if (data != null && !data.isEmpty()) {
+            Map<String, Word> wordMap = new HashMap<>(params[0].size());
+            for (Word word : params[0]) {
+                wordMap.put(word.getTitle(), word);
+            }
+
             Document doc = Jsoup.parse(data);
-            Elements el = doc.select("#transcr_output");
+            Elements el = doc.select("#transcr_parallel_output");
             if (!el.isEmpty()) {
-                Elements words = el.select(".transcribed_word");
-                if (words.size() != result.size())
-                    return new ArrayList<>(0);
+                Elements words = el.select("tr");
+
                 for(int i = 0; i < words.size(); i++) {
                     Element word = words.get(i);
-                    result.get(i).setTranscription(word.text());
+                    String title = word.select("td.orig").text();
+                    String transcription = word.select("span.transcribed_word").text();
+                    if (wordMap.containsKey(title))
+                        wordMap.get(title).setTranscription(transcription);
                 }
                 succ = true;
+                return wordMap.values();
             }
         }
 
-        return result;
+        return new ArrayList<>(0);
     }
 
     private String fetchFromInternet(List<Word> words) {
@@ -83,11 +93,11 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
             writer.write("text_to_transcribe=");
             while (paramIt.hasNext()){
                 String param = paramIt.next().getTitle();
-                writer.write(param);
+                writer.write(param.replaceAll(" ", "+"));
                 if (paramIt.hasNext())
                     writer.write("%0D%0A");
             }
-            writer.write("&submit=Show+transcription&output_dialect=am&output_style=only_tr&preBracket=&postBracket=&speech_support=0");
+            writer.write("&submit=Show+transcription&output_dialect=am&output_style=columns&preBracket=&postBracket=&speech_support=0");
 
             writer.flush();
             writer.close();
@@ -118,11 +128,9 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, List<Word>> {
     }
 
     @Override
-    protected void onPostExecute(List<Word> words) {
-
+    protected void onPostExecute(Collection<Word> words) {
         if (succ)
             wordDAO.update(words);
-
     }
 
     private void fillConnection(HttpURLConnection con) throws ProtocolException {
