@@ -75,6 +75,8 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         lastResult = false;
         edWord.setText(currentWord.getTranslation());
         correctAnswer = currentWord.getTitle();
+        if (currentWord.getTranscription() != null && !currentWord.getTranscription().isEmpty())
+            correctAnswer += " [" + currentWord.getTranscription() + "]";
         tvAnswer.setText("");
         tvAnswer.setBackground(defaultAnswerBg);
         tvCorrectAnswer.setText("");
