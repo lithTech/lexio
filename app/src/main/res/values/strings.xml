@@ -78,4 +78,6 @@
         <item>30</item>
     </string-array>
     <string name="training.Answer">Answer</string>
+    <string name="word_TranslationBegins">Requesting translation of the word...</string>
+    <string name="word_TranslationSuccess">Word translated successfully</string>
 </resources>

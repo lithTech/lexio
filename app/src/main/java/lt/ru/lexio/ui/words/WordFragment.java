@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 
 import lt.ru.lexio.R;
@@ -31,7 +34,9 @@ import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
+import lt.ru.lexio.fetcher.FetcherCallback;
 import lt.ru.lexio.fetcher.IPAEngFetcher;
+import lt.ru.lexio.fetcher.MSTranslator;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.MainActivity;
@@ -136,22 +141,42 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 });
     }
 
-    public void createWord(final Context context, final Dictionary dictionary) {
+    public void createWord(final Context creationWindowContext, final Dictionary dictionary) {
         final boolean needRefresh = this.getView() != null;
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(creationWindowContext);
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(creationWindowContext);
         alertDialogBuilder.setView(promptView);
-        EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
+        final EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
+        final EditText edWord = (EditText) promptView.findViewById(R.id.edWord);
+        Button bTranslate = (Button) promptView.findViewById(R.id.bTranslate);
+        bTranslate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!edWord.getText().toString().isEmpty()) {
+                    MSTranslator translator = new MSTranslator(new FetcherCallback() {
+                        @Override
+                        public void done(Object data) {
+                            if (data instanceof String) {
+                                Toast.makeText(creationWindowContext, getString(R.string.word_TranslationSuccess),
+                                        Toast.LENGTH_SHORT);
+                                edTranslation.setText(data.toString());
+                            }
+                        }
+                    });
+                    Toast.makeText(creationWindowContext, getString(R.string.word_TranslationBegins), Toast.LENGTH_SHORT);
+                    translator.execute(dictionary.getLanguageTag(), Locale.getDefault().getLanguage(),
+                            edWord.getText().toString());
+                }
+            }
+        });
 
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton(R.string.dialog_Create, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        EditText edWord = (EditText) promptView.findViewById(R.id.edWord);
-                        EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
                         EditText edContext = (EditText) promptView.findViewById(R.id.edContext);
-                        saveWordObject(context, edWord.getText().toString(),
+                        saveWordObject(creationWindowContext, edWord.getText().toString(),
                                 edTranslation.getText().toString(),
                                 edContext.getText().toString(), dictionary);
 
@@ -161,8 +186,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                         if (needRefresh)
                             refreshList();
 
-                        Toast.makeText(context, edWord.getText() + " " +
-                                context.getResources().getString(R.string.Word_WordAddedMessage),
+                        Toast.makeText(creationWindowContext, edWord.getText() + " " +
+                                creationWindowContext.getResources().getString(R.string.Word_WordAddedMessage),
                                 Toast.LENGTH_SHORT).show();
                     }
                 })

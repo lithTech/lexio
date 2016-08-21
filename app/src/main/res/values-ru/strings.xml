@@ -77,4 +77,6 @@
         <item>30</item>
     </string-array>
     <string name="training.Answer">Ответить</string>
+    <string name="word_TranslationBegins">Переводим слово (необходим интернет)...</string>
+    <string name="word_TranslationSuccess">Слово переведено успешно</string>
 </resources>
