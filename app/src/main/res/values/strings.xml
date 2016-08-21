@@ -80,4 +80,5 @@
     <string name="training.Answer">Answer</string>
     <string name="word_TranslationBegins">Requesting translation of the word...</string>
     <string name="word_TranslationSuccess">Word translated successfully</string>
+    <string name="word_get_translation_lingvo">View in Abbyy Lingvo</string>
 </resources>

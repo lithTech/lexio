@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
@@ -40,6 +42,7 @@ import lt.ru.lexio.fetcher.MSTranslator;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.MainActivity;
+import lt.ru.lexio.util.AbbyyLingvoURL;
 
 /**
  * Created by lithTech on 21.03.2016.
@@ -150,6 +153,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         final EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
         final EditText edWord = (EditText) promptView.findViewById(R.id.edWord);
         Button bTranslate = (Button) promptView.findViewById(R.id.bTranslate);
+        Button bTranslateLingvo = (Button) promptView.findViewById(R.id.bTranslateLingvo);
         bTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,16 +162,28 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                         @Override
                         public void done(Object data) {
                             if (data instanceof String) {
-                                Toast.makeText(creationWindowContext, getString(R.string.word_TranslationSuccess),
+                                Toast.makeText(creationWindowContext,
+                                        creationWindowContext.getString(R.string.word_TranslationSuccess),
                                         Toast.LENGTH_SHORT);
                                 edTranslation.setText(data.toString());
+                                edTranslation.requestFocus();
                             }
                         }
                     });
-                    Toast.makeText(creationWindowContext, getString(R.string.word_TranslationBegins), Toast.LENGTH_SHORT);
+                    Toast.makeText(creationWindowContext,
+                            creationWindowContext.getString(R.string.word_TranslationBegins), Toast.LENGTH_SHORT);
                     translator.execute(dictionary.getLanguageTag(), Locale.getDefault().getLanguage(),
                             edWord.getText().toString());
                 }
+            }
+        });
+        bTranslateLingvo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(AbbyyLingvoURL.getUrl(dictionary.getLanguageTag(),
+                                edWord.getText().toString())));
+                creationWindowContext.startActivity(browserIntent);
             }
         });
 
@@ -187,7 +203,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                             refreshList();
 
                         Toast.makeText(creationWindowContext, edWord.getText() + " " +
-                                creationWindowContext.getResources().getString(R.string.Word_WordAddedMessage),
+                                creationWindowContext.getString(R.string.Word_WordAddedMessage),
                                 Toast.LENGTH_SHORT).show();
                     }
                 })

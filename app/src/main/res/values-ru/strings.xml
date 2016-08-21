@@ -79,4 +79,5 @@
     <string name="training.Answer">Ответить</string>
     <string name="word_TranslationBegins">Переводим слово (необходим интернет)...</string>
     <string name="word_TranslationSuccess">Слово переведено успешно</string>
+    <string name="word_get_translation_lingvo">Открыть сайт Abbyy Lingvo</string>
 </resources>
