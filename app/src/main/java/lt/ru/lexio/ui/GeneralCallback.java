@@ -1,4 +1,4 @@
-package lt.ru.lexio.fetcher;
+package lt.ru.lexio.ui;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ import java.util.Objects;
  * Created by lithTech on 21.08.2016.
  */
 
-public interface FetcherCallback {
+public interface GeneralCallback {
 
     public void done(Object data);
 

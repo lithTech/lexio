@@ -1,5 +1,6 @@
 package lt.ru.lexio.ui;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -11,14 +12,17 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.EventListener;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -41,6 +45,12 @@ public class MainActivity extends AppCompatActivity
     Menu navMenu = null;
     ContentFragment currentFragment = null;
     WordFragment wordFragment = null;
+
+    EventListenerManager eventListenerManager = new EventListenerManager();
+
+    public EventListenerManager getEventListenerManager() {
+        return eventListenerManager;
+    }
 
     public Dictionary getCurrentDictionary() {
         return currentDictionary;
@@ -247,7 +257,17 @@ public class MainActivity extends AppCompatActivity
         }
         else
             outArgs.putBoolean(ContentFragment.ARG_NEED_REFRESH, true);
+
+        fragment.mainActivity = this;
+
         return fragment;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (eventListenerManager.registered(EventListenerManager.EVENT_TYPE_RESUME))
+            eventListenerManager.raise(EventListenerManager.EVENT_TYPE_RESUME, null);
     }
 
     /**

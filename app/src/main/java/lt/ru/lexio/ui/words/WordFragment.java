@@ -2,14 +2,16 @@ package lt.ru.lexio.ui.words;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -36,12 +38,12 @@ import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
-import lt.ru.lexio.fetcher.FetcherCallback;
+import lt.ru.lexio.ui.EventListenerManager;
+import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.fetcher.IPAEngFetcher;
 import lt.ru.lexio.fetcher.MSTranslator;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
-import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.util.AbbyyLingvoURL;
 
 /**
@@ -146,19 +148,28 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     public void createWord(final Context creationWindowContext, final Dictionary dictionary) {
         final boolean needRefresh = this.getView() != null;
+
+        final ClipboardManager clipMgr = (ClipboardManager) creationWindowContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        String clipBoardText = "";
+        if (clipMgr.hasPrimaryClip() && clipMgr.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+            clipBoardText = clipMgr.getPrimaryClip().getItemAt(0).getText().toString();
+        }
+
         LayoutInflater layoutInflater = LayoutInflater.from(creationWindowContext);
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(creationWindowContext);
         alertDialogBuilder.setView(promptView);
         final EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
         final EditText edWord = (EditText) promptView.findViewById(R.id.edWord);
+
+        edWord.setText(clipBoardText);
         Button bTranslate = (Button) promptView.findViewById(R.id.bTranslate);
-        Button bTranslateLingvo = (Button) promptView.findViewById(R.id.bTranslateLingvo);
+        final Button bTranslateLingvo = (Button) promptView.findViewById(R.id.bTranslateLingvo);
         bTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!edWord.getText().toString().isEmpty()) {
-                    MSTranslator translator = new MSTranslator(new FetcherCallback() {
+                    MSTranslator translator = new MSTranslator(new GeneralCallback() {
                         @Override
                         public void done(Object data) {
                             if (data instanceof String) {
@@ -180,12 +191,36 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         bTranslateLingvo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //tell that lingvo button was pressed
+                bTranslateLingvo.setTag(Boolean.TRUE);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse(AbbyyLingvoURL.getUrl(dictionary.getLanguageTag(),
                                 edWord.getText().toString())));
                 creationWindowContext.startActivity(browserIntent);
             }
         });
+
+
+        mainActivity.getEventListenerManager().register(EventListenerManager.EVENT_TYPE_RESUME, "CreateWordDialog",
+                new GeneralCallback() {
+                    @Override
+                    public void done(Object data) {
+                        String word = edWord.getText().toString();
+                        if (bTranslateLingvo.getTag() != null &&
+                                (Boolean) bTranslateLingvo.getTag() &&
+                                !word.isEmpty()) {
+                            String ct = "";
+                            bTranslateLingvo.setTag(Boolean.FALSE);
+                            if (clipMgr.hasPrimaryClip() && clipMgr.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                                ct = clipMgr.getPrimaryClip().getItemAt(0).getText().toString();
+                                if (ct != null && !ct.isEmpty() && !ct.equalsIgnoreCase(word))
+                                {
+                                    edTranslation.setText(ct);
+                                }
+                            }
+                        }
+                    }
+                });
 
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
@@ -227,7 +262,18 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             }
         });
 
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mainActivity.getEventListenerManager().unregister(EventListenerManager.EVENT_TYPE_RESUME,
+                        "CreateWordDialog");
+            }
+        });
+
         alert.show();
+        //we have some pasted text into word. Activate translation field now
+        if (edWord.getText().length() > 0)
+            edTranslation.requestFocus();
     }
 
     private Word saveWordObject(Context daoContext,

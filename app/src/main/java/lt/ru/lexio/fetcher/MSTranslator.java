@@ -10,6 +10,8 @@ import java.nio.charset.StandardCharsets;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import lt.ru.lexio.ui.GeneralCallback;
+
 /**
  * Created by lithTech on 21.08.2016.
  */
@@ -18,7 +20,7 @@ public class MSTranslator extends AsyncTask<String, Void, String> {
 
     private static final String CLIENT_ID = "lt-translate-javaprop-111";
     private static final String CLIENT_SECRET = "g6Ckta/ZQIHQchQkKWwVxtkhBQOlVqKLJNOGNlpYhTY=";
-    private FetcherCallback callback;
+    private GeneralCallback callback;
     private static final String httpsTranslateURLTemplate = "https://api.microsofttranslator.com/V2/Ajax.svc/Translate?from=%1s&to=%2s&appid=%3s&text=%4s";
 
     public static String getAccessToken(String clientId, String clientSecret) {
@@ -47,7 +49,7 @@ public class MSTranslator extends AsyncTask<String, Void, String> {
         return null;
     }
 
-    public MSTranslator(FetcherCallback callback) {
+    public MSTranslator(GeneralCallback callback) {
         this.callback = callback;
     }
 
