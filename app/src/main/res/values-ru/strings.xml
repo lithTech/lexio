@@ -77,8 +77,44 @@
         <item>30</item>
     </string-array>
     <string name="training.Answer">Ответить</string>
-    <string name="word_get_translation_lingvo">Открыть сайт Abbyy Lingvo</string>
+    <string name="word_get_translation_lingvo">Abbyy Lingvo</string>
     <string name="words.AddWord.Translation.ProgressTitle">Загрузка перевода...</string>
     <string name="words.AddWord.Translation.ProgressMessage">Пожалуйста, подождите. Загружается перевод с сервиса Bing</string>
     <string name="words.AddWord.CantloadTranslation">Не удалось загрузить перевод</string>
+    <string-array name="training_ExtraAnswers_ru">
+        <item>Пекарь</item>
+        <item>Библиотека</item>
+        <item>Ружье</item>
+        <item>Ежик</item>
+        <item>Овсянка</item>
+        <item>Телефон</item>
+        <item>Организация</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_en">
+        <item>Toad</item>
+        <item>Yellow</item>
+        <item>Free</item>
+        <item>Zoo</item>
+        <item>Wolf</item>
+        <item>Salmon</item>
+        <item>Brick</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_fr">
+        <item>Пекарь</item>
+        <item>Библиотека</item>
+        <item>Ружье</item>
+        <item>Ежик</item>
+        <item>Овсянка</item>
+        <item>Телефон</item>
+        <item>Организация</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_de">
+        <item>Пекарь</item>
+        <item>Библиотека</item>
+        <item>Ружье</item>
+        <item>Ежик</item>
+        <item>Овсянка</item>
+        <item>Телефон</item>
+        <item>Организация</item>
+    </string-array>
 </resources>

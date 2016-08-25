@@ -78,8 +78,44 @@
         <item>30</item>
     </string-array>
     <string name="training.Answer">Answer</string>
-    <string name="word_get_translation_lingvo">View in Abbyy Lingvo</string>
+    <string name="word_get_translation_lingvo">Abbyy Lingvo</string>
     <string name="words.AddWord.Translation.ProgressTitle">Retrieving translation...</string>
     <string name="words.AddWord.Translation.ProgressMessage">Please wait, retrieving translation from BING</string>
     <string name="words.AddWord.CantloadTranslation">Can\'t load translation</string>
+    <string-array name="training_ExtraAnswers_ru">
+        <item>пекарь</item>
+        <item>библиотека</item>
+        <item>ружье</item>
+        <item>ежик</item>
+        <item>овсянка</item>
+        <item>телефон</item>
+        <item>организация</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_en">
+        <item>toad</item>
+        <item>yellow</item>
+        <item>free</item>
+        <item>zoo</item>
+        <item>wolf</item>
+        <item>salmon</item>
+        <item>brick</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_fr">
+        <item>boulanger</item>
+        <item>bibliothèque</item>
+        <item>pistolet</item>
+        <item>hérisson</item>
+        <item>flocons d'avoine</item>
+        <item>téléphone</item>
+        <item>organisation</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_de">
+        <item>bäcker</item>
+        <item>bibliothek</item>
+        <item>gewehr</item>
+        <item>igel</item>
+        <item>haferflocken</item>
+        <item>telefon</item>
+        <item>organisation</item>
+    </string-array>
 </resources>

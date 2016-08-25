@@ -5,8 +5,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import lt.ru.lexio.R;
@@ -53,7 +55,17 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
 
     @Override
     protected List<String> buildAnswers(Random random, WordDAO wordDAO, WordStatisticDAO wordStatisticDAO) {
-        return trainingWordBuilder.buildRandomAnswers(wordCount, bAnsArray.length, Db.Common.TITLE);
+        List<String> answers = trainingWordBuilder.buildRandomAnswers(wordCount, bAnsArray.length, Db.Common.TITLE);
+
+        if (answers.size() < 4) {
+            String tag = getCurrentDictionary().getLanguageTag().substring(0, 2).toLowerCase();
+            int extraAnsId = getResources().getIdentifier("training_ExtraAnswers_" + tag, "array",
+                    "lt.ru.lexio");
+            String[] exrtaAnswers = getResources().getStringArray(extraAnsId);
+            answers.addAll(Arrays.asList(exrtaAnswers));
+        }
+
+        return answers;
     }
 
     @Override
