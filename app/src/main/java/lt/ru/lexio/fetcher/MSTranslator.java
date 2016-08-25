@@ -24,10 +24,15 @@ public class MSTranslator extends AsyncTask<String, Void, String> {
     private static final String httpsTranslateURLTemplate = "https://api.microsofttranslator.com/V2/Ajax.svc/Translate?from=%1s&to=%2s&appid=%3s&text=%4s";
 
     public static String getAccessToken(String clientId, String clientSecret) {
-        return AdmAccessToken.getAccessToken(clientId, clientSecret).access_token;
+        AdmAccessToken accessToken = AdmAccessToken.getAccessToken(clientId, clientSecret);
+        if (accessToken != null)
+            return accessToken.access_token;
+        return null;
     }
 
     public static String translate(String accessToken, String from, String to, String text) {
+        if (accessToken == null || accessToken.isEmpty())
+            return "";
         try {
             String accessTokenToSend = URLEncoder.encode("Bearer " + accessToken, "UTF-8");
             String textToSend = URLEncoder.encode(text, "UTF-8");

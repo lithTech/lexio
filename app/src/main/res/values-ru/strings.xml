@@ -77,7 +77,8 @@
         <item>30</item>
     </string-array>
     <string name="training.Answer">Ответить</string>
-    <string name="word_TranslationBegins">Переводим слово (необходим интернет)...</string>
-    <string name="word_TranslationSuccess">Слово переведено успешно</string>
     <string name="word_get_translation_lingvo">Открыть сайт Abbyy Lingvo</string>
+    <string name="words.AddWord.Translation.ProgressTitle">Загрузка перевода...</string>
+    <string name="words.AddWord.Translation.ProgressMessage">Пожалуйста, подождите. Загружается перевод с сервиса Bing</string>
+    <string name="words.AddWord.CantloadTranslation">Не удалось загрузить перевод</string>
 </resources>

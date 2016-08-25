@@ -2,6 +2,7 @@ package lt.ru.lexio.ui.words;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import lt.ru.lexio.R;
@@ -49,7 +52,8 @@ import lt.ru.lexio.util.AbbyyLingvoURL;
 /**
  * Created by lithTech on 21.03.2016.
  */
-public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener{
+public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener,
+        AdapterView.OnItemLongClickListener{
 
     WordDAO wordDAO = null;
     ListView lWords = null;
@@ -70,6 +74,9 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         ImageButton bCancelFilter = (ImageButton) view.findViewById(R.id.bWordsFilterClear);
         bCancelFilter.setOnClickListener(this);
+
+        lWords.setLongClickable(true);
+        lWords.setOnItemLongClickListener(this);
 
         return view;
     }
@@ -169,20 +176,23 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             @Override
             public void onClick(View v) {
                 if (!edWord.getText().toString().isEmpty()) {
+                    final ProgressDialog progressDialog = ProgressDialog.show(promptView.getContext(),
+                            creationWindowContext.getString(R.string.words_AddWord_Translation_ProgressTitle),
+                            creationWindowContext.getString(R.string.words_AddWord_Translation_ProgressMessage));
                     MSTranslator translator = new MSTranslator(new GeneralCallback() {
                         @Override
                         public void done(Object data) {
-                            if (data instanceof String) {
-                                Toast.makeText(creationWindowContext,
-                                        creationWindowContext.getString(R.string.word_TranslationSuccess),
-                                        Toast.LENGTH_SHORT);
+                            progressDialog.dismiss();
+                            if (data instanceof String && data != null && !((String)data).isEmpty() ) {
                                 edTranslation.setText(data.toString());
                                 edTranslation.requestFocus();
                             }
+                            else
+                                Toast.makeText(creationWindowContext,
+                                        R.string.words_AddWord_CantloadTranslation,
+                                        Toast.LENGTH_SHORT).show();
                         }
                     });
-                    Toast.makeText(creationWindowContext,
-                            creationWindowContext.getString(R.string.word_TranslationBegins), Toast.LENGTH_SHORT);
                     translator.execute(dictionary.getLanguageTag(), Locale.getDefault().getLanguage(),
                             edWord.getText().toString());
                 }
@@ -317,11 +327,21 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     }
 
+
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bWordsFilterClear) {
             ((WordListAdapter) lWords.getAdapter()).getFilter().filter("");
             ((EditText) ((View) v.getParent()).findViewById(R.id.edWordsFilter)).setText("");
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Object item = lWords.getItemAtPosition(position);
+        System.out.println("Long press on " + item);
+
+        return false;
     }
 }
