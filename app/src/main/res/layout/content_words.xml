@@ -48,5 +48,7 @@
         android:id="@+id/lvWords"
         android:textFilterEnabled="true"
         android:fastScrollEnabled="true"
+        android:contextClickable="true"
+        android:choiceMode="multipleChoice"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

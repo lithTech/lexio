@@ -334,8 +334,18 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                                 long id,
                                 String word, String translation,
                                 String context, Dictionary dict) {
+        if (word == null || word.isEmpty() || translation == null || translation.isEmpty())
+            return null;
+
+        word = word.toLowerCase().trim();
+        translation = translation.toLowerCase().trim();
+
+        if (context != null && !context.isEmpty())
+            context = context.trim();
+
         Word w = new Word();
         boolean isUpdate = id > 0;
+
         w.setTitle(word);
         w.setContext(context);
         w.setTranslation(translation);
