@@ -48,6 +48,7 @@ import lt.ru.lexio.fetcher.MSTranslator;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.util.AbbyyLingvoURL;
+import lt.ru.lexio.util.ClipboardHelper;
 
 /**
  * Created by lithTech on 21.03.2016.
@@ -158,7 +159,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         final ClipboardManager clipMgr = (ClipboardManager) creationWindowContext.getSystemService(Context.CLIPBOARD_SERVICE);
         String clipBoardText = "";
-        if (clipMgr.hasPrimaryClip() && clipMgr.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+        if (ClipboardHelper.hasText(clipMgr)) {
             clipBoardText = clipMgr.getPrimaryClip().getItemAt(0).getText().toString();
         }
 
@@ -221,7 +222,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                                 !word.isEmpty()) {
                             String ct = "";
                             bTranslateLingvo.setTag(Boolean.FALSE);
-                            if (clipMgr.hasPrimaryClip() && clipMgr.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+                            if (ClipboardHelper.hasText(clipMgr)) {
                                 ct = clipMgr.getPrimaryClip().getItemAt(0).getText().toString();
                                 if (ct != null && !ct.isEmpty() && !ct.equalsIgnoreCase(word))
                                 {
