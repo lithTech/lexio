@@ -43,7 +43,7 @@
     <string name="training.DontKnowButton">Не знаю</string>
     <string name="chart.HardWords.IncorrectLabel">Неправильные ответы</string>
     <string name="chart.HardWords.CorrectLabel">Правильные ответы</string>
-    <string name="Word.WordAddedMessage"> добавлено в словарь</string>
+    <string name="Word.WordSavedMessage"> сохранено в словаре</string>
     <string name="train.TransVoice">Перевод - Произнести слово</string>
     <string name="training_trans_voice_taponmic">Нажмите "Микрофон" чтобы произнести слово</string>
     <string name="TransVoiceSpeechPromt">Произнесите слово согласно переводу</string>
@@ -81,6 +81,8 @@
     <string name="words.AddWord.Translation.ProgressTitle">Загрузка перевода...</string>
     <string name="words.AddWord.Translation.ProgressMessage">Пожалуйста, подождите. Загружается перевод с сервиса Bing</string>
     <string name="words.AddWord.CantloadTranslation">Не удалось загрузить перевод</string>
+    <string name="action_word_edit">Изменить слово</string>
+    <string name="dialog_Save">Сохранить</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>Пекарь</item>
         <item>Библиотека</item>

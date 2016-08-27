@@ -3,7 +3,6 @@ package lt.ru.lexio.ui.words;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,12 +10,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +33,6 @@ import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Set;
 
 import lt.ru.lexio.R;
@@ -54,7 +53,7 @@ import lt.ru.lexio.util.ClipboardHelper;
  * Created by lithTech on 21.03.2016.
  */
 public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener,
-        AdapterView.OnItemLongClickListener{
+    View.OnCreateContextMenuListener {
 
     WordDAO wordDAO = null;
     ListView lWords = null;
@@ -77,9 +76,16 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         bCancelFilter.setOnClickListener(this);
 
         lWords.setLongClickable(true);
-        lWords.setOnItemLongClickListener(this);
+        registerForContextMenu(lWords);
 
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_content_words_item, menu);
     }
 
     private WordListAdapter initAdapter(Context context) {
@@ -103,6 +109,16 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         return adapter;
     }
 
+    //called from context menu items
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        ((WordListAdapter) lWords.getAdapter()).getSelectedWords().clear();
+        ((WordListAdapter) lWords.getAdapter()).getSelectedWords().add(info.position);
+        return onOptionsItemSelected(item);
+    }
+
+    //called from main menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_word_add) {
@@ -110,9 +126,19 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         }
         else if (item.getItemId() == R.id.action_word_del) {
             deleteWords();
+        } else if (item.getItemId() == R.id.action_word_edit) {
+            editWord(getActivity(), mainActivity.getCurrentDictionary());
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void editWord(Activity activity, Dictionary currentDictionary) {
+        final Set<Integer> checkedPos = ((WordListAdapter) lWords.getAdapter()).getSelectedWords();
+        if (!checkedPos.isEmpty()) {
+            Word word = wordDAO.read(lWords.getItemIdAtPosition(checkedPos.iterator().next()));
+            saveWord(activity, currentDictionary, word);
+        }
     }
 
     private void deleteWords() {
@@ -155,6 +181,11 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     }
 
     public void createWord(final Context creationWindowContext, final Dictionary dictionary) {
+        saveWord(creationWindowContext, dictionary, new Word());
+    }
+
+    private void saveWord(final Context creationWindowContext, final Dictionary dictionary,
+                          final Word word) {
         final boolean needRefresh = this.getView() != null;
 
         final ClipboardManager clipMgr = (ClipboardManager) creationWindowContext.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -167,10 +198,19 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(creationWindowContext);
         alertDialogBuilder.setView(promptView);
-        final EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
-        final EditText edWord = (EditText) promptView.findViewById(R.id.edWord);
 
-        edWord.setText(clipBoardText);
+        //fill the form data
+        final EditText edTranslation = (EditText) promptView.findViewById(R.id.edTranslation);
+        edTranslation.setText(word.getTranslation());
+        final EditText edWord = (EditText) promptView.findViewById(R.id.edWord);
+        if (word.getTitle() != null && !word.getTitle().isEmpty())
+            edWord.setText(word.getTitle());
+        else
+            edWord.setText(clipBoardText);
+        final EditText edContext = (EditText) promptView.findViewById(R.id.edContext);
+        edContext.setText(word.getContext());
+
+        //translate button event
         Button bTranslate = (Button) promptView.findViewById(R.id.bTranslate);
         final Button bTranslateLingvo = (Button) promptView.findViewById(R.id.bTranslateLingvo);
         bTranslate.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +238,9 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                             edWord.getText().toString());
                 }
             }
-        });
+        })
+        ;
+        //open in lingvo button event
         bTranslateLingvo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +253,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             }
         });
 
-
+        //event when user returns to our application. If user returns from lingvo, trying to paste from clipboard into the translation field
         mainActivity.getEventListenerManager().register(EventListenerManager.EVENT_TYPE_RESUME, "CreateWordDialog",
                 new GeneralCallback() {
                     @Override
@@ -235,10 +277,9 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
-                .setPositiveButton(R.string.dialog_Create, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_Save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        EditText edContext = (EditText) promptView.findViewById(R.id.edContext);
-                        saveWordObject(creationWindowContext, edWord.getText().toString(),
+                        saveWordObject(creationWindowContext, word.id, edWord.getText().toString(),
                                 edTranslation.getText().toString(),
                                 edContext.getText().toString(), dictionary);
 
@@ -249,7 +290,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                             refreshList();
 
                         Toast.makeText(creationWindowContext, edWord.getText() + " " +
-                                creationWindowContext.getString(R.string.Word_WordAddedMessage),
+                                creationWindowContext.getString(R.string.Word_WordSavedMessage),
                                 Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -262,6 +303,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         final AlertDialog alert = alertDialogBuilder.create();
         alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
+        //Apply button on keyboard when translation field is active
         edTranslation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -273,6 +315,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             }
         });
 
+        //we need to destroy event, registered previously
         alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -288,9 +331,11 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     }
 
     private Word saveWordObject(Context daoContext,
+                                long id,
                                 String word, String translation,
                                 String context, Dictionary dict) {
         Word w = new Word();
+        boolean isUpdate = id > 0;
         w.setTitle(word);
         w.setContext(context);
         w.setTranslation(translation);
@@ -300,7 +345,13 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         if (wordDAO == null)
             wordDAO = new WordDAO(daoContext);
 
-        wordDAO.create(w);
+        if (!isUpdate)
+            wordDAO.create(w);
+        else {
+            w.id = id;
+            w.setLastModified(new Date());
+            wordDAO.update(w);
+        }
         return w;
     }
 
@@ -338,11 +389,4 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         }
     }
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        Object item = lWords.getItemAtPosition(position);
-        System.out.println("Long press on " + item);
-
-        return false;
-    }
 }

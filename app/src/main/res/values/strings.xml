@@ -44,7 +44,7 @@
     <string name="training.DontKnowButton">I DO NOT KNOW</string>
     <string name="chart.HardWords.IncorrectLabel">Incorrect answers</string>
     <string name="chart.HardWords.CorrectLabel">Correct answers</string>
-    <string name="Word.WordAddedMessage"> added to dictionary</string>
+    <string name="Word.WordSavedMessage"> saved to dictionary</string>
     <string name="train.TransVoice">Translation - Voice input</string>
     <string name="training_trans_voice_taponmic">Tap on mic to speak the word</string>
     <string name="TransVoiceSpeechPromt">Say the word according to translation</string>
@@ -82,6 +82,8 @@
     <string name="words.AddWord.Translation.ProgressTitle">Retrieving translation...</string>
     <string name="words.AddWord.Translation.ProgressMessage">Please wait, retrieving translation from BING</string>
     <string name="words.AddWord.CantloadTranslation">Can\'t load translation</string>
+    <string name="action_word_edit">Edit word</string>
+    <string name="dialog_Save">Save</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>пекарь</item>
         <item>библиотека</item>

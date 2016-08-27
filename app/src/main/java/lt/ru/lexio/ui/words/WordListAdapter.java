@@ -2,6 +2,7 @@ package lt.ru.lexio.ui.words;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -17,9 +18,8 @@ import lt.ru.lexio.R;
 /**
  * Created by lithTech on 22.03.2016.
  */
-public class WordListAdapter extends SimpleCursorAdapter{
+public class WordListAdapter extends SimpleCursorAdapter implements View.OnCreateContextMenuListener{
 
-    List<Holder> data = new ArrayList<>();
     Set<Integer> selectedWords = new HashSet<>();
 
     public Set<Integer> getSelectedWords() {
@@ -52,10 +52,14 @@ public class WordListAdapter extends SimpleCursorAdapter{
         });
         cb.setChecked(selectedWords.contains(position));
 
+        view.setOnCreateContextMenuListener(this);
+
         return view;
     }
 
-    private class Holder {
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        //nothing
     }
 }
