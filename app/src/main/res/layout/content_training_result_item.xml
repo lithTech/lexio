@@ -1,38 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:backgroundTintMode="src_in"
-    android:baselineAligned="false"
     android:descendantFocusability="afterDescendants"
     android:divider="@android:color/holo_green_light">
 
+    <ImageView
+        android:id="@+id/ivAnswerStatus"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/ic_menu_check"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginRight="40dp"
         android:orientation="vertical"
         android:paddingLeft="15dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Delusion"
             android:textColor="@color/textColor"
             android:paddingTop="5dp"
             android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:paddingBottom="2dp"
-            android:id="@+id/tvWord" />
+            android:id="@+id/tvQuestion" />
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Обман"
-            android:textColor="@color/colorPrimary"
-            android:paddingLeft="5dp"
-            android:paddingBottom="5dp"
-            android:id="@+id/tvTranslation" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Наплыв"
+                android:textColor="@color/colorAccent"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:id="@+id/tvIncorrectAnswer" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Обман"
+                android:textColor="@color/colorPrimary"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:id="@+id/tvCorrectAnswer" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
