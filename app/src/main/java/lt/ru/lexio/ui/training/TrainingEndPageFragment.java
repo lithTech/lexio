@@ -1,6 +1,7 @@
 package lt.ru.lexio.ui.training;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.List;
+
 import lt.ru.lexio.R;
+import lt.ru.lexio.db.Word;
 
 /**
  * Created by lithTech on 02.04.2016.
@@ -31,6 +35,18 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
         lWordStatistic = (ListView) view.findViewById(R.id.lvTrainingEndPageWordStat);
 
         return view;
+    }
+
+    public void setData(List<EndPageStatistic> statistic) {
+        lWordStatistic.setAdapter(initAdapter(getView().getContext(), statistic));
+    }
+
+    public static EndPageStatAdapter initAdapter(Context context, List<EndPageStatistic> statistic) {
+        EndPageStatAdapter adapter = new EndPageStatAdapter(context, R.layout.content_training_result_item,
+                R.id.tvCorrectAnswer,
+                statistic);
+
+        return adapter;
     }
 
     @Override

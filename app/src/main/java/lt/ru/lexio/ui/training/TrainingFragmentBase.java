@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import lt.ru.lexio.R;
+import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
@@ -144,6 +145,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         List<WordStatistic> wordStatistics = new ArrayList<>();
         while (statCur.moveToNext()) {
             WordStatistic wordStatistic = wordStatisticDAO.readRow(statCur);
+            wordStatisticDAO.fillForeignKeys(wordStatistic, Db.WordStatistic.WORD_ID);
             total++;
             if (wordStatistic.getTrainingResult() == 1)
                 correct++;

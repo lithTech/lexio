@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,12 +88,22 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
     @Override
     protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
-        ViewGroup viewGroup = (ViewGroup) getView().findViewById(R.id.layout_train_end_page);
-        View fragment = viewGroup.getChildAt(0);
+        View fragment = getView().findViewById(R.id.layout_train_end_page);
+
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageCorrect))
                 .setText(String.valueOf(correct));
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageInCorrect))
                 .setText(String.valueOf(incorrect));
+
+        List<EndPageStatistic> statistics = new ArrayList<>(wordStatistics.size());
+        for (WordStatistic wordStatistic : wordStatistics) {
+            EndPageStatistic e = new EndPageStatistic(wordStatistic.getWord().getTranslation(),
+                    wordStatistic.getWord().getTitle(), wordStatistic.getTrainingResult() == 1);
+            statistics.add(e);
+        }
+
+        ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
+        lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
     }
 
     @Override

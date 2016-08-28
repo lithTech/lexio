@@ -12,7 +12,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/ic_menu_check"
+        android:background="@drawable/ic_menu_training"
         android:layout_height="wrap_content" />
 
     <LinearLayout
@@ -39,15 +39,15 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Наплыв"
-                android:textColor="@color/colorAccent"
-                android:paddingLeft="5dp"
-                android:paddingBottom="5dp"
-                android:id="@+id/tvIncorrectAnswer" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--android:text="Наплыв"-->
+                <!--android:textColor="@color/colorAccent"-->
+                <!--android:paddingLeft="5dp"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:id="@+id/tvIncorrectAnswer" />-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

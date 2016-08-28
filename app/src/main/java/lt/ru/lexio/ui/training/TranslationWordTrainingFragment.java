@@ -1,10 +1,13 @@
 package lt.ru.lexio.ui.training;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +18,7 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
+import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
 
 /**
@@ -51,6 +55,23 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
     @Override
     protected int getDontKnowButtonAnswerId() {
         return R.id.bTransDontKnow;
+    }
+
+    @Override
+    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
+        super.setEndPageStatistics(wordStatistics, correct, incorrect);
+
+        View fragment = getView().findViewById(R.id.layout_train_end_page);
+
+        List<EndPageStatistic> statistics = new ArrayList<>(wordStatistics.size());
+        for (WordStatistic wordStatistic : wordStatistics) {
+            EndPageStatistic e = new EndPageStatistic(wordStatistic.getWord().getTranslation(),
+                    wordStatistic.getWord().getTitle(), wordStatistic.getTrainingResult() == 1);
+            statistics.add(e);
+        }
+
+        ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
+        lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
     }
 
     @Override
