@@ -146,7 +146,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     @Override
     protected TrainingType getTrainingType() {
-        return TrainingType.TRANS_WORD;
+        return null;
     }
 
     @Nullable

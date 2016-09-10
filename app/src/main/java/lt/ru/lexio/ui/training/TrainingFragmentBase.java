@@ -217,7 +217,6 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     @Override
     public void onStart() {
         super.onStart();
-        trainingWordBuilder.dictId = getCurrentDictionary().id;
         currentQuestionNum = -1;
         trainingWordBuilder.dictId = getCurrentDictionary().id;
         currentPage++;
@@ -232,6 +231,9 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         trainingPageContainer.setVisibility(View.VISIBLE);
         progressBar.setMax(sessionWords.size()-1);
         progressBar.setProgress(0);
+
+        currentSessionId = 0;
+
         startTraining();
         nextQuestionInternal(false);
     }

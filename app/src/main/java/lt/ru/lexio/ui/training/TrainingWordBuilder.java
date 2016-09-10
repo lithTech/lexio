@@ -48,6 +48,7 @@ public class TrainingWordBuilder {
                 .append("w.translation as TRANSLATION,")
                 .append("w.transcription as TRANSCRIPTION,")
                 .append("w.context as CONTEXT,")
+                .append("w.CREATE_DATE as CREATE_DATE,")
                 .append("sum(case when IFNULL(ws.training_res,1) = 0 then 1 else 0 end) as I_CNT,")
                 .append("sum(case when IFNULL(ws.training_res,0) = 1 then 1 else 0 end) as R_CNT,")
                 .append("max(ws.TRAINED_ON_DATE) as last_trained_date ")
@@ -59,7 +60,7 @@ public class TrainingWordBuilder {
         sql.append("where w.dict_id = ? ");
         if (toDate != null)
             sql.append("and (ws.TRAINED_ON_DATE < ? OR ws.TRAINED_ON_DATE is NULL)");
-        sql.append("group by w._id,w.title,w.translation,w.context")
+        sql.append("group by w._id,w.title,w.translation,w.transcription,w.context,w.CREATE_DATE")
                 .append(")");
         return sql;
     }
@@ -85,8 +86,11 @@ public class TrainingWordBuilder {
                 .append(" offset ").append(offset);
 
         try {
+            //SqlHelper.dumpCursor(wordDAO.execComplexSql("select * from " + Db.WordStatistic.TABLE,
+            //    null));
+
             Cursor cur = wordDAO.execComplexSql(sql.toString(), arg.toArray(new String[0]));
-            SqlHelper.dumpCursor(cur);
+            //SqlHelper.dumpCursor(cur);
             cur = wordDAO.execComplexSql(sql.toString(), arg.toArray(new String[0]));
             int c = 0;
             while (cur.moveToNext() && (c++) <= count) {
