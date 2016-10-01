@@ -9,13 +9,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -31,6 +34,7 @@ import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.MainActivity;
+import lt.ru.lexio.ui.words.WordListAdapter;
 
 /**
  * Created by User on 15.03.2016.
@@ -52,7 +56,17 @@ public class DictionariesFragment extends ContentFragment {
         lDictionaries = (ListView) view.findViewById(R.id.lDictionaries);
         lDictionaries.setAdapter(sca);
 
+        lDictionaries.setLongClickable(true);
+        registerForContextMenu(lDictionaries);
+
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_content_dictionaries, menu);
     }
 
     public SimpleCursorAdapter initAdapter(Context context) {
@@ -60,6 +74,16 @@ public class DictionariesFragment extends ContentFragment {
                 dictionaryDAO.getAll().execute(), new String[]{Db.Common.TITLE, Db.Dictionary.WORDS_CNT},
                 new int[]{R.id.tvTitle, R.id.tvWordCnt});
     }
+
+    //called from context menu items
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems().clear();
+        ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems().add(info.position);
+        return onOptionsItemSelected(item);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
