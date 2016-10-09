@@ -76,8 +76,6 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         lastResult = false;
         edWord.setText(currentWord.getTranslation());
         correctAnswer = currentWord.getTitle();
-        if (currentWord.getTranscription() != null && !currentWord.getTranscription().isEmpty())
-            correctAnswer += " [" + currentWord.getTranscription() + "]";
         tvAnswer.setText("");
         tvAnswer.setBackground(defaultAnswerBg);
         tvCorrectAnswer.setText("");
@@ -155,6 +153,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     }
 
     private void checkResult(String result, boolean isCorrectAnswer, final boolean showCorrect) {
+        bNext.setEnabled(false);
         tvAnswer.setText(getResources()
                 .getString(R.string.Training_TransVoice_AnswerPrefix) + " " +
                 result);
@@ -175,6 +174,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
             public void onAnimationEnd(Animator animation) {
                 if (isCorrect || showCorrect)
                     nextQuestion(isCorrect);
+                bNext.setEnabled(true);
             }
 
             @Override
@@ -191,8 +191,11 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         ColorAnimateHelper.animateBetweenColors(tvAnswer, android.R.drawable.menuitem_background,
                 color, getResources().getInteger(R.integer.animation_incorrect_answer), onEndAnimation);
         if (!isCorrect && showCorrect) {
-            tvCorrectAnswer.setText(getResources()
-                    .getString(R.string.Training_TransVoice_CorrectAnswerPrefix) + " " +correctAnswer);
+            String text = getResources()
+                    .getString(R.string.Training_TransVoice_CorrectAnswerPrefix) + " " +correctAnswer;
+            if (currentWord.getTranscription() != null && !currentWord.getTranscription().isEmpty())
+                text += " [" + currentWord.getTranscription() + "]";
+            tvCorrectAnswer.setText(text);
             ColorAnimateHelper.animateBetweenColors(tvCorrectAnswer, android.R.drawable.menuitem_background,
                     getResources().getColor(R.color.correctAnswer),
                     getResources().getInteger(R.integer.animation_correct_answer), null);

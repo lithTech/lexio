@@ -186,6 +186,7 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
         for (Button ans : bAnsArray) {
             ans.setEnabled(enabled);
         }
+        bDontKnow.setEnabled(enabled);
     }
 
     @Override

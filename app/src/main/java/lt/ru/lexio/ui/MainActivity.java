@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity
                 .commit();
         currentFragment = fragment;
         if (title != null)
-            setTitle(getResources().getString(R.string.app_name) + ": " + title);
+            setTitle(title);
     }
 
     @NonNull
@@ -286,7 +286,5 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(getApplicationContext(), "RC: " + resultCode,
-                Toast.LENGTH_LONG);
     }
 }

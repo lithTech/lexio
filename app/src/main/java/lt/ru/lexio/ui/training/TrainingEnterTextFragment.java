@@ -55,6 +55,7 @@ public abstract class TrainingEnterTextFragment extends TrainingFragmentBase imp
     }
 
     protected void onAnswer(final boolean isCorrect) {
+        bAnswer.setEnabled(false);
         int color = getResources().getColor(R.color.colorMandatory);
         if (isCorrect)
             color = getResources().getColor(R.color.correctAnswer);
@@ -68,6 +69,7 @@ public abstract class TrainingEnterTextFragment extends TrainingFragmentBase imp
             @Override
             public void onAnimationEnd(Animator animation) {
                 nextQuestion(isCorrect);
+                bAnswer.setEnabled(true);
             }
 
             @Override

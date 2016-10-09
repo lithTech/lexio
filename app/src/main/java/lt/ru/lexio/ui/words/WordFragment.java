@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,8 +53,7 @@ import lt.ru.lexio.util.ClipboardHelper;
 /**
  * Created by lithTech on 21.03.2016.
  */
-public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener,
-    View.OnCreateContextMenuListener {
+public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener {
 
     WordDAO wordDAO = null;
     ListView lWords = null;
@@ -76,6 +76,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         bCancelFilter.setOnClickListener(this);
 
         lWords.setLongClickable(true);
+        lWords.setClickable(true);
         registerForContextMenu(lWords);
 
         return view;
@@ -85,10 +86,10 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu_content_words_item, menu);
+        inflater.inflate(R.menu.menu_content_words, menu);
     }
 
-    private WordListAdapter initAdapter(Context context) {
+    private SimpleCursorAdapter initAdapter(Context context) {
         final long dictId;
         if (mainActivity != null && mainActivity.getCurrentDictionary() != null)
             dictId = mainActivity.getCurrentDictionary().id;

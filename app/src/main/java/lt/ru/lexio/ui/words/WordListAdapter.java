@@ -18,7 +18,7 @@ import lt.ru.lexio.R;
 /**
  * Created by lithTech on 22.03.2016.
  */
-public class WordListAdapter extends SimpleCursorAdapter implements View.OnCreateContextMenuListener{
+public class WordListAdapter extends SimpleCursorAdapter{
 
     Set<Integer> selectedWords = new HashSet<>();
 
@@ -52,14 +52,7 @@ public class WordListAdapter extends SimpleCursorAdapter implements View.OnCreat
         });
         cb.setChecked(selectedWords.contains(position));
 
-        view.setOnCreateContextMenuListener(this);
-
         return view;
     }
 
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        //nothing
-    }
 }
