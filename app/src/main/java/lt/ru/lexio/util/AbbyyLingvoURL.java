@@ -13,10 +13,10 @@ public class AbbyyLingvoURL {
         if (dictionaryLanguageTag.contains("-")) {
             dictionaryLanguageTag = dictionaryLanguageTag.substring(0, dictionaryLanguageTag.indexOf("-"));
         }
-        String domen = "com";
+        String lang = "en-en";
         if (defLoc.equalsIgnoreCase("ru"))
-            domen = "ru";
-        return "http://www.lingvo-online." + domen + "/Translate/" + dictionaryLanguageTag +
+            lang = "ru-ru";
+        return "http://www.lingvolive.com/"+lang+"/translate/" + dictionaryLanguageTag +
                 "-" + defLoc + "/" + word;
     }
 
