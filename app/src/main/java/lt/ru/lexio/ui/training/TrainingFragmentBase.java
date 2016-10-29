@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.droidparts.persist.sql.stmt.Is;
+import org.droidparts.persist.sql.stmt.Where;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -397,8 +398,12 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         final DictionaryDAO dDAO = new DictionaryDAO(getView().getContext());
 
-        String tag = wordDAO.read(currentWord.id).getDictionary().getLanguage();
-        final List<Dictionary> dictionaries = dDAO.readAll(dDAO.getAll().where(Db.Dictionary.LANG, Is.EQUAL, tag));
+        Word word = wordDAO.read(currentWord.id);
+        String tag = word.getDictionary().getLanguage();
+        Where where = new Where(Db.Dictionary.LANG, Is.EQUAL, tag).and(Db.Common.ID, Is.NOT_EQUAL, word.getDictionary().id);
+        final List<Dictionary> dictionaries = dDAO.readAll(dDAO.getAll().where(where));
+
+        if (dictionaries.isEmpty()) return; //TODO message to user that ther is no dictionaries to move word to
 
         String[] dictDisplay = new String[dictionaries.size()];
         for (int i = 0; i < dictionaries.size(); i++) {
