@@ -27,7 +27,6 @@
             android:layout_width="match_parent"
             android:paddingTop="25dp"
             android:text="Dread"
-            android:editable="false"
             android:focusableInTouchMode="false"
             android:focusable="false"
             android:textColor="@color/textColor"

@@ -84,6 +84,8 @@
     <string name="words.AddWord.CantloadTranslation">Can\'t load translation</string>
     <string name="action_word_edit">Edit word</string>
     <string name="dialog_Save">Save</string>
+    <string name="action_word_copy">Copy</string>
+    <string name="action_word_move">Move</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>пекарь</item>
         <item>библиотека</item>

@@ -1,5 +1,6 @@
 package lt.ru.lexio.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -87,5 +88,30 @@ public class WordDAO extends EntityManager<Word> {
 
     public Cursor execComplexSql(String sql, String[] args) {
         return getDB().rawQuery(sql, args);
+    }
+
+    public void copyWord(long dictId, long wordId) {
+        Word newWord = this.read(wordId);
+        newWord.id = 0;
+        Dictionary d = new Dictionary();
+        d.id = dictId;
+        newWord.setDictionary(d);
+        create(newWord);
+    }
+
+    public void moveWord(long dictId, long wordId) {
+        Word word = read(wordId);
+        long oldDict = word.getDictionary().id;
+        word.getDictionary().id = dictId;
+        getDB().beginTransaction();
+        try {
+            update(word);
+            incWords(oldDict, "-");
+            incWords(dictId, "+");
+
+            getDB().setTransactionSuccessful();
+        }finally {
+            getDB().endTransaction();
+        }
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- by now it is not supported to copy word. So copy button not visible -->
+    <item
+        android:id="@+id/action_word_copy"
+        android:icon="@drawable/ic_left_arrow"
+        android:title="@string/action_word_copy"
+        android:visible="false"
+        app:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/action_word_move"
+        android:icon="@drawable/ic_menu_move"
+        android:title="@string/action_word_move"
+        app:showAsAction="always">
+    </item>
+</menu>

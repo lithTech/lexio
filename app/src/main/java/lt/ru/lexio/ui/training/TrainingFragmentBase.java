@@ -1,35 +1,45 @@
 package lt.ru.lexio.ui.training;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
+import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
 import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.ui.MainActivity;
+import lt.ru.lexio.ui.dictionary.DictionariesListAdapter;
 
 /**
  * Created by lithTech on 27.03.2016.
@@ -370,8 +380,79 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_content_training, menu);
+    }
+
     protected void onQuestionShow() {
 
+    }
+
+    private void chooseDictionary(final GeneralCallback callback, int resIdActionButton) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        final View promptView = layoutInflater.inflate(R.layout.dialog_choose_dict, null);
+
+        final DictionaryDAO dDAO = new DictionaryDAO(getView().getContext());
+        final List<Dictionary> dictionaries = dDAO.readAll(dDAO.getAll());
+        String[] dictDisplay = new String[dictionaries.size()];
+        for (int i = 0; i < dictionaries.size(); i++) {
+            Dictionary dictionary = dictionaries.get(i);
+            dictDisplay[i] = dictionary.getTitle();
+        }
+
+        final NumberPicker npDictionaries = (NumberPicker) promptView.findViewById(R.id.npDictionaries);
+        npDictionaries.setDisplayedValues(dictDisplay);
+        npDictionaries.setMinValue(0);
+        npDictionaries.setMaxValue(dictDisplay.length-1);
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(promptView);
+
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(true)
+                .setPositiveButton(resIdActionButton, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Dictionary dictionary = dictionaries.get(npDictionaries.getValue());
+                        callback.done(dictionary);
+                    }
+                })
+                .setNegativeButton(R.string.dialog_Cancel,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        final AlertDialog alert = alertDialogBuilder.create();
+
+        alert.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_word_copy) {
+            chooseDictionary(new GeneralCallback() {
+                @Override
+                public void done(Object data) {
+                    Dictionary dictionary = (Dictionary) data;
+                    wordDAO.copyWord(dictionary.id, currentWord.id);
+                    Toast.makeText(getView().getContext(), "copy text", Toast.LENGTH_LONG).show();
+                }
+            }, R.string.action_word_copy);
+        }
+        else if (item.getItemId() == R.id.action_word_move)
+        {
+            chooseDictionary(new GeneralCallback() {
+                @Override
+                public void done(Object data) {
+                    Dictionary dictionary = (Dictionary) data;
+                    wordDAO.moveWord(dictionary.id, currentWord.id);
+                    Toast.makeText(getView().getContext(), "copy text", Toast.LENGTH_LONG).show();
+                }
+            }, R.string.action_word_move);
+        }
+        return true;
     }
 
     @Override
