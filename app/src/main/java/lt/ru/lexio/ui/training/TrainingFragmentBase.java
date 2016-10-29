@@ -23,6 +23,8 @@ import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import org.droidparts.persist.sql.stmt.Is;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -394,7 +396,10 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         final View promptView = layoutInflater.inflate(R.layout.dialog_choose_dict, null);
 
         final DictionaryDAO dDAO = new DictionaryDAO(getView().getContext());
-        final List<Dictionary> dictionaries = dDAO.readAll(dDAO.getAll());
+
+        String tag = wordDAO.read(currentWord.id).getDictionary().getLanguage();
+        final List<Dictionary> dictionaries = dDAO.readAll(dDAO.getAll().where(Db.Dictionary.LANG, Is.EQUAL, tag));
+
         String[] dictDisplay = new String[dictionaries.size()];
         for (int i = 0; i < dictionaries.size(); i++) {
             Dictionary dictionary = dictionaries.get(i);
@@ -448,7 +453,11 @@ public abstract class TrainingFragmentBase extends ContentFragment {
                 public void done(Object data) {
                     Dictionary dictionary = (Dictionary) data;
                     wordDAO.moveWord(dictionary.id, currentWord.id);
-                    Toast.makeText(getView().getContext(), "copy text", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getView().getContext(),
+                            currentWord.getTitle() + " " +
+                                    getResources().getString(R.string.msg_action_word_move_success) +
+                                    " " + dictionary.getTitle(),
+                            Toast.LENGTH_LONG).show();
                 }
             }, R.string.action_word_move);
         }

@@ -102,6 +102,7 @@ public class WordDAO extends EntityManager<Word> {
     public void moveWord(long dictId, long wordId) {
         Word word = read(wordId);
         long oldDict = word.getDictionary().id;
+        if (dictId == oldDict) return;
         word.getDictionary().id = dictId;
         getDB().beginTransaction();
         try {

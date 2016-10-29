@@ -85,6 +85,7 @@
     <string name="dialog_Save">Сохранить</string>
     <string name="action_word_copy">Копировать</string>
     <string name="action_word_move">Переместить</string>
+    <string name="msg_action_word_move_success">перемещено в словарь</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>Пекарь</item>
         <item>Библиотека</item>
