@@ -107,7 +107,7 @@ public class HardWordsFragment extends ContentFragment {
                 .append(")")
                 .append("where I_CNT > 0 ")
                 .append("order by I_CNT desc,R_CNT asc, " + Db.Common.TITLE)
-                .append("limit ").append(40);
+                .append(" limit ").append(40);
     }
 
 }
