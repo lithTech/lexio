@@ -86,6 +86,7 @@
     <string name="action_word_copy">Копировать</string>
     <string name="action_word_move">Переместить</string>
     <string name="msg_action_word_move_success">перемещено в словарь</string>
+    <string name="msg_action_word_nodict">Не найдено словарей для перемещения. Пожалуйста, создайте новый словарь с языком, таким же, как у текущего активного словаря</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>Пекарь</item>
         <item>Библиотека</item>

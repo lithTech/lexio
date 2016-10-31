@@ -403,7 +403,12 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         Where where = new Where(Db.Dictionary.LANG, Is.EQUAL, tag).and(Db.Common.ID, Is.NOT_EQUAL, word.getDictionary().id);
         final List<Dictionary> dictionaries = dDAO.readAll(dDAO.getAll().where(where));
 
-        if (dictionaries.isEmpty()) return; //TODO message to user that ther is no dictionaries to move word to
+        if (dictionaries.isEmpty()) {
+            Toast.makeText(getView().getContext(),
+                    getResources().getString(R.string.msg_action_word_nodict),
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
         String[] dictDisplay = new String[dictionaries.size()];
         for (int i = 0; i < dictionaries.size(); i++) {
@@ -445,9 +450,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
             chooseDictionary(new GeneralCallback() {
                 @Override
                 public void done(Object data) {
-                    Dictionary dictionary = (Dictionary) data;
-                    wordDAO.copyWord(dictionary.id, currentWord.id);
-                    Toast.makeText(getView().getContext(), "copy text", Toast.LENGTH_LONG).show();
+                    //TODO implement word copying sometime
                 }
             }, R.string.action_word_copy);
         }
