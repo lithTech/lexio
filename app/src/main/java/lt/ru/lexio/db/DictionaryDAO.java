@@ -52,4 +52,8 @@ public class DictionaryDAO extends EntityManager<Dictionary> {
         return c;
     }
 
+    public void importWord(long dictId, String sqlInsert, Date date) {
+        getDB().execSQL(sqlInsert, new Object[]{dictId, date});
+    }
+
 }

@@ -146,7 +146,7 @@ public class DictionariesFragment extends ContentFragment {
         };
 
         startLoadingIfDoesntExist(getResources().getString(R.string.defdict_eng_basic),
-                R.raw.dict_eng_basic, "en-US", callback);
+                R.raw.dict_eng_basic, "English", callback);
     }
 
     private void startLoadingIfDoesntExist(String dictTitle, int rId, String lang,
