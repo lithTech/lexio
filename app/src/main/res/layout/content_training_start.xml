@@ -12,24 +12,24 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
         <TextView
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/training.Start.WordCount"
-            android:paddingLeft="50dp"
+            android:paddingLeft="20dp"
             android:paddingRight="15dp"
             android:id="@+id/textView2"
             android:layout_gravity="center_vertical" />
 
         <NumberPicker
-            android:layout_weight="0.5"
+            android:layout_weight="0.4"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:id="@+id/npCount"
             android:scaleX="1"
             android:scaleY="1"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical" />
     </LinearLayout>
 
@@ -43,24 +43,24 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/training.Start.WordOrder"
-            android:paddingLeft="50dp"
+            android:paddingLeft="20dp"
             android:paddingRight="15dp"
             android:id="@+id/textView3"
             android:layout_gravity="center_vertical" />
 
             <NumberPicker
                 android:layout_width="0dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:layout_height="100dp"
                 android:id="@+id/npWordOrder1"
                 android:layout_gravity="center_horizontal"
                 android:scaleX="1"
                 android:scaleY="1"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical" />
 
     </LinearLayout>
@@ -74,25 +74,25 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/training.Start.AnswerTimer"
-            android:paddingLeft="50dp"
+            android:paddingLeft="20dp"
             android:paddingRight="15dp"
             android:id="@+id/textView4"
             android:layout_gravity="center_vertical" />
 
             <NumberPicker
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:id="@+id/npAnswerTimer"
                 android:layout_gravity="center_horizontal"
                 android:scaleX="1"
                 android:scaleY="1"
-                android:layout_marginRight="50dp"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical" />
 
     </LinearLayout>

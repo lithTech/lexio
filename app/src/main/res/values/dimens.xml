@@ -11,7 +11,9 @@
     <dimen name="button_press_elevation">4dp</dimen>
 
     <dimen name="card.Width">250dp</dimen>
+    <dimen name="card.WidthLandscape">320dp</dimen>
     <dimen name="card.Height">320dp</dimen>
+    <dimen name="card.HeightLandscape">180dp</dimen>
 
     <integer name="animation_correct_answer">400</integer>
     <integer name="animation_incorrect_answer">2000</integer>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    android:orientation="vertical">
+
+    <lt.ru.lexio.ui.widget.TrainingPositionBar
+        android:id="@+id/trainingProgress"
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="50dp"
+        android:progressDrawable="@drawable/training_progress_bar"
+        android:indeterminate="false"
+        android:indeterminateOnly="false" />
+
+    <LinearLayout
+        android:id="@+id/layout_train_end_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="lt.ru.lexio.ui.training.TrainingEndPageFragment"
+            tools:layout="@layout/content_training_end_page" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/layout_trans_word_train"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/edTrainingTranslation"
+            android:layout_width="match_parent"
+            android:paddingTop="25dp"
+            android:text="Ползти"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:textColor="@color/textColor"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Crawl"
+                android:id="@+id/bTransAnswer1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:text="Feed"
+                android:id="@+id/bTransAnswer2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Went"
+                android:id="@+id/bTransAnswer3"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Cat"
+                android:id="@+id/bTransAnswer4"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+            />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:text="@string/training.DontKnowButton"
+            android:id="@+id/bTransDontKnow"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="25dp"
+            />
+    </LinearLayout>
+</FrameLayout>

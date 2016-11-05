@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    android:orientation="vertical">
+
+    <lt.ru.lexio.ui.widget.TrainingPositionBar
+        android:id="@+id/trainingProgress"
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="50dp"
+        android:progressDrawable="@drawable/training_progress_bar"
+        android:indeterminate="false"
+        android:indeterminateOnly="false" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/layout_word_train"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/edTrainingWord"
+            android:layout_width="match_parent"
+            android:paddingTop="25dp"
+            android:text="Dread"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:textColor="@color/textColor"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvTrainingContext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The dread gouse bathing in the water of the river good lord you are multiline!"
+            android:maxLines="3"
+            android:ellipsize="none"
+            android:paddingTop="10dp"
+            android:singleLine="false"
+            android:scrollHorizontally="false"
+            />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:text="Смерть"
+            android:id="@+id/bWordTransAnswer1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Ужасный"
+            android:id="@+id/bWordTransAnswer2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Прекрасный"
+                android:id="@+id/bWordTransAnswer3"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Принцесса"
+                android:id="@+id/bWordTransAnswer4"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:text="@string/training.DontKnowButton"
+            android:textAllCaps="true"
+            android:id="@+id/bWordTransDontKnow"
+            android:textStyle="bold"
+            android:layout_marginTop="25dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_train_end_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="lt.ru.lexio.ui.training.TrainingEndPageFragment"
+            tools:layout="@layout/content_training_end_page" />
+    </LinearLayout>
+
+</FrameLayout>
