@@ -76,7 +76,6 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         bCancelFilter.setOnClickListener(this);
 
         lWords.setLongClickable(true);
-        lWords.setClickable(true);
         registerForContextMenu(lWords);
 
         return view;
@@ -97,8 +96,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         WordListAdapter adapter = new WordListAdapter(context, R.layout.content_word_item,
                 wordDAO.getAll(dictId),
-                new String[]{Db.Common.TITLE, Db.Word.TRANSLATION},
-                new int[]{R.id.tvWord, R.id.tvTranslation});
+                new String[]{Db.Common.TITLE, Db.Word.TRANSLATION, Db.Word.TRANSCRIPTION},
+                new int[]{R.id.tvWord, R.id.tvTranslation, R.id.tvTranscription});
 
         adapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override

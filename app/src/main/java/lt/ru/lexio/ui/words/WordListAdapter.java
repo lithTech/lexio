@@ -21,6 +21,7 @@ import lt.ru.lexio.R;
 public class WordListAdapter extends SimpleCursorAdapter{
 
     Set<Integer> selectedWords = new HashSet<>();
+    List<Holder> backInfo = new ArrayList<>();
 
     public Set<Integer> getSelectedWords() {
         return selectedWords;
@@ -33,6 +34,16 @@ public class WordListAdapter extends SimpleCursorAdapter{
     public WordListAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
         super(context, layout, c, from, to, 0);
 
+        for (int i = 0; i < this.getCount(); i++) {
+            backInfo.add(new Holder(false));
+        }
+    }
+
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        View view = super.newView(context, cursor, parent);
+
+        return view;
     }
 
     @Override
@@ -44,15 +55,24 @@ public class WordListAdapter extends SimpleCursorAdapter{
             @Override
             public void onClick(View v) {
                 CheckBox cb = (CheckBox) v.findViewById(R.id.cbWordChecked);
+                backInfo.get(position).checked = cb.isChecked();
                 if (cb.isChecked())
                     selectedWords.add(position);
                 else
                     selectedWords.remove(position);
             }
         });
-        cb.setChecked(selectedWords.contains(position));
+        cb.setChecked(backInfo.get(position).checked);
 
         return view;
     }
 
+
+    private class Holder {
+        public boolean checked;
+
+        public Holder(boolean checked) {
+            this.checked = checked;
+        }
+    }
 }

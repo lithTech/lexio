@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTintMode="src_in"
     android:baselineAligned="false"
@@ -11,10 +11,11 @@
     <CheckBox
         android:id="@+id/cbWordChecked"
         android:layout_width="wrap_content"
+        android:focusable="false"
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:orientation="vertical"
         android:layout_height="wrap_content">
         <TextView
@@ -38,4 +39,16 @@
             android:paddingBottom="5dp"
             android:id="@+id/tvTranslation" />
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_gravity="center"
+        android:paddingRight="15dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="[delusion]"
+        android:textColor="@color/colorAccent"
+        android:paddingLeft="5dp"
+        android:id="@+id/tvTranscription" />
+
 </LinearLayout>
