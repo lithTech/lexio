@@ -79,10 +79,13 @@ public class WordDAO extends EntityManager<Word> {
     }
 
     public Cursor getAllFiltered(long dictId, String titleFilter) {
+        Where main = new Where(Db.Word.DICTIONARY_ID, Is.EQUAL, dictId);
         Where where = new Where("UPPER(" + Db.Common.TITLE + ")", Is.LIKE, titleFilter);
         where = where.or("UPPER(" + Db.Word.TRANSLATION + ")", Is.LIKE, titleFilter);
 
-        return select().where(where)
+        main.and(where);
+
+        return select().where(main)
                 .orderBy(Db.Common.TITLE, true).execute();
     }
 
