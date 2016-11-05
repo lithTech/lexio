@@ -15,7 +15,7 @@ public class Word extends Entity {
     @Column(name = Db.Word.DICTIONARY_ID, eager = true, nullable = false)
     Dictionary dictionary;
 
-    @Column(name = Db.Common.TITLE, nullable = false, unique = true)
+    @Column(name = Db.Common.TITLE, nullable = false, unique = false)
     String title;
 
     @Column(name = Db.Word.TRANSCRIPTION, nullable = true, unique = false)
