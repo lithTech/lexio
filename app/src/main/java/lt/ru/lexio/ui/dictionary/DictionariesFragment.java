@@ -2,8 +2,10 @@ package lt.ru.lexio.ui.dictionary;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +27,18 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.droidparts.persist.sql.stmt.Is;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
@@ -33,6 +46,7 @@ import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
+import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.words.WordListAdapter;
 
@@ -44,6 +58,59 @@ public class DictionariesFragment extends ContentFragment {
     ListView lDictionaries;
 
     DictionaryDAO dictionaryDAO;
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    private class DictLoader implements Runnable {
+
+        DictionaryDAO dao;
+        InputStream sqlInsertsStream;
+        long dictId;
+        GeneralCallback callback = null;
+
+        public DictLoader(DictionaryDAO dao, InputStream sqlInsertsStream, long dictId) {
+            this.dao = dao;
+            this.sqlInsertsStream = sqlInsertsStream;
+            this.dictId = dictId;
+        }
+
+        public DictLoader(DictionaryDAO dao, InputStream sqlInsertsStream, long dictId, GeneralCallback callback) {
+            this.dao = dao;
+            this.sqlInsertsStream = sqlInsertsStream;
+            this.dictId = dictId;
+            this.callback = callback;
+        }
+
+        @Override
+        public void run() {
+            int c = 0;
+            try
+            {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(sqlInsertsStream));
+                String line = reader.readLine();
+                while (line != null) {
+                    Date date = new Date();
+                    dao.importWord(dictId, line, date);
+                    line = reader.readLine();
+                    c++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                Dictionary d = dao.read(dictId);
+                d.setWords(c);
+                dao.update(d);
+                try {
+                    sqlInsertsStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (callback != null)
+                    callback.done(d);
+            }
+        }
+    }
 
     @Nullable
     @Override
@@ -60,6 +127,43 @@ public class DictionariesFragment extends ContentFragment {
         registerForContextMenu(lDictionaries);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        final ProgressDialog progressDialog = ProgressDialog.show(getView().getContext(),
+                getString(R.string.defdict_loading_title),
+                getString(R.string.defdict_loading_msg));
+
+        GeneralCallback callback = new GeneralCallback() {
+            @Override
+            public void done(Object data) {
+                progressDialog.dismiss();
+                refreshDictionaryList();
+            }
+        };
+
+        startLoadingIfDoesntExist(getResources().getString(R.string.defdict_eng_basic),
+                R.raw.dict_eng_basic, "en-US", callback);
+    }
+
+    private void startLoadingIfDoesntExist(String dictTitle, int rId, String lang,
+                                                GeneralCallback callback) {
+        Cursor cursor = dictionaryDAO.select().where(Db.Common.TITLE, Is.EQUAL, dictTitle).execute();
+        boolean hasDict = cursor.moveToNext();
+        cursor.close();
+        if (!hasDict) {
+            long dictId = createDictionaryObject(dictTitle, getResources().getString(R.string.defaultDictDescription),
+                    lang);
+            InputStream in = getResources().openRawResource(rId);
+            executor.submit(
+                    new DictLoader(new DictionaryDAO(getView().getContext()), in, dictId, callback));
+        } else {
+            if (callback != null)
+                callback.done(null);
+        }
     }
 
     @Override
@@ -83,7 +187,6 @@ public class DictionariesFragment extends ContentFragment {
         ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems().add(info.position);
         return onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -195,7 +298,7 @@ public class DictionariesFragment extends ContentFragment {
         alert.show();
     }
 
-    private void createDictionaryObject(String title, String desc, String lang) {
+    private long createDictionaryObject(String title, String desc, String lang) {
         int dictCnt = dictionaryDAO.select().count();
         Dictionary dictionary = new Dictionary();
         dictionary.setWords(0);
@@ -205,7 +308,11 @@ public class DictionariesFragment extends ContentFragment {
         if (dictCnt == 0)
             dictionary.setActive(1);
         dictionaryDAO.create(dictionary);
-        setActiveDictionary(dictionary.id);
+
+        if (dictCnt == 0)
+            setActiveDictionary(dictionary.id);
+
+        return dictionary.id;
     }
 
 }

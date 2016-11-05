@@ -7,6 +7,8 @@ import org.droidparts.persist.sql.EntityManager;
 import org.droidparts.persist.sql.stmt.Is;
 import org.droidparts.persist.sql.stmt.Select;
 
+import java.util.Date;
+
 import lt.ru.lexio.util.SqlHelper;
 
 /**
