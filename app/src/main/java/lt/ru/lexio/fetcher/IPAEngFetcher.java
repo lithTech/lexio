@@ -97,7 +97,7 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, Collection<Word
                 if (paramIt.hasNext())
                     writer.write("%0D%0A");
             }
-            writer.write("&submit=Show+transcription&output_dialect=am&output_style=columns&preBracket=&postBracket=&speech_support=0");
+            writer.write("&submit=Show+transcription&output_dialect=br&output_style=columns&preBracket=&postBracket=&speech_support=0");
 
             writer.flush();
             writer.close();
