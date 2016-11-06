@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -52,10 +53,8 @@ public class DictionariesListAdapter extends SimpleCursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = super.newView(context, cursor, parent);
-        TextView tv = (TextView) view.findViewById(R.id.tvActive);
         if (cursor.getInt(cursor.getColumnIndex(Db.Dictionary.ACTIVE)) == 1) {
             backInfo.get(cursor.getPosition()).active = true;
-            tv.setText(parent.getResources().getText(R.string.dictionaries_ActiveFlag));
         }
 
         return view;
@@ -80,10 +79,10 @@ public class DictionariesListAdapter extends SimpleCursorAdapter {
         });
         checkBox.setChecked(backInfo.get(position).checked);
 
-        TextView tv = (TextView) view.findViewById(R.id.tvActive);
-        tv.setText("");
+        ImageView iv = (ImageView) view.findViewById(R.id.ivActive);
+        iv.setImageDrawable(null);
         if (backInfo.get(position).active)
-            tv.setText(parent.getResources().getString(R.string.dictionaries_ActiveFlag));
+            iv.setImageResource(R.drawable.ic_menu_flags);
 
         return view;
     }
