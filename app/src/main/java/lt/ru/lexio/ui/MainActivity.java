@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     Menu navMenu = null;
     ContentFragment currentFragment = null;
     WordFragment wordFragment = null;
+    Menu topActionMenu = null;
 
     EventListenerManager eventListenerManager = new EventListenerManager();
 
@@ -62,6 +63,10 @@ public class MainActivity extends AppCompatActivity
             MenuItem menuItem = navMenu.findItem(R.id.dict_dictionary);
             menuItem.setTitle(currentDictionary.getTitle());
         }
+    }
+
+    public Menu getTopActionMenu() {
+        return topActionMenu;
     }
 
     private void updateDictionaryWordsIPA() {
@@ -125,7 +130,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        topActionMenu = menu;
         return true;
     }
 

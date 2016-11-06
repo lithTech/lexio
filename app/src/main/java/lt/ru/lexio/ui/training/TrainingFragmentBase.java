@@ -167,6 +167,9 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         setEndPageStatistics(wordStatistics, correct, total - correct);
         endPageContainer.setVisibility(View.VISIBLE);
+
+        //replace trainig menu with global action menu
+        getActivity().invalidateOptionsMenu();
     }
 
     protected abstract void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
@@ -385,7 +388,10 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_content_training, menu);
+        int r = R.menu.menu_content_training;
+        if (trainingPageContainer != null && trainingPageContainer.getVisibility() == View.GONE)
+            r = R.menu.menu_activity_main_actionbar;
+        inflater.inflate(r, menu);
     }
 
     protected void onQuestionShow() {
