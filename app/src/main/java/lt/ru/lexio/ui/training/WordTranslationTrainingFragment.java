@@ -117,7 +117,7 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
     protected void setQuestion(Word word, List<String> answers, int correctNumIndex) {
         String wordTitle = word.getTitle();
         if (word.getTranscription() != null && !word.getTranscription().isEmpty())
-            wordTitle += " " + word.getTranscription();
+            wordTitle += " [" + word.getTranscription() + "]";
         ((TextView) getView().findViewById(R.id.edTrainingWord)).setText(wordTitle);
         ((TextView) getView().findViewById(R.id.tvTrainingContext)).setText(word.getContext());
     }
