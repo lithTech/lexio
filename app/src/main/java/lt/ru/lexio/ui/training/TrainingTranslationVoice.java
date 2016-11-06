@@ -204,9 +204,9 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
     private boolean isCorrectAnswer(List<String> speech) {
         boolean r = false;
+        String ca = correctAnswer.toLowerCase().trim().replace("-", "").replace(" ", "");
         for (String sp : speech) {
-            if (correctAnswer.toLowerCase().trim().equals(sp.toLowerCase().trim()))
-            {
+            if (ca.equals(sp.toLowerCase().trim().replace("-", "").replace(" ", ""))) {
                 r = true;
                 break;
             }
