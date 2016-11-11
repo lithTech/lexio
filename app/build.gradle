@@ -37,4 +37,6 @@ dependencies {
     compile 'org.droidparts:droidparts:2.9.4'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     compile 'org.jsoup:jsoup:1.8.3'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta2'
+    compile 'com.github.clans:fab:1.6.4'
 }

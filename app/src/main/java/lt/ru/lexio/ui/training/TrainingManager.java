@@ -11,7 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lt.ru.lexio.R;
+import lt.ru.lexio.db.Word;
+import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
 
 /**
@@ -29,6 +34,7 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
 
     private static String START_TRAINING_SETTINGS = "trainingSettings";
     private SharedPreferences pref;
+    private long[] startWordList;
 
     @Nullable
     @Override
@@ -36,6 +42,8 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         loadTrainingId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
+
+        startWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
 
         pref = getActivity().getSharedPreferences(START_TRAINING_SETTINGS, Context.MODE_PRIVATE);
 
@@ -74,28 +82,21 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         int aTime = pref.getInt(loadTrainingId + ".nbTrainingAnswerTimer", 0);
         nbTrainingAnswerTimer.setValue(aTime);
 
-        FloatingActionButton bStart = (FloatingActionButton) view.findViewById(R.id.bTrainingStart);
+        View bStart = view.findViewById(R.id.bTrainingStart);
         bStart.setOnClickListener(this);
 
         return view;
     }
 
     @Override
-    public void onClick(View v) {
-        TrainingWordOrder wordOrder1 = wordOrders[nbTrainingWordOrder1.getValue()];
-        int count = nbTrainingWordCount.getValue();
-        String title = getResources().getString(getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE));
+    public void onStart() {
+        super.onStart();
+        if (startWordList != null)
+            startTrainingWithList(startWordList);
+    }
 
-        Bundle args = new Bundle(5);
-        args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, loadTrainingId);
-        args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT, count);
-        args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER, wordOrder1.ordinal());
-
-        String timerOption = answerTimerOptions[nbTrainingAnswerTimer.getValue()];
-        if (nbTrainingAnswerTimer.getValue() == 0) timerOption = "0";
-        args.putInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER, Integer.valueOf(timerOption));
+    private ContentFragment getTraining(int loadTrainingId) {
         ContentFragment trainingContent;
-
         switch (loadTrainingId) {
             case R.layout.content_training_cards:
                 trainingContent = new TrainingCards();
@@ -113,8 +114,47 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
                 trainingContent = new TrainingEnterWordByTransFragment();
                 break;
             default:
-                return;
+                return null;
         }
+        return trainingContent;
+    }
+
+    public void startTrainingWithList(long[] startWordList) {
+        TrainingWordOrder wordOrder1 = wordOrders[nbTrainingWordOrder1.getValue()];
+        int count = nbTrainingWordCount.getValue();
+        String title = "";
+        int titleResId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE);
+        if (titleResId != 0) {
+            title = getResources().getString(titleResId);
+        }
+
+        Bundle args = new Bundle(5);
+        args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, loadTrainingId);
+        args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT, count);
+        args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER, wordOrder1.ordinal());
+        args.putInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER, 0);
+        args.putLongArray(ContentFragment.ARG_TRAINING_START_LIST, startWordList);
+
+        ContentFragment trainingContent = getTraining(loadTrainingId);
+
+        mainActivity.changeFragment(trainingContent, args, title);
+    }
+
+    @Override
+    public void onClick(View v) {
+        TrainingWordOrder wordOrder1 = wordOrders[nbTrainingWordOrder1.getValue()];
+        int count = nbTrainingWordCount.getValue();
+        String title = getResources().getString(getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE));
+
+        Bundle args = new Bundle(5);
+        args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, loadTrainingId);
+        args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT, count);
+        args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER, wordOrder1.ordinal());
+
+        String timerOption = answerTimerOptions[nbTrainingAnswerTimer.getValue()];
+        if (nbTrainingAnswerTimer.getValue() == 0) timerOption = "0";
+        args.putInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER, Integer.valueOf(timerOption));
+        ContentFragment trainingContent = getTraining(loadTrainingId);
 
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt(loadTrainingId + ".nbTrainingAnswerTimer", Integer.valueOf(timerOption));

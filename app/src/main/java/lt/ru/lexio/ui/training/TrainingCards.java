@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,8 +52,8 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     View content;
     LinearLayout card;
 
-    FloatingActionButton bReload;
-    FloatingActionButton bNext;
+    View bReload;
+    View bNext;
 
     float nqSWIPE_MIN = 150;
     float nqX1, nqX2;
@@ -109,19 +111,22 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     @Override
     protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
-        View endPage = getView().findViewById(getEndPageContainerId());
+        ViewGroup viewGroup = (ViewGroup) getView().findViewById(R.id.layout_train_end_page);
+        View fragment = viewGroup.getChildAt(0);
+        ((TextView) fragment.findViewById(R.id.tvTrainingEndPageCorrect))
+                .setText(String.valueOf(sessionWords.size()));
+        ((TextView) fragment.findViewById(R.id.tvTrainingEndPageInCorrect))
+                .setText(String.valueOf(0));
 
-        bReload = (FloatingActionButton) endPage.findViewById(R.id.bTrainingEndPageTryAgain);
-        bNext = (FloatingActionButton) endPage.findViewById(R.id.bTrainingEndPageNext);
-        TextView endPageLabel = (TextView) endPage.findViewById(R.id.tvTrainingCardsEndPageLabel);
-        endPageLabel.setText(String.format(getResources().getString(R.string.Training_Cards_EndPageLabel),
-                sessionWords.size()));
+        List<EndPageStatistic> statistics = new ArrayList<>(sessionWords.size());
+        for (Word word : sessionWords) {
+            EndPageStatistic s = new EndPageStatistic(word.id, word.getTitle(),
+                    word.getTranslation(), true);
+            statistics.add(s);
+        }
 
-        content.setVisibility(View.GONE);
-        endPage.setVisibility(View.VISIBLE);
-
-        bReload.setOnClickListener(this);
-        bNext.setOnClickListener(this);
+        ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
+        lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
     }
 
     @Override

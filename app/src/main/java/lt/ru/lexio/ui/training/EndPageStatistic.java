@@ -6,13 +6,15 @@ package lt.ru.lexio.ui.training;
 
 public class EndPageStatistic {
 
+    public long id;
     public String question;
     public String correctAnswer;
     //public String incorrectAnswer;
     public Boolean isCorrect;
 
-    public EndPageStatistic(String question, String correctAnswer, Boolean isCorrect) {
+    public EndPageStatistic(long id, String question, String correctAnswer, Boolean isCorrect) {
         this.question = question;
+        this.id = id;
         this.correctAnswer = correctAnswer;
         //this.incorrectAnswer = incorrectAnswer;
         this.isCorrect = isCorrect;

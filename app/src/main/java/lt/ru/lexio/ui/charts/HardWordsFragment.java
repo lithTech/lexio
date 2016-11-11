@@ -40,10 +40,12 @@ public class HardWordsFragment extends ContentFragment {
         BarChart barChart = (BarChart) view.findViewById(R.id.chart_hard_words);
         barChart.setDrawBarShadow(false);
         barChart.setHorizontalScrollBarEnabled(true);
+        barChart.setPinchZoom(false);
+        barChart.setDoubleTapToZoomEnabled(false);
         barChart.setData(getData());
         barChart.animateXY(1000, 2000);
         barChart.getXAxis().setDrawLabels(true);
-        barChart.getViewPortHandler().setMinimumScaleX(3.0f);
+        barChart.getViewPortHandler().setMinimumScaleX(4.0f);
         barChart.getXAxis().setLabelRotationAngle(90);
         barChart.getAxisLeft().setDrawLabels(false);
         barChart.getAxisRight().setDrawLabels(false);

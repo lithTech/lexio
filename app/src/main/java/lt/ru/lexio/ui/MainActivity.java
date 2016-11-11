@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         initUI(navigationView.getMenu());
 
-        FloatingActionButton btnWordAdd = (FloatingActionButton) findViewById(R.id.word_add_global);
+        View btnWordAdd = findViewById(R.id.word_add_global);
         btnWordAdd.setOnClickListener(this);
 
     }

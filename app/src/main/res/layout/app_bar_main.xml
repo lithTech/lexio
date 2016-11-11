@@ -25,12 +25,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"></RelativeLayout>
 
-    <android.support.design.widget.FloatingActionButton
+
+
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/word_add_global"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_menu_word_add" />
+        android:src="@drawable/ic_menu_word_add"
+        app:fab_label="@string/train.Cards"
+        app:fab_colorNormal="@color/colorAccent"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

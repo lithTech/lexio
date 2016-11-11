@@ -19,8 +19,16 @@ import lt.ru.lexio.R;
 public class EndPageStatAdapter extends ArrayAdapter<EndPageStatistic> {
 
 
+    List<EndPageStatistic> statistics;
+
     public EndPageStatAdapter(Context context, int resource, int textViewResourceId, List<EndPageStatistic> objects) {
         super(context, resource, textViewResourceId, objects);
+
+        statistics = objects;
+    }
+
+    public List<EndPageStatistic> getStatistics() {
+        return statistics;
     }
 
     @NonNull

@@ -123,6 +123,10 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     Animation aniPrevStartNewQuestion;
     private int answerTime;
 
+    public MainActivity getMainActivity() {
+
+        return activity;
+    }
 
     protected abstract int getTrainingPageContainerId();
 
@@ -236,7 +240,17 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         currentQuestionNum = -1;
         trainingWordBuilder.dictId = getCurrentDictionary().id;
         currentPage++;
-        sessionWords = buildWords(random, sessionDate, currentPage, wordDAO, wordStatisticDAO);
+
+        long[] startWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
+        if (startWordList == null) {
+            sessionWords = buildWords(random, sessionDate, currentPage, wordDAO, wordStatisticDAO);
+        } else {
+            sessionWords = new ArrayList<>(startWordList.length);
+            for (long l : startWordList) {
+                sessionWords.add(wordDAO.read(l));
+            }
+        }
+
         if (sessionWords.isEmpty()) {
             Toast.makeText(getView().getContext(), getResources().getString(R.string.training_Word_Empty),
                     Toast.LENGTH_SHORT).show();

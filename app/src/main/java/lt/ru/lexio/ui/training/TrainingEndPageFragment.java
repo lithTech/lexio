@@ -5,19 +5,20 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.text.Layout;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ListView;
 
 import java.util.List;
 
 import lt.ru.lexio.R;
-import lt.ru.lexio.db.Word;
+import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.MainActivity;
 
 /**
  * Created by lithTech on 02.04.2016.
@@ -26,15 +27,27 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
 
     ListView lWordStatistic;
 
+    int[] trainingButtons = new int[]{
+            R.id.bTrainingCards,
+            R.id.bTrainingWordByTrans,
+            R.id.bTrainingTransByWord,
+            R.id.bTrainingTransVoice,
+            R.id.bTrainingTransWrite
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_training_end_page, container, false);
 
-        view.findViewById(R.id.bTrainingEndPageTryAgain).setOnClickListener(this);
         view.findViewById(R.id.bTrainingEndPageNext).setOnClickListener(this);
 
         lWordStatistic = (ListView) view.findViewById(R.id.lvTrainingEndPageWordStat);
+
+        for (int tb : trainingButtons) {
+            View v = view.findViewById(tb);
+            v.setOnClickListener(this);
+        }
 
         return view;
     }
@@ -51,16 +64,46 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
         return adapter;
     }
 
+    public long[] getWordList() {
+        EndPageStatAdapter adapter = (EndPageStatAdapter) lWordStatistic.getAdapter();
+        long[] list = new long[adapter.getStatistics().size()];
+        List<EndPageStatistic> statistics = adapter.getStatistics();
+        for (int i = 0; i < statistics.size(); i++) {
+            EndPageStatistic s = statistics.get(i);
+            list[i] = s.id;
+        } ;
+        return list;
+    }
+
     @Override
     public void onClick(View v) {
-        Fragment fragment = getActivity().getFragmentManager()
-                .findFragmentById(R.id.content_fragment_parent);
-        if (fragment != null && fragment instanceof TrainingFragmentBase) {
-            if (v.getId() == R.id.bTrainingEndPageTryAgain) {
-                int page = ((TrainingFragmentBase) fragment).getCurrentPage();
-                ((TrainingFragmentBase) fragment).setCurrentPage(page - 1);
+        if (v.getId() == R.id.bTrainingEndPageTryAgain ||
+                v.getId() == R.id.bTrainingEndPageNext) {
+            Fragment fragment = getActivity().getFragmentManager()
+                    .findFragmentById(R.id.content_fragment_parent);
+            if (fragment != null && fragment instanceof TrainingFragmentBase) {
+                if (v.getId() == R.id.bTrainingEndPageTryAgain) {
+                    int page = ((TrainingFragmentBase) fragment).getCurrentPage();
+                    ((TrainingFragmentBase) fragment).setCurrentPage(page - 1);
+                }
+                fragment.onStart();
             }
-            fragment.onStart();
+        }
+        else {
+            for (int tb : trainingButtons) {
+                if (v.getId() == tb && v.getTag() != null) {
+                    String idName = (String) v.getTag();
+
+                    int id = getResources().getIdentifier(idName, "layout", getActivity().getPackageName());
+
+                    TrainingManager trainingManager = new TrainingManager();
+                    Bundle args = new Bundle();
+                    args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, id);
+                    args.putLongArray(ContentFragment.ARG_TRAINING_START_LIST, getWordList());
+                    args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+                    ((MainActivity) getActivity()).changeFragment(trainingManager, args, "");
+                }
+            }
         }
     }
 }

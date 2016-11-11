@@ -64,9 +64,10 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
         View fragment = getView().findViewById(R.id.layout_train_end_page);
 
         List<EndPageStatistic> statistics = new ArrayList<>(wordStatistics.size());
-        for (WordStatistic wordStatistic : wordStatistics) {
-            EndPageStatistic e = new EndPageStatistic(wordStatistic.getWord().getTranslation(),
-                    wordStatistic.getWord().getTitle(), wordStatistic.getTrainingResult() == 1);
+        for (WordStatistic ws : wordStatistics) {
+            EndPageStatistic e = new EndPageStatistic(ws.getWord().id,
+                    ws.getWord().getTranslation(),
+                    ws.getWord().getTitle(), ws.getTrainingResult() == 1);
             statistics.add(e);
         }
 
