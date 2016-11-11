@@ -284,6 +284,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     }
 
     protected long storeStatistic(long wordId, boolean isSuccess, long sessionId) {
+        if (getTrainingType() == null)
+            return 0;
         WordStatistic statistic = new WordStatistic();
         wordDummy.id = wordId;
         statistic.setWord(wordDummy);
