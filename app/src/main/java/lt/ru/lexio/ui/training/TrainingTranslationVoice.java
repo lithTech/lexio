@@ -37,8 +37,8 @@ import lt.ru.lexio.util.ColorAnimateHelper;
 public class TrainingTranslationVoice extends TrainingFragmentBase implements View.OnClickListener {
 
     private TextView edWord;
-    private FloatingActionButton bMic;
-    private FloatingActionButton bNext;
+    private View bMic;
+    private View bNext;
     private TextView tvAnswer;
     private TextView tvCorrectAnswer;
     private String correctAnswer;
@@ -125,8 +125,8 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        bMic = (FloatingActionButton) view.findViewById(R.id.bTrainingTransVoiceMic);
-        bNext = (FloatingActionButton) view.findViewById(R.id.bTrainingTransVoiceNext);
+        bMic = view.findViewById(R.id.bTrainingTransVoiceMic);
+        bNext = view.findViewById(R.id.bTrainingTransVoiceNext);
         bMic.setOnClickListener(this);
         bNext.setOnClickListener(this);
         edWord = (TextView) view.findViewById(R.id.edTrainingTransVoiceWord);
