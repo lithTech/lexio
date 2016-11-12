@@ -8,6 +8,7 @@
 
     <LinearLayout
         android:id="@+id/cWordNumber"
+        android:background="@drawable/contrainer_list_separator"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -25,7 +26,8 @@
         <NumberPicker
             android:layout_weight="0.4"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/npCount"
             android:scaleX="1"
             android:scaleY="1"
@@ -35,6 +37,7 @@
 
     <LinearLayout
         android:id="@+id/cWordOrder"
+        android:background="@drawable/contrainer_list_separator"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_below="@id/cWordNumber"
@@ -55,7 +58,8 @@
             <NumberPicker
                 android:layout_width="0dp"
                 android:layout_weight="0.4"
-                android:layout_height="100dp"
+                android:layout_height="110dp"
+                android:layout_marginBottom="5dp"
                 android:id="@+id/npWordOrder1"
                 android:layout_gravity="center_horizontal"
                 android:scaleX="1"
@@ -67,6 +71,7 @@
 
     <LinearLayout
         android:id="@+id/cTimer"
+        android:background="@drawable/contrainer_list_separator"
         android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -87,7 +92,8 @@
             <NumberPicker
                 android:layout_weight="0.4"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="110dp"
+                android:layout_marginBottom="5dp"
                 android:id="@+id/npAnswerTimer"
                 android:layout_gravity="center_horizontal"
                 android:scaleX="1"

@@ -46,7 +46,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
                 android:textSize="30dp"
-                android:textColor="#eeeeee"
+                android:textColor="@color/textColor"
                 />
             <lt.ru.lexio.ui.widget.AutoResizeTextView
                 android:id="@+id/tvTranscription"
@@ -60,7 +60,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
                 android:textSize="25dp"
-                android:textColor="#eeeeaa"
+                android:textColor="@color/colorPrimary"
                 />
         </LinearLayout>
 
@@ -78,106 +78,5 @@
             android:name="lt.ru.lexio.ui.training.TrainingEndPageFragment"
             tools:layout="@layout/content_training_end_page" />
     </LinearLayout>
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/layout_train_end_page"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical"-->
-        <!--android:visibility="visible"-->
-        <!--&gt;-->
-        <!--<TextView-->
-            <!--android:id="@+id/tvTrainingCardsEndPageLabel"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="50dp"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:visibility="visible"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-            <!--android:text="@string/Training.Cards.EndPageLabel"-->
-            <!--/>-->
-
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/cEndPageControls"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:gravity="bottom|center"-->
-            <!--android:layout_alignBottom="@+id/lvTrainingEndPageWordStat">-->
-
-            <!--<com.github.clans.fab.FloatingActionMenu-->
-                <!--android:id="@+id/amTrainingMenu"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingBottom="15dp"-->
-                <!--app:menu_icon="@drawable/ic_menu_reload"-->
-                <!--app:menu_colorNormal="@color/colorPrimaryDark"-->
-                <!--app:menu_showShadow="true"-->
-                <!--app:menu_labels_singleLine="true"-->
-                <!--app:menu_openDirection="up"-->
-                <!--app:menu_labels_position="right"-->
-                <!--app:menu_buttonSpacing="-4dp"-->
-                <!--&gt;-->
-
-                <!--<com.github.clans.fab.FloatingActionButton-->
-                    <!--android:id="@+id/bTrainingCards"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingBottom="135dp"-->
-                    <!--android:src="@drawable/ic_menu_training"-->
-                    <!--app:fab_label="@string/train.Cards"-->
-                    <!--app:fab_colorNormal="@color/colorPrimary"-->
-                    <!--/>-->
-                <!--<com.github.clans.fab.FloatingActionButton-->
-                    <!--android:id="@+id/bTrainingWordByTrans"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@drawable/ic_menu_training"-->
-                    <!--app:fab_label="@string/train.WordTrans"-->
-                    <!--app:fab_colorNormal="@color/colorPrimary"-->
-                    <!--/>-->
-                <!--<com.github.clans.fab.FloatingActionButton-->
-                    <!--android:id="@+id/bTrainingTransByWord"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@drawable/ic_menu_training"-->
-                    <!--app:fab_label="@string/train.TransWord"-->
-                    <!--app:fab_colorNormal="@color/colorPrimary"-->
-                    <!--/>-->
-                <!--<com.github.clans.fab.FloatingActionButton-->
-                    <!--android:id="@+id/bTrainingTransVoice"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@drawable/ic_menu_training"-->
-                    <!--app:fab_label="@string/train.TransVoice"-->
-                    <!--app:fab_colorNormal="@color/colorPrimary"-->
-                    <!--/>-->
-                <!--<com.github.clans.fab.FloatingActionButton-->
-                    <!--android:id="@+id/bTrainingTransWrite"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:src="@drawable/ic_menu_training"-->
-                    <!--app:fab_label="@string/train.TransWrite"-->
-                    <!--app:fab_colorNormal="@color/colorPrimary"-->
-                    <!--/>-->
-            <!--</com.github.clans.fab.FloatingActionMenu>-->
-
-            <!--<com.github.clans.fab.FloatingActionButton-->
-                <!--android:id="@+id/bTrainingEndPageNext"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_marginLeft="80dp"-->
-                <!--android:layout_alignLeft="@id/amTrainingMenu"-->
-                <!--android:layout_alignBottom="@id/amTrainingMenu"-->
-                <!--android:layout_marginBottom="15dp"-->
-                <!--android:src="@drawable/ic_right_arrow"-->
-                <!--app:fab_colorNormal="@color/colorPrimaryDark"-->
-                <!--/>-->
-        <!--</RelativeLayout>-->
-
-
-
-    <!--</LinearLayout>-->
 
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -152,20 +153,21 @@ public class MainActivity extends AppCompatActivity
         Bundle args = new Bundle();
         String title = null;
         //select the proper content layout to load into the fragment
+        Resources res = getResources();
         if (id == R.id.dict_dictionaries) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_dictionaries);
             args.putInt(ContentFragment.ARG_ACTION_MENU_ID, R.menu.menu_content_dictionaries);
-            title = getResources().getString(R.string.nav_MyDictionaries);
+            title = FragmentTitleMapper.getTitle(res, R.layout.content_dictionaries);
             fragment = new DictionariesFragment();
         }
         else if (id == R.id.nav_settings) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_settings);
-            title = getResources().getString(R.string.nav_Settings);
+            title = res.getString(R.string.nav_Settings);
             fragment = new SettingsFragment();
         }
         else if (id == R.id.stat_hard_words) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_graph_hard);
-            title = getResources().getString(R.string.stat_HardWords);
+            title = FragmentTitleMapper.getTitle(res, R.layout.content_graph_hard);
             fragment = new HardWordsFragment();
         }
         else if (id == R.id.stat_train_words_by_day) {
@@ -174,22 +176,25 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.training_cards) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_cards);
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
-            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_Cards);
-            title = getResources().getString(R.string.training_Start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
+                    FragmentTitleMapper.getTitleResId(res, R.layout.content_training_cards));
+            title = res.getString(R.string.training_Start);
             fragment = new TrainingManager();
         }
         else if (id == R.id.training_trans_audio) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_trans_voice);
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
-            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_TransVoice);
-            title = getResources().getString(R.string.training_Start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
+                    FragmentTitleMapper.getTitleResId(res, R.layout.content_training_trans_voice));
+            title = res.getString(R.string.training_Start);
             fragment = new TrainingManager();
         }
         else if (id == R.id.training_trans_word) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_trans_word);
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
-            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_TransWord);
-            title = getResources().getString(R.string.training_Start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
+                    FragmentTitleMapper.getTitleResId(res, R.layout.content_training_trans_word));
+            title = res.getString(R.string.training_Start);
             fragment = new TrainingManager();
         }
         else if (id == R.id.training_word_audio) {
@@ -198,17 +203,19 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.training_word_trans) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_word_trans);
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
-            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_WordTrans);
-            title = getResources().getString(R.string.training_Start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
+                    FragmentTitleMapper.getTitleResId(res, R.layout.content_training_word_trans));
+            title = res.getString(R.string.training_Start);
             fragment = new TrainingManager();
         } else if (id == R.id.training_trans_write) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_enter_word);
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
-            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE, R.string.train_TransWrite);
-            title = getResources().getString(R.string.training_Start);
+            args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
+                    FragmentTitleMapper.getTitleResId(res, R.layout.content_training_enter_word));
+            title = res.getString(R.string.training_Start);
             fragment = new TrainingManager();
         } else if (id == R.id.dict_dictionary) {
-            title = getResources().getString(R.string.nav_MyDictionary);
+            title = res.getString(R.string.nav_MyDictionary);
             if (currentDictionary != null)
                 title = currentDictionary.getTitle();
 

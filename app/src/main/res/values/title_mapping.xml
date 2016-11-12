@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_training_cards">
+        train.Cards
+    </string>
+    <string name="content_training_word_trans">
+        train.WordTrans
+    </string>
+    <string name="content_training_trans_word">
+        train.TransWord
+    </string>
+    <string name="content_training_trans_voice">
+        train.TransVoice
+    </string>
+    <string name="content_training_enter_word">
+        train.TransWrite
+    </string>
+    <string name="content_dictionaries">
+        nav.MyDictionaries
+    </string>
+    <string name="content_graph_hard" >
+        stat.HardWords
+    </string>
+</resources>

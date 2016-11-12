@@ -80,7 +80,7 @@ public class HardWordsFragment extends ContentFragment {
         }
         BarDataSet barDS = new BarDataSet(barIncorrectWords,
                 getResources().getString(R.string.chart_HardWords_IncorrectLabel));
-        barDS.setColors(new int[]{getResources().getColor(R.color.colorAccent)});
+        barDS.setColors(new int[]{getResources().getColor(R.color.colorMandatory)});
         bars.add(barDS);
 
         barDS = new BarDataSet(barCorrectWords,

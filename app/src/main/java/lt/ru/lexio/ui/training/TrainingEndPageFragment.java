@@ -18,6 +18,7 @@ import java.util.List;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.FragmentTitleMapper;
 import lt.ru.lexio.ui.MainActivity;
 
 /**
@@ -101,6 +102,8 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
                     args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, id);
                     args.putLongArray(ContentFragment.ARG_TRAINING_START_LIST, getWordList());
                     args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+                    args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
+                            FragmentTitleMapper.getTitleResId(getResources(), id));
                     ((MainActivity) getActivity()).changeFragment(trainingManager, args, "");
                 }
             }
