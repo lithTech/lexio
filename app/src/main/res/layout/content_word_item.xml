@@ -3,6 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="70dp"
+    android:minHeight="70dp"
     android:layout_margin="12dp"
     android:backgroundTintMode="src_in"
     android:baselineAligned="false"

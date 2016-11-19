@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,7 +33,16 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuAdapter;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -53,10 +63,10 @@ import lt.ru.lexio.util.ClipboardHelper;
 /**
  * Created by lithTech on 21.03.2016.
  */
-public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener {
+public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener, SwipeMenuListView.OnMenuItemClickListener {
 
     WordDAO wordDAO = null;
-    ListView lWords = null;
+    SwipeMenuListView lWords = null;
     EditText edFilter = null;
 
     @Nullable
@@ -66,7 +76,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         wordDAO = new WordDAO(view.getContext());
 
-        lWords = (ListView) view.findViewById(R.id.lvWords);
+        lWords = (SwipeMenuListView) view.findViewById(R.id.lvWords);
         lWords.setAdapter(initAdapter(view.getContext()));
 
         edFilter = (EditText) view.findViewById(R.id.edWordsFilter);
@@ -77,6 +87,32 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         lWords.setLongClickable(true);
         registerForContextMenu(lWords);
+
+        SwipeMenuCreator swypeMenuCreator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem add = new SwipeMenuItem(getView().getContext());
+                add.setIcon(R.drawable.ic_menu_context_word_edit);
+                add.setTitle(R.string.word_Add);
+                add.setId(R.id.action_word_edit);
+                add.setTitleColor(R.color.colorPrimaryDark);
+                add.setWidth(dp2px(64));
+
+
+                SwipeMenuItem del = new SwipeMenuItem(getView().getContext());
+                del.setTitle(R.string.words_Deletion);
+                del.setWidth(dp2px(64));
+                del.setId(R.id.action_word_del);
+                del.setTitleColor(R.color.colorPrimaryDark);
+                del.setIcon(R.drawable.ic_menu_context_word_delete);
+
+                menu.addMenuItem(add);
+                menu.addMenuItem(del);
+            }
+        };
+
+        lWords.setMenuCreator(swypeMenuCreator);
+        lWords.setOnMenuItemClickListener(this);
 
         return view;
     }
@@ -113,38 +149,39 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        ((WordListAdapter) lWords.getAdapter()).getSelectedWords().clear();
-        ((WordListAdapter) lWords.getAdapter()).getSelectedWords().add(info.position);
+        getAdapter().getSelectedWords().clear();
+        getAdapter().getSelectedWords().add(info.position);
         return onOptionsItemSelected(item);
     }
 
     //called from main menu items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_word_add) {
-            createWord(getActivity(), mainActivity.getCurrentDictionary());
-        }
-        else if (item.getItemId() == R.id.action_word_del) {
-            deleteWords();
-        } else if (item.getItemId() == R.id.action_word_edit) {
-            editWord(getActivity(), mainActivity.getCurrentDictionary());
-        }
+        chooseAction(item.getItemId(), getAdapter().getSelectedWords());
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void editWord(Activity activity, Dictionary currentDictionary) {
-        final Set<Integer> checkedPos = ((WordListAdapter) lWords.getAdapter()).getSelectedWords();
-        if (!checkedPos.isEmpty()) {
-            Word word = wordDAO.read(lWords.getItemIdAtPosition(checkedPos.iterator().next()));
-            saveWord(activity, currentDictionary, word);
+    private void chooseAction(int id, Collection<Integer> positions) {
+        if (id == R.id.action_word_add) {
+            createWord(getActivity(), mainActivity.getCurrentDictionary());
+        }
+        else if (id == R.id.action_word_del) {
+            deleteWords(getActivity(), positions);
+        }
+        else if (id == R.id.action_word_edit) {
+            editWord(getActivity(), mainActivity.getCurrentDictionary(), positions.iterator().next());
         }
     }
 
-    private void deleteWords() {
-        final Set<Integer> checkedPos = ((WordListAdapter) lWords.getAdapter()).getSelectedWords();
-        if (!checkedPos.isEmpty()) {
-            DialogHelper.confirm(getActivity(),
+    private void editWord(Activity activity, Dictionary currentDictionary, Integer position) {
+        Word word = wordDAO.read(lWords.getItemIdAtPosition(position));
+        saveWord(activity, currentDictionary, word);
+    }
+
+    private void deleteWords(final Activity activity, final Collection<Integer> positions) {
+        if (!positions.isEmpty()) {
+            DialogHelper.confirm(activity,
                     getResources().getString(R.string.words_Deletion),
                     getResources().getString(R.string.words_Delete_Alert),
                     getResources().getString(R.string.dialog_Cancel),
@@ -152,7 +189,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                     new Runnable() {
                         @Override
                         public void run() {
-                            for (int pos : checkedPos) {
+                            for (int pos : positions) {
                                 wordDAO.delete(lWords.getItemIdAtPosition(pos));
                                 refreshList();
                             }
@@ -188,11 +225,12 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                           final Word word) {
         final boolean needRefresh = this.getView() != null;
 
-        final ClipboardManager clipMgr = (ClipboardManager) creationWindowContext.getSystemService(Context.CLIPBOARD_SERVICE);
         String clipBoardText = "";
+        final ClipboardManager clipMgr = (ClipboardManager) creationWindowContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        /*
         if (ClipboardHelper.hasText(clipMgr)) {
             clipBoardText = clipMgr.getPrimaryClip().getItemAt(0).getText().toString();
-        }
+        }*/
 
         LayoutInflater layoutInflater = LayoutInflater.from(creationWindowContext);
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
@@ -321,6 +359,9 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             public void onDismiss(DialogInterface dialog) {
                 mainActivity.getEventListenerManager().unregister(EventListenerManager.EVENT_TYPE_RESUME,
                         "CreateWordDialog");
+                mainActivity.getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                );
             }
         });
 
@@ -381,7 +422,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        ((WordListAdapter) lWords.getAdapter()).getFilter().filter(s);
+        getAdapter().getFilter().filter(s);
     }
 
     @Override
@@ -389,14 +430,33 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     }
 
-
+    public WordListAdapter getAdapter() {
+        SwipeMenuAdapter wrAdapter = (SwipeMenuAdapter) lWords.getAdapter();
+        return (WordListAdapter) wrAdapter.getWrappedAdapter();
+    }   
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bWordsFilterClear) {
-            ((WordListAdapter) lWords.getAdapter()).getFilter().filter("");
+            getAdapter().getFilter().filter("");
             ((EditText) ((View) v.getParent()).findViewById(R.id.edWordsFilter)).setText("");
         }
     }
 
+    /**
+     * For the swype menu items
+     * @param position
+     * @param menu
+     * @param index
+     * @return
+     */
+    @Override
+    public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+        List<Integer> pos = new ArrayList<>(1);
+        pos.add(position);
+
+        chooseAction(menu.getMenuItem(index).getId(), pos);
+
+        return true;
+    }
 }

@@ -20,7 +20,7 @@
     <string name="dictionaries.Delete.Alert">Вы действительно хотите удалить словарь? (это так же удалит все слова в этом словаре)</string>
     <string name="dialog.Delete">Удалить</string>
     <string name="dictionaries.Deletion">Удаление словаря</string>
-    <string name="dictionaries.Active">Сделать текущим активным</string>
+    <string name="dictionaries.Active">Сделать активным</string>
     <string name="dictionaries.ActiveFlag">активный</string>
     <string name="nav.MyDictionary">Нет активного словаря</string>
     <string name="nav.MyDictionariesGroup">Словари и слова</string>
