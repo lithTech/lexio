@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +42,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
@@ -91,12 +88,12 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         SwipeMenuCreator swypeMenuCreator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
-                SwipeMenuItem add = new SwipeMenuItem(getView().getContext());
-                add.setIcon(R.drawable.ic_menu_context_word_edit);
-                add.setTitle(R.string.word_Add);
-                add.setId(R.id.action_word_edit);
-                add.setTitleColor(R.color.colorPrimaryDark);
-                add.setWidth(dp2px(64));
+                SwipeMenuItem edit = new SwipeMenuItem(getView().getContext());
+                edit.setIcon(R.drawable.ic_menu_context_word_edit);
+                edit.setTitle(R.string.action_word_edit);
+                edit.setId(R.id.action_word_edit);
+                edit.setTitleColor(R.color.colorPrimaryDark);
+                edit.setWidth(dp2px(64));
 
 
                 SwipeMenuItem del = new SwipeMenuItem(getView().getContext());
@@ -104,9 +101,9 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 del.setWidth(dp2px(64));
                 del.setId(R.id.action_word_del);
                 del.setTitleColor(R.color.colorPrimaryDark);
-                del.setIcon(R.drawable.ic_menu_context_word_delete);
+                del.setIcon(R.drawable.ic_menu_context_object_delete);
 
-                menu.addMenuItem(add);
+                menu.addMenuItem(edit);
                 menu.addMenuItem(del);
             }
         };

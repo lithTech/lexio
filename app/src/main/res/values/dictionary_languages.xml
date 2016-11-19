@@ -5,4 +5,16 @@
         <item>Deutsch</item>
         <item>Français</item>
     </string-array>
+
+    <string-array name="dictionary_language_tags">
+        <item>
+            en-US
+        </item>
+        <item>
+            de
+        </item>
+        <item>
+            fr
+        </item>
+    </string-array>
 </resources>

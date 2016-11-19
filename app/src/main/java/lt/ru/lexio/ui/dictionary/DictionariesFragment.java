@@ -1,16 +1,12 @@
 package lt.ru.lexio.ui.dictionary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,10 +18,15 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuAdapter;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.droidparts.persist.sql.stmt.Is;
 
@@ -33,12 +34,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
@@ -47,15 +49,13 @@ import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.GeneralCallback;
-import lt.ru.lexio.ui.MainActivity;
-import lt.ru.lexio.ui.words.WordListAdapter;
 
 /**
  * Created by User on 15.03.2016.
  */
-public class DictionariesFragment extends ContentFragment {
+public class DictionariesFragment extends ContentFragment implements SwipeMenuListView.OnMenuItemClickListener {
 
-    ListView lDictionaries;
+    SwipeMenuListView lDictionaries;
 
     DictionaryDAO dictionaryDAO;
 
@@ -84,15 +84,29 @@ public class DictionariesFragment extends ContentFragment {
         @Override
         public void run() {
             int c = 0;
+            final int bulk = 500;
             try
             {
+                int bulkI = 0;
                 BufferedReader reader = new BufferedReader(new InputStreamReader(sqlInsertsStream));
                 String line = reader.readLine();
+                dao.startTrans();
                 while (line != null) {
                     Date date = new Date();
                     dao.importWord(dictId, line, date);
                     line = reader.readLine();
                     c++;
+                    bulkI++;
+                    if (bulkI >= bulk)
+                    {
+                        bulkI = 0;
+                        dao.transactionSuccessful();
+                        dao.endTrans();
+                        dao.startTrans();
+                    }
+                    if (line == null) {
+                        dao.endTrans();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -112,6 +126,13 @@ public class DictionariesFragment extends ContentFragment {
         }
     }
 
+    @Override
+    public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+        List<Integer> positions = new ArrayList<>(1);
+        positions.add(position);
+        return chooseAction(menu.getMenuItem(index).getId(), positions);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,8 +141,39 @@ public class DictionariesFragment extends ContentFragment {
 
         SimpleCursorAdapter sca = initAdapter(view.getContext());
 
-        lDictionaries = (ListView) view.findViewById(R.id.lDictionaries);
+        lDictionaries = (SwipeMenuListView) view.findViewById(R.id.lDictionaries);
         lDictionaries.setAdapter(sca);
+
+        SwipeMenuCreator swypeMenuCreator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem edit = new SwipeMenuItem(getView().getContext());
+                edit.setIcon(R.drawable.ic_menu_context_dict_edit);
+                edit.setTitle(R.string.action_word_edit);
+                edit.setId(R.id.action_dictionaries_edit);
+                edit.setTitleColor(R.color.colorPrimaryDark);
+                edit.setWidth(dp2px(64));
+                SwipeMenuItem del = new SwipeMenuItem(getView().getContext());
+                del.setTitle(R.string.dictionaries_Delete);
+                del.setWidth(dp2px(64));
+                del.setId(R.id.action_dictionaries_del);
+                del.setTitleColor(R.color.colorPrimaryDark);
+                del.setIcon(R.drawable.ic_menu_context_object_delete);
+                SwipeMenuItem act = new SwipeMenuItem(getView().getContext());
+                act.setTitle(R.string.dictionaries_Active);
+                act.setWidth(dp2px(64));
+                act.setId(R.id.action_dictionaries_active);
+                act.setTitleColor(R.color.colorPrimaryDark);
+                act.setIcon(R.drawable.ic_menu_context_dict_flag);
+
+                menu.addMenuItem(edit);
+                menu.addMenuItem(act);
+                menu.addMenuItem(del);
+            }
+        };
+
+        lDictionaries.setMenuCreator(swypeMenuCreator);
+        lDictionaries.setOnMenuItemClickListener(this);
 
         lDictionaries.setLongClickable(true);
         registerForContextMenu(lDictionaries);
@@ -155,7 +207,8 @@ public class DictionariesFragment extends ContentFragment {
         boolean hasDict = cursor.moveToNext();
         cursor.close();
         if (!hasDict) {
-            long dictId = createDictionaryObject(dictTitle, getResources().getString(R.string.defaultDictDescription),
+            long dictId = saveDictionaryObject(0, dictTitle,
+                    getResources().getString(R.string.defaultDictDescription),
                     lang);
             InputStream in = getResources().openRawResource(rId);
             executor.submit(
@@ -183,8 +236,8 @@ public class DictionariesFragment extends ContentFragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems().clear();
-        ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems().add(info.position);
+        (getAdapter()).getSelectedItems().clear();
+        (getAdapter()).getSelectedItems().add(info.position);
         return onOptionsItemSelected(item);
     }
 
@@ -192,30 +245,45 @@ public class DictionariesFragment extends ContentFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_dictionaries_add) {
-            createDictionary();
-            return true;
-        }
-        else if (id == R.id.action_dictionaries_del) {
-            deleteDictionaries();
-            return true;
-        }
-        else if (id == R.id.action_dictionary_active) {
-            makeCurrent();
-            return true;
-        }
+        if (chooseAction(id, getAdapter().getSelectedItems())) return true;
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void makeCurrent() {
-        Set<Integer> selectedItems = ((DictionariesListAdapter) lDictionaries.getAdapter()).selectedItems;
-        if (!selectedItems.isEmpty()) {
-            long dictId = lDictionaries
-                    .getItemIdAtPosition(selectedItems.iterator().next());
-            setActiveDictionary(dictId);
-            refreshDictionaryList();
+    private boolean chooseAction(int id, Collection<Integer> positions) {
+        if (id == R.id.action_dictionaries_add) {
+            saveDictionary(0);
+            return true;
         }
+        else if (id == R.id.action_dictionaries_del) {
+            deleteDictionaries(positions);
+            return true;
+        }
+        else if (id == R.id.action_dictionaries_edit) {
+            if (!positions.isEmpty()) {
+                long dId = lDictionaries.getItemIdAtPosition(positions.iterator().next());
+                saveDictionary(dId);
+            }
+            return true;
+        }
+        else if (id == R.id.action_dictionaries_active) {
+            if (!positions.isEmpty()) {
+                makeCurrent(positions.iterator().next());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private DictionariesListAdapter getAdapter() {
+        SwipeMenuAdapter wrAdapter = ((SwipeMenuAdapter) lDictionaries.getAdapter());
+        return (DictionariesListAdapter) wrAdapter.getWrappedAdapter();
+    }
+
+    private void makeCurrent(int position) {
+        long dictId = lDictionaries.getItemIdAtPosition(position);
+        setActiveDictionary(dictId);
+        refreshDictionaryList();
     }
 
     private void setActiveDictionary(long dictId) {
@@ -235,9 +303,8 @@ public class DictionariesFragment extends ContentFragment {
                 });
     }
 
-    private void deleteDictionaries() {
-        final Set<Integer> checkedPos = ((DictionariesListAdapter) lDictionaries.getAdapter()).getSelectedItems();
-        if (!checkedPos.isEmpty()) {
+    private void deleteDictionaries(final Collection<Integer> positions) {
+        if (!positions.isEmpty()) {
             DialogHelper.confirm(getActivity(),
                     getResources().getString(R.string.dictionaries_Deletion),
                     getResources().getString(R.string.dictionaries_Delete_Alert),
@@ -246,7 +313,7 @@ public class DictionariesFragment extends ContentFragment {
                     new Runnable() {
                         @Override
                         public void run() {
-                            for (int pos : checkedPos) {
+                            for (int pos : positions) {
                                 dictionaryDAO.delete(lDictionaries.getItemIdAtPosition(pos));
                                 refreshDictionaryList();
                             }
@@ -255,21 +322,29 @@ public class DictionariesFragment extends ContentFragment {
         }
     }
 
-    private void createDictionary() {
+    private void saveDictionary(final long dictionaryId) {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_dictionary, null);
-        EditText edTitle = (EditText) promptView.findViewById(R.id.edDictionaryTitle);
+        final EditText edTitle = (EditText) promptView.findViewById(R.id.edDictionaryTitle);
+        final Spinner spLang = (Spinner) promptView.findViewById(R.id.spLanguages);
+
+        int dialogOkTitle = R.string.dialog_Save;
+        if (dictionaryId > 0)
+        {
+            List<String> tags = Arrays.asList(getResources().getStringArray(R.array.dictionary_languages));
+            Dictionary d = dictionaryDAO.read(dictionaryId);
+            edTitle.setText(d.getTitle());
+            spLang.setSelection(tags.indexOf(d.getLanguage()));
+        }
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptView);
 
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
-                .setPositiveButton(R.string.dialog_Create, new DialogInterface.OnClickListener() {
+                .setPositiveButton(dialogOkTitle, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        EditText edTitle = (EditText) promptView.findViewById(R.id.edDictionaryTitle);
-                        Spinner spLang = (Spinner) promptView.findViewById(R.id.spLanguages);
-                        createDictionaryObject(edTitle.getText().toString(), "",
+                        saveDictionaryObject(dictionaryId, edTitle.getText().toString(), "",
                                 spLang.getSelectedItem().toString());
                         refreshDictionaryList();
                     }
@@ -298,7 +373,7 @@ public class DictionariesFragment extends ContentFragment {
         alert.show();
     }
 
-    private long createDictionaryObject(String title, String desc, String lang) {
+    private long saveDictionaryObject(long dictId, String title, String desc, String lang) {
         int dictCnt = dictionaryDAO.select().count();
         Dictionary dictionary = new Dictionary();
         dictionary.setWords(0);
@@ -307,7 +382,13 @@ public class DictionariesFragment extends ContentFragment {
         dictionary.setLanguage(lang);
         if (dictCnt == 0)
             dictionary.setActive(1);
-        dictionaryDAO.create(dictionary);
+        if (dictId > 0) {
+            dictionary.id = dictId;
+            dictionaryDAO.update(dictionary);
+        }
+        else {
+            dictionaryDAO.create(dictionary);
+        }
 
         if (dictCnt == 0)
             setActiveDictionary(dictionary.id);

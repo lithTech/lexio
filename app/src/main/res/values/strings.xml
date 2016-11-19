@@ -93,6 +93,7 @@
     <string name="defdict_loading_title">Importing default dictionaries...</string>
     <string name="defdict_loading_msg">Please wait, while lexio is loading default dictionaries</string>
     <string name="dialog_move_to_dict">Move word to dictionary</string>
+    <string name="dictionaries.Edit">Edit dictionary</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>пекарь</item>
         <item>библиотека</item>

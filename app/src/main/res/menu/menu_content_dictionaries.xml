@@ -5,10 +5,15 @@
         android:title="@string/dictionaries.Add"
         />
     <item
+        android:id="@+id/action_dictionaries_edit"
+        android:title="@string/dictionaries.Edit" />
+    <item
         android:id="@+id/action_dictionaries_del"
         android:title="@string/dictionaries.Delete" />
-    <item
-        android:id="@+id/action_dictionary_active"
-        android:title="@string/dictionaries.Active" />
+    <group>
+        <item
+            android:id="@+id/action_dictionaries_active"
+            android:title="@string/dictionaries.Active" />
+    </group>
 
 </menu>

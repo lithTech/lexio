@@ -1,5 +1,7 @@
 package lt.ru.lexio.db;
 
+import android.content.Context;
+
 import org.droidparts.annotation.sql.Column;
 import org.droidparts.annotation.sql.Table;
 import org.droidparts.model.Entity;

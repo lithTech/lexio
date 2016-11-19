@@ -27,6 +27,18 @@ public class DictionaryDAO extends EntityManager<Dictionary> {
         return select().where(Db.Dictionary.ACTIVE, Is.EQUAL, 1);
     }
 
+    public void startTrans() {
+        getDB().beginTransaction();
+    }
+
+    public void transactionSuccessful() {
+        getDB().setTransactionSuccessful();
+    }
+
+    public void endTrans() {
+        getDB().endTransaction();
+    }
+
     public Dictionary setActive(long id) {
         getDB().beginTransaction();
         Dictionary c = read(id);
