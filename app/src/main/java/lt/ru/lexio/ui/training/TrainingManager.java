@@ -21,6 +21,7 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.util.NumberPickerHelper;
 
 /**
  * Created by lithTech on 06.05.2016.
@@ -88,9 +89,9 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         View bStart = view.findViewById(R.id.bTrainingStart);
         bStart.setOnClickListener(this);
 
-        setDividerColor(nbTrainingAnswerTimer, Color.GRAY);
-        setDividerColor(nbTrainingWordCount, Color.GRAY);
-        setDividerColor(nbTrainingWordOrder1, Color.GRAY);
+        NumberPickerHelper.setDividerColor(nbTrainingAnswerTimer, Color.GRAY);
+        NumberPickerHelper.setDividerColor(nbTrainingWordCount, Color.GRAY);
+        NumberPickerHelper.setDividerColor(nbTrainingWordOrder1, Color.GRAY);
 
         return view;
     }
@@ -124,28 +125,6 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
                 return null;
         }
         return trainingContent;
-    }
-
-    private void setDividerColor(NumberPicker picker, int color) {
-
-        java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
-        for (java.lang.reflect.Field pf : pickerFields) {
-            if (pf.getName().equals("mSelectionDivider")) {
-                pf.setAccessible(true);
-                try {
-                    ColorDrawable colorDrawable = new ColorDrawable(color);
-                    pf.set(picker, colorDrawable);
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (Resources.NotFoundException e) {
-                    e.printStackTrace();
-                }
-                catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
-        }
     }
 
     public void startTrainingWithList(long[] startWordList) {

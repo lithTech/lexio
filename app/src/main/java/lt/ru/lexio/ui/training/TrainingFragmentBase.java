@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -43,6 +44,7 @@ import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.dictionary.DictionariesListAdapter;
+import lt.ru.lexio.util.NumberPickerHelper;
 
 /**
  * Created by lithTech on 27.03.2016.
@@ -445,6 +447,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         npDictionaries.setDisplayedValues(dictDisplay);
         npDictionaries.setMinValue(0);
         npDictionaries.setMaxValue(dictDisplay.length-1);
+        NumberPickerHelper.setDividerColor(npDictionaries, Color.GRAY);
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(promptView);
