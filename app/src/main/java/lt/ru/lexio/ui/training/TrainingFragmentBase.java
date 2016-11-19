@@ -265,6 +265,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         currentSessionId = 0;
 
+        registerForContextMenu(getView());
+
         startTraining();
         nextQuestionInternal(false);
     }
