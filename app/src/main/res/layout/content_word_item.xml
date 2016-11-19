@@ -2,28 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="70dp"
+    android:layout_margin="12dp"
     android:backgroundTintMode="src_in"
     android:baselineAligned="false"
     android:descendantFocusability="afterDescendants"
+    android:background="@drawable/training_card"
     android:divider="@android:color/holo_green_light">
 
     <CheckBox
         android:id="@+id/cbWordChecked"
         android:layout_width="wrap_content"
         android:focusable="false"
+        android:layout_marginBottom="5dp"
         android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="5dp"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Delusion"
-            android:textColor="@color/textColor"
+            android:textColor="@color/cardTextColor"
             android:paddingTop="5dp"
             android:paddingLeft="5dp"
             android:paddingBottom="2dp"
@@ -34,7 +40,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Обман"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#D6D2D3"
             android:paddingLeft="5dp"
             android:paddingBottom="5dp"
             android:id="@+id/tvTranslation" />
@@ -45,6 +51,7 @@
         android:gravity="right"
         android:layout_gravity="center"
         android:paddingRight="15dp"
+        android:layout_marginBottom="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="[delusion]"
         android:textColor="@color/colorAccent"

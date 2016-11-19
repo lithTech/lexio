@@ -2,129 +2,129 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:top="10dp"
-        android:left="7dp"
-        android:bottom="9dp"
-        android:right="9dp">
-        <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
-        </shape>
-    </item>
-    <item
-        android:top="10dp"
-        android:left="7dp"
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="8dp"
         android:right="8dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
     <item
-        android:top="10dp"
-        android:left="7dp"
+        android:top="2dp"
+        android:left="2dp"
+        android:bottom="8dp"
+        android:right="8dp">
+        <shape>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
+        </shape>
+    </item>
+    <item
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="7dp"
         android:right="7dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
     <item
-        android:top="10dp"
-        android:left="10dp"
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="6dp"
         android:right="6dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
     <item
-        android:top="10dp"
-        android:left="7dp"
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="5dp"
         android:right="5dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
     <item
-        android:top="10dp"
-        android:left="7dp"
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="4dp"
         android:right="4dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
     <item
-        android:top="10dp"
-        android:left="7dp"
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="3dp"
         android:right="3dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
     <item
-        android:top="10dp"
-        android:left="7dp"
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="2dp"
         android:right="2dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
     <item
-        android:top="10dp"
-        android:left="7dp"
+        android:top="2dp"
+        android:left="2dp"
         android:bottom="1dp"
         android:right="1dp">
         <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#11111111"></solid>
+            <corners android:radius="@dimen/card_radius"></corners>
+            <solid android:color="#11CCCCCC"></solid>
         </shape>
     </item>
-    <item
-        android:top="10dp"
-        android:left="7dp"
-        >
-        <shape>
-            <corners android:radius="10dp"></corners>
-            <solid android:color="#07111111"></solid>
-        </shape>
-    </item>
+    <!--<item-->
+        <!--android:top="10dp"-->
+        <!--android:left="7dp"-->
+        <!--&gt;-->
+        <!--<shape>-->
+            <!--<corners android:radius="@dimen/card_radius"></corners>-->
+            <!--<solid android:color="#07111111"></solid>-->
+        <!--</shape>-->
+    <!--</item>-->
+
+    <!--<item-->
+        <!--android:bottom="10dp"-->
+        <!--android:right="10dp"-->
+        <!--&gt;-->
+        <!--<shape>-->
+            <!--<corners-->
+                <!--android:radius="@dimen/card_radius">-->
+
+            <!--</corners>-->
+            <!--<solid-->
+                <!--android:color="#FFFFFF"-->
+                <!--&gt;-->
+            <!--</solid>-->
+
+        <!--</shape>-->
+    <!--</item>-->
 
     <item
-        android:bottom="10dp"
-        android:right="10dp"
+        android:bottom="8dp"
+        android:right="8dp"
         >
         <shape>
             <corners
-                android:radius="10dp">
-
-            </corners>
-            <solid
-                android:color="#FFFFFF"
-                >
-            </solid>
-
-        </shape>
-    </item>
-
-    <item
-        android:bottom="10dp"
-        android:right="10dp"
-        >
-        <shape>
-            <corners
-                android:radius="10dp">
+                android:radius="@dimen/card_radius">
 
             </corners>
             <gradient

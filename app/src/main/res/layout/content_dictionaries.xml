@@ -6,8 +6,11 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="@dimen/list_cards_divider_size"
         android:paddingTop="?attr/actionBarSize"
+        android:layout_margin="@dimen/list_cards_margin_default"
         android:id="@+id/lDictionaries"
         android:choiceMode="multipleChoice"
         android:contextClickable="true" />

@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:paddingTop="?attr/actionBarSize"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingLeft="@dimen/list_cards_margin_default"
+        android:paddingRight="@dimen/list_cards_margin_default"
         android:layout_height="wrap_content">
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edWordsFilter"
-            android:paddingBottom="16dp"
             android:hint="@string/common.Search" />
 
         <ImageButton
@@ -44,8 +43,13 @@
     </RelativeLayout>
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/lvWords"
+        android:layout_marginLeft="@dimen/list_cards_margin_default"
+        android:layout_marginRight="@dimen/list_cards_margin_default"
+        android:layout_marginBottom="@dimen/list_cards_margin_default"
+        android:divider="@null"
+        android:dividerHeight="@dimen/list_cards_divider_size"
         android:textFilterEnabled="true"
         android:fastScrollEnabled="true"
         android:contextClickable="true"
