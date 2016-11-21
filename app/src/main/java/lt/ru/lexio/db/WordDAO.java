@@ -70,6 +70,37 @@ public class WordDAO extends EntityManager<Word> {
                 .execute();
     }
 
+    public Cursor getWordsWithProgress(long dictId, String titleFilter) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from (")
+                .append("select w._id as _id,")
+                .append("w.title as TITLE,")
+                .append("w.translation as TRANSLATION,")
+                .append("w.transcription as TRANSCRIPTION,")
+                .append("w.context as CONTEXT,")
+                .append("w.CREATE_DATE as CREATE_DATE,")
+                .append("sum(case when IFNULL(ws.training_res,1) = 0 then 1 else 0 end) as I_CNT,")
+                .append("sum(case when IFNULL(ws.training_res,0) = 1 then 1 else 0 end) as R_CNT,")
+                .append("max(ws.TRAINED_ON_DATE) as last_trained_date ")
+                .append("from WORDS w ")
+                .append("left join WORD_STAT ws ")
+                .append("on w._id = ws.WORD_ID ");
+        sql.append("where w.dict_id = ? ");
+
+        String arg[];
+        if (titleFilter != null && !titleFilter.isEmpty()) {
+            sql.append("and (upper(w.title) like ? or upper(w.translation) like ?) ");
+            arg = new String[]{String.valueOf(dictId), titleFilter, titleFilter};
+        }
+        else
+            arg = new String[]{String.valueOf(dictId)};
+        sql.append("group by w._id,w.title,w.translation,w.transcription,w.context,w.CREATE_DATE")
+                .append(")")
+                .append("order by TITLE");
+
+        return execComplexSql(sql.toString(), arg);
+    }
+
     public List<Word> getWordsWithoutIPA(long dictId) {
         Where where = new Where(Db.Word.DICTIONARY_ID, Is.EQUAL, dictId);
         where.and(Db.Word.TRANSCRIPTION, Is.NULL);

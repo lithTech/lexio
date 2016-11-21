@@ -134,7 +134,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         else dictId = 0;
 
         WordListAdapter adapter = new WordListAdapter(context, R.layout.content_word_item,
-                wordDAO.getAll(dictId),
+                wordDAO.getWordsWithProgress(dictId, ""),
                 new String[]{Db.Common.TITLE, Db.Word.TRANSLATION, Db.Word.TRANSCRIPTION},
                 new int[]{R.id.tvWord, R.id.tvTranslation, R.id.tvTranscription},
                 wordProgressFactor);
@@ -142,7 +142,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         adapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
-                return wordDAO.getAllFiltered(dictId, constraint.toString().toUpperCase() + "%");
+                return wordDAO.getWordsWithProgress(dictId, constraint.toString().toUpperCase() + "%");
             }
         });
 

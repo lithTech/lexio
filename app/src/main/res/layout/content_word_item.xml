@@ -65,6 +65,7 @@
             android:paddingLeft="5dp"
             android:id="@+id/tvTranscription" />
         <ProgressBar
+            android:id="@+id/pbWordProgress"
             android:layout_width="wrap_content"
             android:progress="69"
             android:paddingRight="15dp"

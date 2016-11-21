@@ -6,6 +6,7 @@ import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class WordListAdapter extends SimpleCursorAdapter{
         super(context, layout, c, from, to, 0);
 
         for (int i = 0; i < this.getCount(); i++) {
-            backInfo.add(new Holder(false, 0));
+            backInfo.add(new Holder(false, -1));
         }
 
         this.wordProgressFactor = wordProgressFactor;
@@ -66,6 +67,19 @@ public class WordListAdapter extends SimpleCursorAdapter{
             }
         });
         cb.setChecked(backInfo.get(position).checked);
+
+        int progress = backInfo.get(position).progress;
+        ProgressBar pg = (ProgressBar) view.findViewById(R.id.pbWordProgress);
+        if (progress == -1) {
+            Cursor cur = getCursor();
+            int correct = cur.getInt(cur.getColumnIndex("R_CNT"));
+            int incorrect = cur.getInt(cur.getColumnIndex("I_CNT"));
+            if (correct > incorrect)
+                progress = (int)Math.round(((double) (correct - incorrect) / wordProgressFactor) * 100.0);
+            if (progress > 100) progress = 100;
+            backInfo.get(position).progress = progress;
+        }
+        pg.setProgress(progress);
 
         return view;
     }
