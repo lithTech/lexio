@@ -130,4 +130,12 @@
         <item>telefon</item>
         <item>organisation</item>
     </string-array>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="pref_clear_statistics">Word statistics clearing</string>
+    <string name="pref_clear_statistics_summary">This operation will delete all you learning progress. You will be warned once again before deleting progress</string>
+    <string name="pref_word_progress_factor">Word 100% progress</string>
+    <string name="pref_word_progress_factor_summary">Word 100% learning progress is calculated as: correct answers - incorrect answers. Specify this value as 100% word learning progress</string>
+
 </resources>

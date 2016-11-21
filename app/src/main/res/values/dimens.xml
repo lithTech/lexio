@@ -23,6 +23,8 @@
     <integer name="training_max_words">100</integer>
     <integer name="training_min_words">5</integer>
 
+    <integer name="pref_word_progress_factor">10</integer>
+
     <dimen name="card_radius">6dp</dimen>
 
     <dimen name="list_cards_margin_default">12dp</dimen>

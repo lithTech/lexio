@@ -1,31 +1,26 @@
 package lt.ru.lexio.ui;
 
-import android.app.Dialog;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import java.util.EventListener;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
@@ -44,7 +39,7 @@ public class MainActivity extends AppCompatActivity
 
     Dictionary currentDictionary = null;
     Menu navMenu = null;
-    ContentFragment currentFragment = null;
+    Fragment currentFragment = null;
     WordFragment wordFragment = null;
     Menu topActionMenu = null;
 
@@ -100,6 +95,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean selectContent(int id) {
-        ContentFragment fragment = null;
+        Fragment fragment = null;
         Bundle args = new Bundle();
         String title = null;
         //select the proper content layout to load into the fragment
@@ -233,7 +231,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void changeFragment(ContentFragment fragment, Bundle args, String title) {
+    public void changeFragment(Fragment fragment, Bundle args, String title) {
         FragmentManager fragmentManager = getFragmentManager();
         ViewGroup viewGroup = (ViewGroup) findViewById(R.id.content_fragment_parent);
         viewGroup.removeAllViews();

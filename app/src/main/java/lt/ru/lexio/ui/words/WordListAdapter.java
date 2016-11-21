@@ -22,6 +22,7 @@ public class WordListAdapter extends SimpleCursorAdapter{
 
     Set<Integer> selectedWords = new HashSet<>();
     List<Holder> backInfo = new ArrayList<>();
+    int wordProgressFactor;
 
     public Set<Integer> getSelectedWords() {
         return selectedWords;
@@ -31,12 +32,14 @@ public class WordListAdapter extends SimpleCursorAdapter{
         this.selectedWords = selectedWords;
     }
 
-    public WordListAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
+    public WordListAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int wordProgressFactor) {
         super(context, layout, c, from, to, 0);
 
         for (int i = 0; i < this.getCount(); i++) {
-            backInfo.add(new Holder(false));
+            backInfo.add(new Holder(false, 0));
         }
+
+        this.wordProgressFactor = wordProgressFactor;
     }
 
     @Override
@@ -70,9 +73,11 @@ public class WordListAdapter extends SimpleCursorAdapter{
 
     private class Holder {
         public boolean checked;
+        public int progress;
 
-        public Holder(boolean checked) {
+        public Holder(boolean checked, int progress) {
             this.checked = checked;
+            this.progress = progress;
         }
     }
 }

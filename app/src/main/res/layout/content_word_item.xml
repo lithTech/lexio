@@ -46,17 +46,30 @@
             android:paddingBottom="5dp"
             android:id="@+id/tvTranslation" />
     </LinearLayout>
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_gravity="center"
-        android:paddingRight="15dp"
-        android:layout_marginBottom="5dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="[delusion]"
-        android:textColor="@color/colorAccent"
-        android:paddingLeft="5dp"
-        android:id="@+id/tvTranscription" />
+        android:orientation="vertical"
+        android:gravity="right|center"
+        android:layout_gravity="right|center"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:paddingRight="15dp"
+            android:layout_marginBottom="5dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="[delusion]"
+            android:textColor="@color/colorAccent"
+            android:paddingLeft="5dp"
+            android:id="@+id/tvTranscription" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:progress="69"
+            android:paddingRight="15dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+    </LinearLayout>
 
 </LinearLayout>

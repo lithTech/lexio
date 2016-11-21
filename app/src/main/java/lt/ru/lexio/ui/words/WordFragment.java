@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -65,11 +66,16 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     WordDAO wordDAO = null;
     SwipeMenuListView lWords = null;
     EditText edFilter = null;
+    int wordProgressFactor;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        wordProgressFactor = Integer.parseInt(PreferenceManager
+                .getDefaultSharedPreferences(getActivity()).getString("pref_word_progress_factor",
+                        String.valueOf(getResources().getInteger(R.integer.pref_word_progress_factor))));
 
         wordDAO = new WordDAO(view.getContext());
 
@@ -130,7 +136,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         WordListAdapter adapter = new WordListAdapter(context, R.layout.content_word_item,
                 wordDAO.getAll(dictId),
                 new String[]{Db.Common.TITLE, Db.Word.TRANSLATION, Db.Word.TRANSCRIPTION},
-                new int[]{R.id.tvWord, R.id.tvTranslation, R.id.tvTranscription});
+                new int[]{R.id.tvWord, R.id.tvTranslation, R.id.tvTranscription},
+                wordProgressFactor);
 
         adapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override

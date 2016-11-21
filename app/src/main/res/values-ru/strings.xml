@@ -93,6 +93,10 @@
     <string name="defdict_loading_msg">Please wait, while lexio is loading default dictionaries</string>
     <string name="dialog_move_to_dict">Переместить слово в словарь</string>
     <string name="dictionaries.Edit">Изменить словарь</string>
+    <string name="pref_clear_statistics">Очистка статистики по словам</string>
+    <string name="pref_clear_statistics_summary">Данная операция сбросит всю статистику и прогресс в изучении</string>
+    <string name="pref_word_progress_factor">Прогресс изучения слова</string>
+    <string name="pref_word_progress_factor_summary">Прогресс в изучении слова считается на основе разницы между правильными и неправильными ответами. Укажите значение разницы, которое будет считаться за 100% изученность слова</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>Пекарь</item>
         <item>Библиотека</item>
