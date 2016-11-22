@@ -16,4 +16,33 @@
         android:numeric="integer">
     </EditTextPreference>
 
+    <PreferenceCategory
+        android:title="@string/pref_alarm_category"
+        >
+
+
+        <SwitchPreference
+            android:key="pref_alarm_training"
+            android:persistent="true"
+            android:defaultValue="false"
+            android:title="@string/pref_alarm_training"
+            android:summaryOn="@string/pref_alarm_training_summary_on"
+            android:summary="@string/pref_alarm_training_summary"
+            android:summaryOff="@string/pref_alarm_training_summary_off"
+
+            >
+
+        </SwitchPreference>
+
+        <lt.ru.lexio.ui.settings.TimePreference
+            android:key="pref_alarm_training_time"
+            android:persistent="true"
+            android:defaultValue="@integer/pref_alarm_training_time"
+            android:title="@string/pref_alarm_training_time"
+            >
+
+
+        </lt.ru.lexio.ui.settings.TimePreference>
+
+    </PreferenceCategory>
 </PreferenceScreen>

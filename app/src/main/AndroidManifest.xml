@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".util.WordLearnNotifyHelper" />
+
         <meta-data
             android:name="droidparts_dependency_provider"
             android:value=".DependencyProvider" />

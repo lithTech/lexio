@@ -31,6 +31,7 @@ import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.fetcher.IPAEngFetcher;
 import lt.ru.lexio.ui.charts.HardWordsFragment;
 import lt.ru.lexio.ui.dictionary.DictionariesFragment;
+import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.ui.training.TrainingManager;
 import lt.ru.lexio.ui.words.WordFragment;
 
