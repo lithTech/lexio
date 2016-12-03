@@ -6,10 +6,11 @@ android {
 
     defaultConfig {
         applicationId "lt.ru.lexio"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {

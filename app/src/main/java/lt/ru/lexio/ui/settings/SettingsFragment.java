@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import lt.ru.lexio.R;
@@ -89,6 +90,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             if (((SwitchPreference) preference).isChecked()) {
                 long time = getPreferenceManager().getSharedPreferences().getLong("pref_alarm_training_time",
                         getResources().getInteger(R.integer.pref_alarm_training_time));
+                time += TimeZone.getDefault().getRawOffset();
                 WordLearnNotifyHelper.scheduleNotification(getActivity(),
                         WordLearnNotifyHelper.getNotification(getActivity(),
                                 getString(R.string.notify_word_learn_body),
@@ -109,6 +111,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         if ("pref_alarm_training_time".equalsIgnoreCase(preference.getKey())) {
             long time = Long.parseLong(newValue.toString());
+            time += TimeZone.getDefault().getRawOffset();
             WordLearnNotifyHelper.scheduleNotification(getActivity(),
                     WordLearnNotifyHelper.getNotification(getActivity(),
                             getString(R.string.notify_word_learn_body),

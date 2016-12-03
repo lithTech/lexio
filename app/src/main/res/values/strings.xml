@@ -89,7 +89,7 @@
     <string name="msg_action_word_move_success">successfully moved to dictionary</string>
     <string name="msg_action_word_nodict">There is no dictionary found. Please create a new dictionary with language equal to current dictionary\'s language</string>
     <string name="defaultDictDescription">Default dictionary</string>
-    <string name="defdict_eng_basic">English basic words</string>
+    <string name="defdict_eng_basic">English basic</string>
     <string name="defdict_loading_title">Importing default dictionaries...</string>
     <string name="defdict_loading_msg">Please wait, while lexio is loading default dictionaries</string>
     <string name="dialog_move_to_dict">Move word to dictionary</string>

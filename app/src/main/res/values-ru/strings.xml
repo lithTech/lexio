@@ -97,7 +97,7 @@
     <string name="pref_clear_statistics_summary">Данная операция сбросит всю статистику и прогресс в изучении</string>
     <string name="pref_word_progress_factor">Прогресс изучения слова</string>
     <string name="pref_word_progress_factor_summary">Прогресс в изучении слова считается на основе разницы между правильными и неправильными ответами. Укажите значение разницы, которое будет считаться за 100% изученность слова</string>
-    <string name="pref_alarm_training">Напоминать о необходимости поучить слова</string>
+    <string name="pref_alarm_training">Учим слова каждый день</string>
     <string name="pref_alarm_training_summary_on">Lexio будет напоминать Вам, что неплохо бы поучить слова</string>
     <string name="pref_alarm_training_summary_off">Lexio не будет напоминать об изучении слов</string>
     <string name="pref_alarm_training_summary">Lexio может каждый день напоминать Вам, что нужно поучить слова</string>
@@ -106,7 +106,7 @@
     <string name="button_ok">ВЫБРАТЬ</string>
     <string name="button_cancel">ОТМЕНА</string>
     <string name="pref_alarm_category">Уведомления</string>
-    <string name="pref_alarm_training_time">Во сколько часов напоминать</string>
+    <string name="pref_alarm_training_time">Когда напоминать</string>
     <string name="pref_alarm_training_time_summary">Напоминание каждый день</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>Пекарь</item>
@@ -127,21 +127,21 @@
         <item>Brick</item>
     </string-array>
     <string-array name="training_ExtraAnswers_fr">
-        <item>Пекарь</item>
-        <item>Библиотека</item>
-        <item>Ружье</item>
-        <item>Ежик</item>
-        <item>Овсянка</item>
-        <item>Телефон</item>
-        <item>Организация</item>
+        <item>boulanger</item>
+        <item>bibliothèque</item>
+        <item>pistolet</item>
+        <item>hérisson</item>
+        <item>flocons d\'avoine</item>
+        <item>téléphone</item>
+        <item>organisation</item>
     </string-array>
     <string-array name="training_ExtraAnswers_de">
-        <item>Пекарь</item>
-        <item>Библиотека</item>
-        <item>Ружье</item>
-        <item>Ежик</item>
-        <item>Овсянка</item>
-        <item>Телефон</item>
-        <item>Организация</item>
+        <item>bäcker</item>
+        <item>bibliothek</item>
+        <item>gewehr</item>
+        <item>igel</item>
+        <item>haferflocken</item>
+        <item>telefon</item>
+        <item>organisation</item>
     </string-array>
 </resources>
