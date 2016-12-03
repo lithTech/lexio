@@ -6,6 +6,8 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -34,6 +36,9 @@ import lt.ru.lexio.ui.dictionary.DictionariesFragment;
 import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.ui.training.TrainingManager;
 import lt.ru.lexio.ui.words.WordFragment;
+import lt.ru.lexio.util.TutorialHelper;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.target.Target;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -163,6 +168,24 @@ public class MainActivity extends AppCompatActivity
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_settings);
             title = res.getString(R.string.nav_Settings);
             fragment = new SettingsFragment();
+        }
+        else if (id == R.id.nav_help) {
+            MaterialShowcaseView.resetAll(this);
+            MaterialShowcaseView v = TutorialHelper.defElem(this, R.string.tutorial_help, true,
+                    findViewById(R.id.nav_view)).build();
+            v.setTarget(new Target() {
+                @Override
+                public Point getPoint() {
+                    return new Point(0, 0);
+                }
+
+                @Override
+                public Rect getBounds() {
+                    return new Rect(0, 0, 400, 400);
+                }
+            });
+
+            v.show(this);
         }
         else if (id == R.id.stat_hard_words) {
             args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_graph_hard);

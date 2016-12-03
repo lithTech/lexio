@@ -41,8 +41,9 @@ public class ContentFragment extends Fragment {
     }
 
     public int dp2px(int dp) {
+        if (getActivity() == null) return 0;
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics());
+                getActivity().getResources().getDisplayMetrics());
     }
 
     @Override

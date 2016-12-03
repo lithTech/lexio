@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -57,6 +59,11 @@ import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.util.AbbyyLingvoURL;
 import lt.ru.lexio.util.ClipboardHelper;
+import lt.ru.lexio.util.TutorialHelper;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.target.Target;
 
 /**
  * Created by lithTech on 21.03.2016.
@@ -174,7 +181,9 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             deleteWords(getActivity(), positions);
         }
         else if (id == R.id.action_word_edit) {
-            editWord(getActivity(), mainActivity.getCurrentDictionary(), positions.iterator().next());
+            if (!positions.isEmpty())
+                editWord(getActivity(), mainActivity.getCurrentDictionary(),
+                        positions.iterator().next());
         }
     }
 
@@ -417,6 +426,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             getArguments().remove(ContentFragment.ARG_NEED_REFRESH);
             refreshList();
         }
+        presentTutorial();
     }
 
     @Override
@@ -462,5 +472,51 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         chooseAction(menu.getMenuItem(index).getId(), pos);
 
         return true;
+    }
+
+    private void presentTutorial() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), "wordsTut");
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(TutorialHelper.defElem(getActivity(),
+                        R.string.tutorial_words_list, false, lWords).build()
+        );
+
+        MaterialShowcaseView tmpView = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_words_list_item, true, lWords).build();
+        Target wordItemTarget = new Target() {
+            @Override
+            public Point getPoint() {
+                int[] loc = new int[2];
+                lWords.getLocationInWindow(loc);
+                return new Point(loc[0] + lWords.getWidth() / 2, loc[1] +
+                        edFilter.getMeasuredHeight() - dp2px(15));
+            }
+
+            @Override
+            public Rect getBounds() {
+                int[] loc = new int[2];
+                lWords.getLocationInWindow(loc);
+                return new Rect(0, 0, lWords.getMeasuredWidth(), dp2px(70));
+            }
+        };
+        tmpView.setTarget(wordItemTarget);
+        sequence.addSequenceItem(tmpView);
+
+        tmpView = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_words_list_item_2, false, lWords).build();
+        tmpView.setTarget(wordItemTarget);
+        sequence.addSequenceItem(tmpView);
+
+        sequence.addSequenceItem(
+                TutorialHelper.defElem(getActivity(),
+                        R.string.tutorial_words_filter, true, edFilter).build()
+        );
+
+        sequence.start();
     }
 }

@@ -108,6 +108,13 @@
     <string name="pref_alarm_category">Уведомления</string>
     <string name="pref_alarm_training_time">Когда напоминать</string>
     <string name="pref_alarm_training_time_summary">Напоминание каждый день</string>
+    <string name="dialog_GotIt">ПОНЯТНО</string>
+    <string name="tutorial_words_list">Это слова в текущем словаре</string>
+    <string name="tutorial_words_filter">Это фильтр, чтобы быстрее находить нужное слово. Вы можете вводить как само слово, так и его перевод</string>
+    <string name="tutorial_words_list_item">Это слово. Оно содержит перевод, транскрипцию и прогресс в изучении</string>
+    <string name="tutorial_words_list_item_2">Сдвиньте слово справа налево для действий (изменение, удаление и другое)</string>
+    <string name="nav.Help">Помощь</string>
+    <string name="tutorial_help">Вы можете еще раз пройтись по функциям Lexio, увидев полезные подсказки</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>Пекарь</item>
         <item>Библиотека</item>
