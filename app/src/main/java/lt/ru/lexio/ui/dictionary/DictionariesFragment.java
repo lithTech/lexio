@@ -430,14 +430,14 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
             public Point getPoint() {
                 int[] loc = new int[2];
                 lDictionaries.getLocationInWindow(loc);
-                return new Point(loc[0] + lDictionaries.getWidth() / 2, loc[1]- dp2px(15));
+                return new Point(loc[0], loc[1] + dp2px(75));
             }
 
             @Override
             public Rect getBounds() {
                 int[] loc = new int[2];
                 lDictionaries.getLocationInWindow(loc);
-                return new Rect(0, 0, lDictionaries.getMeasuredWidth(), dp2px(70));
+                return new Rect(0, 0, lDictionaries.getMeasuredWidth(), dp2px(80));
             }
         };
         tmpView.setTarget(wordItemTarget);
