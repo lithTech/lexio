@@ -21,6 +21,7 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.util.NumberPickerHelper;
 
 /**
@@ -36,7 +37,6 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
     NumberPicker nbTrainingAnswerTimer;
     String[] answerTimerOptions;
 
-    private static String START_TRAINING_SETTINGS = "trainingSettings";
     private SharedPreferences pref;
     private long[] startWordList;
 
@@ -49,7 +49,8 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
 
         startWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
 
-        pref = getActivity().getSharedPreferences(START_TRAINING_SETTINGS, Context.MODE_PRIVATE);
+        pref = getActivity().getSharedPreferences(SettingsFragment.SETTINGS_FILE_NAME,
+                Context.MODE_PRIVATE);
 
         nbTrainingWordCount = (NumberPicker) view.findViewById(R.id.npCount);
         nbTrainingWordCount.setMinValue(getResources().getInteger(R.integer.training_min_words));

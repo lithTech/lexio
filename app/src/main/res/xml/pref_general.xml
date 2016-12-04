@@ -16,6 +16,15 @@
         android:numeric="integer">
     </EditTextPreference>
 
+    <CheckBoxPreference
+        android:key="pref_training_voice_show_transcription"
+        android:persistent="true"
+        android:title="@string/pref_training_voice_show_transcription"
+        android:summary="@string/pref_training_voice_show_transcription_summary"
+        android:defaultValue="true"
+        >
+    </CheckBoxPreference>
+
     <PreferenceCategory
         android:title="@string/pref_alarm_category"
         >

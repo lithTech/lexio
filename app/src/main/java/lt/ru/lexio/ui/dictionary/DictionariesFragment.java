@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
@@ -49,6 +51,11 @@ import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.GeneralCallback;
+import lt.ru.lexio.util.TutorialHelper;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.target.Target;
 
 /**
  * Created by User on 15.03.2016.
@@ -396,4 +403,51 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
         return dictionary.id;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        presentTutorial();
+    }
+
+
+    private void presentTutorial() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), "dictTut");
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_dict_list, false, lDictionaries).build()
+        );
+
+        MaterialShowcaseView tmpView = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_dict_list_item, true, lDictionaries).build();
+        Target wordItemTarget = new Target() {
+            @Override
+            public Point getPoint() {
+                int[] loc = new int[2];
+                lDictionaries.getLocationInWindow(loc);
+                return new Point(loc[0] + lDictionaries.getWidth() / 2, loc[1]- dp2px(15));
+            }
+
+            @Override
+            public Rect getBounds() {
+                int[] loc = new int[2];
+                lDictionaries.getLocationInWindow(loc);
+                return new Rect(0, 0, lDictionaries.getMeasuredWidth(), dp2px(70));
+            }
+        };
+        tmpView.setTarget(wordItemTarget);
+        sequence.addSequenceItem(tmpView);
+
+        tmpView = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_dict_list_item_2, false, lDictionaries).build();
+        tmpView.setTarget(wordItemTarget);
+        sequence.addSequenceItem(tmpView);
+
+        sequence.start();
+    }
 }

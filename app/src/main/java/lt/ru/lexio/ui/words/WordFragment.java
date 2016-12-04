@@ -517,6 +517,10 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                         R.string.tutorial_words_filter, true, edFilter).build()
         );
 
+        sequence.addSequenceItem(TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_words_add_global,
+                false, getActivity().findViewById(R.id.word_add_global)).build());
+
         sequence.start();
     }
 }

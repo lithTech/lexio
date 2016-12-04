@@ -3,7 +3,9 @@ package lt.ru.lexio.ui.training;
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
+import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.util.ColorAnimateHelper;
 
 /**
@@ -45,6 +48,8 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     private Drawable defaultAnswerBg;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     boolean lastResult = false;
+
+    boolean showTranscription = true;
 
     @Override
     protected int getTrainingPageContainerId() {
@@ -68,13 +73,19 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
     @Override
     protected void startTraining() {
-
+        SharedPreferences sp = getActivity()
+                .getSharedPreferences(SettingsFragment.SETTINGS_FILE_NAME, Context.MODE_PRIVATE);
+        showTranscription = sp.getBoolean("pref_training_voice_show_transcription", true);
     }
 
     @Override
     protected void onNextQuestion() {
         lastResult = false;
-        edWord.setText(currentWord.getTranslation());
+        String text = currentWord.getTranslation();
+        if (showTranscription && currentWord.getTranscription() != null &&
+                !currentWord.getTranscription().isEmpty())
+            text += " [" + currentWord.getTranscription() + "]";
+        edWord.setText(text);
         correctAnswer = currentWord.getTitle();
         tvAnswer.setText("");
         tvAnswer.setBackground(defaultAnswerBg);

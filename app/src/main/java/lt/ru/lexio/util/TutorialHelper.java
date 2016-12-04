@@ -19,6 +19,7 @@ public class TutorialHelper {
                 //.setDismissText(act.getResources().getString(R.string.dialog_GotIt))
                 .setContentText(act.getString(contentStrResId))
                 .setDismissOnTouch(true)
+                .setMaskColour(act.getResources().getColor(R.color.colorPrimary))
                 .withRectangleShape(rectShape);
     }
 

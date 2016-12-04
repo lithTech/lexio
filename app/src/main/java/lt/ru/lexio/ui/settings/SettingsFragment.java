@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.WordStatisticDAO;
 import lt.ru.lexio.ui.DialogHelper;
+import lt.ru.lexio.util.DimensionHelper;
 import lt.ru.lexio.util.WordLearnNotifyHelper;
 
 /**
@@ -28,10 +29,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     WordStatisticDAO wordStatisticDAO = null;
 
+    public static final String TAG = SettingsFragment.class.getName();
+    public static final String SETTINGS_FILE_NAME = TAG + ".lexio.settings";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getPreferenceManager().setSharedPreferencesName(SETTINGS_FILE_NAME);
         addPreferencesFromResource(R.xml.pref_general);
 
         Preference clearStatPref = findPreference("pref_clear_statistics");
@@ -50,15 +55,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-
-        int[] actionBarSizeArr = new int[] { android.R.attr.actionBarSize };
-        int indexOfAttrTextSize = 0;
-        TypedValue typedValue = new TypedValue();
-        TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, actionBarSizeArr);
-        int actionBarSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
-        a.recycle();
-
-        view.setPadding(0, actionBarSize, 0, 0);
+        view.setPadding(0, DimensionHelper.getActionBarSize(getActivity()), 0, 0);
 
         return view;
     }

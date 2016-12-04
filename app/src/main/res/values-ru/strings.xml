@@ -97,7 +97,7 @@
     <string name="pref_clear_statistics_summary">Данная операция сбросит всю статистику и прогресс в изучении</string>
     <string name="pref_word_progress_factor">Прогресс изучения слова</string>
     <string name="pref_word_progress_factor_summary">Прогресс в изучении слова считается на основе разницы между правильными и неправильными ответами. Укажите значение разницы, которое будет считаться за 100% изученность слова</string>
-    <string name="pref_alarm_training">Учим слова каждый день</string>
+    <string name="pref_alarm_training">Напоминать о тренировках</string>
     <string name="pref_alarm_training_summary_on">Lexio будет напоминать Вам, что неплохо бы поучить слова</string>
     <string name="pref_alarm_training_summary_off">Lexio не будет напоминать об изучении слов</string>
     <string name="pref_alarm_training_summary">Lexio может каждый день напоминать Вам, что нужно поучить слова</string>
@@ -115,6 +115,12 @@
     <string name="tutorial_words_list_item_2">Сдвиньте слово справа налево для действий (изменение, удаление и другое)</string>
     <string name="nav.Help">Помощь</string>
     <string name="tutorial_help">Вы можете еще раз пройтись по функциям Lexio, увидев полезные подсказки</string>
+    <string name="tutorial_dict_list">Это список Ваших словарей</string>
+    <string name="tutorial_dict_list_item">Это словарь. Здесь отображается количество слов в словаре, и флажок активности. В один момент времени может быть активным только один словарь</string>
+    <string name="tutorial_dict_list_item_2">Потяните справа налево для дополнительных действий со словарем (изменение, активация, удаление и т.д.)</string>
+    <string name="tutorial_words_add_global">Это кнопка для добавления слова. Вы можете вызвать добавление слова из любого места Lexio</string>
+    <string name="pref_training_voice_show_transcription">Перевод - Произнести слово: транскрипция</string>
+    <string name="pref_training_voice_show_transcription_summary">Показывать транскрипцию слова в тренировке Перевод - Произнести слово (подсказка для более точного произношения)</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>Пекарь</item>
         <item>Библиотека</item>
