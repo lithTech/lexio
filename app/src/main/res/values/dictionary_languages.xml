@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="dictionary_languages">
+    <string-array name="dictionary_languages" translatable="false">
         <item>English</item>
         <item>Deutsch</item>
         <item>Français</item>
     </string-array>
 
-    <string-array name="dictionary_language_tags">
+    <string-array name="dictionary_language_tags" translatable="false">
         <item>
             en-US
         </item>

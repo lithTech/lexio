@@ -15,3 +15,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn com.github.mikephil.**
+-dontwarn org.droidparts.**
+
+-renamesourcefileattribute SourceFile
+-keepattributes Signature, *Annotation*, SourceFile, LineNumberTable
+
+-keep class * extends org.droidparts.AbstractDependencyProvider { *; }
+-keep class * extends org.droidparts.model.**
+-keep @interface org.droidparts.annotation.** { *; }
+-keepclassmembers class * { @org.droidparts.annotation.** *; }
+-dontwarn org.droidparts.**

@@ -130,7 +130,6 @@
         <item>telefon</item>
         <item>organisation</item>
     </string-array>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_clear_statistics">Word statistics clearing</string>
