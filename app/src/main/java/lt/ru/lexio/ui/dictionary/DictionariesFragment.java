@@ -413,7 +413,7 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
 
     private void presentTutorial() {
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500);
+        config.setDelay(getResources().getInteger(R.integer.tutorial_delay));
 
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), "dictTut");
 

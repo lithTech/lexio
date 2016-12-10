@@ -476,7 +476,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     private void presentTutorial() {
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500);
+        config.setDelay(getResources().getInteger(R.integer.tutorial_delay));
 
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), "wordsTut");
 

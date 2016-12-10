@@ -48,33 +48,36 @@ public class IPAEngFetcher extends AsyncTask<List<Word>, String, Collection<Word
 
     @Override
     protected Collection<Word> doInBackground(List<Word>... params) {
-        if (params[0].isEmpty()) return new ArrayList<>(0);
+        try {
+            if (params[0].isEmpty()) return new ArrayList<>(0);
 
-        String data = fetchFromInternet(params[0]);
+            String data = fetchFromInternet(params[0]);
 
-        if (data != null && !data.isEmpty()) {
-            Map<String, Word> wordMap = new HashMap<>(params[0].size());
-            for (Word word : params[0]) {
-                wordMap.put(word.getTitle(), word);
-            }
-
-            Document doc = Jsoup.parse(data);
-            Elements el = doc.select("#transcr_parallel_output");
-            if (!el.isEmpty()) {
-                Elements words = el.select("tr");
-
-                for(int i = 0; i < words.size(); i++) {
-                    Element word = words.get(i);
-                    String title = word.select("td.orig").text();
-                    String transcription = word.select("span.transcribed_word").text();
-                    if (wordMap.containsKey(title))
-                        wordMap.get(title).setTranscription(transcription);
+            if (data != null && !data.isEmpty()) {
+                Map<String, Word> wordMap = new HashMap<>(params[0].size());
+                for (Word word : params[0]) {
+                    wordMap.put(word.getTitle(), word);
                 }
-                succ = true;
-                return wordMap.values();
-            }
-        }
 
+                Document doc = Jsoup.parse(data);
+                Elements el = doc.select("#transcr_parallel_output");
+                if (!el.isEmpty()) {
+                    Elements words = el.select("tr");
+
+                    for(int i = 0; i < words.size(); i++) {
+                        Element word = words.get(i);
+                        String title = word.select("td.orig").text();
+                        String transcription = word.select("span.transcribed_word").text();
+                        if (wordMap.containsKey(title))
+                            wordMap.get(title).setTranscription(transcription);
+                    }
+                    succ = true;
+                    return wordMap.values();
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return new ArrayList<>(0);
     }
 

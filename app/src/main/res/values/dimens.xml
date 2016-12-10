@@ -15,17 +15,6 @@
     <dimen name="card.Height">320dp</dimen>
     <dimen name="card.HeightLandscape">180dp</dimen>
 
-    <integer name="animation_correct_answer">400</integer>
-    <integer name="animation_incorrect_answer">2000</integer>
-    <integer name="card_flip_time_full">1000</integer>
-    <integer name="card_flip_time_half">500</integer>
-
-    <integer name="training_max_words">100</integer>
-    <integer name="training_min_words">5</integer>
-
-    <integer name="pref_word_progress_factor">10</integer>
-    <integer name="pref_alarm_training_time">72000019</integer>
-
     <dimen name="card_radius">6dp</dimen>
 
     <dimen name="list_cards_margin_default">12dp</dimen>
