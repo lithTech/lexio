@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_word_move"
+        android:title="@string/action_word_move" />
     <item android:id="@+id/action_word_add"
         android:title="@string/word.Add" />
     <item android:id="@+id/action_word_edit"

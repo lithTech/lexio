@@ -44,6 +44,7 @@ import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.dictionary.DictionariesListAdapter;
+import lt.ru.lexio.ui.dictionary.DictionaryChooser;
 import lt.ru.lexio.util.NumberPickerHelper;
 
 /**
@@ -420,83 +421,31 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     }
 
-    private void chooseDictionary(final GeneralCallback callback, int resIdActionButton) {
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-        final View promptView = layoutInflater.inflate(R.layout.dialog_choose_dict, null);
-
-        final DictionaryDAO dDAO = new DictionaryDAO(getView().getContext());
-
-        Word word = wordDAO.read(currentWord.id);
-        String tag = word.getDictionary().getLanguage();
-        Where where = new Where(Db.Dictionary.LANG, Is.EQUAL, tag).and(Db.Common.ID, Is.NOT_EQUAL, word.getDictionary().id);
-        final List<Dictionary> dictionaries = dDAO.readAll(dDAO.getAll().where(where));
-
-        if (dictionaries.isEmpty()) {
-            Toast.makeText(getView().getContext(),
-                    getResources().getString(R.string.msg_action_word_nodict),
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        String[] dictDisplay = new String[dictionaries.size()];
-        for (int i = 0; i < dictionaries.size(); i++) {
-            Dictionary dictionary = dictionaries.get(i);
-            dictDisplay[i] = dictionary.getTitle();
-        }
-
-        final NumberPicker npDictionaries = (NumberPicker) promptView.findViewById(R.id.npDictionaries);
-        npDictionaries.setDisplayedValues(dictDisplay);
-        npDictionaries.setMinValue(0);
-        npDictionaries.setMaxValue(dictDisplay.length-1);
-        NumberPickerHelper.setDividerColor(npDictionaries, Color.GRAY);
-
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setView(promptView);
-
-        // setup a dialog window
-        alertDialogBuilder.setCancelable(true)
-                .setPositiveButton(resIdActionButton, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Dictionary dictionary = dictionaries.get(npDictionaries.getValue());
-                        callback.done(dictionary);
-                    }
-                })
-                .setNegativeButton(R.string.dialog_Cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        final AlertDialog alert = alertDialogBuilder.create();
-
-        alert.show();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_word_copy) {
-            chooseDictionary(new GeneralCallback() {
-                @Override
-                public void done(Object data) {
-                    //TODO implement word copying sometime
-                }
-            }, R.string.action_word_copy);
+
         }
         else if (item.getItemId() == R.id.action_word_move)
         {
-            chooseDictionary(new GeneralCallback() {
-                @Override
-                public void done(Object data) {
-                    Dictionary dictionary = (Dictionary) data;
-                    wordDAO.moveWord(dictionary.id, currentWord.id);
-                    Toast.makeText(getView().getContext(),
-                            currentWord.getTitle() + " " +
-                                    getResources().getString(R.string.msg_action_word_move_success) +
-                                    " " + dictionary.getTitle(),
-                            Toast.LENGTH_LONG).show();
-                }
-            }, R.string.action_word_move);
+            Word word = wordDAO.read(currentWord.id);
+            String tag = word.getDictionary().getLanguage();
+            Where where = new Where(Db.Dictionary.LANG, Is.EQUAL, tag)
+                    .and(Db.Common.ID, Is.NOT_EQUAL, word.getDictionary().id);
+
+            DictionaryChooser.showChooser(getActivity(), where, R.string.action_word_move,
+                    new GeneralCallback() {
+                        @Override
+                        public void done(Object data) {
+                            Dictionary dictionary = (Dictionary) data;
+                            wordDAO.moveWord(dictionary.id, currentWord.id);
+                            Toast.makeText(getView().getContext(),
+                                    currentWord.getTitle() + " " +
+                                            getResources().getString(R.string.msg_action_word_move_success) +
+                                            " " + dictionary.getTitle(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
         }
         return true;
     }

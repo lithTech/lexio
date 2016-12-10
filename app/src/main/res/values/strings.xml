@@ -160,5 +160,6 @@
     <string name="tutorial_words_add_global">Это кнопка для добавления слова. Вы можете вызвать добавление слова из любого места Lexio</string>
     <string name="pref_training_voice_show_transcription">Перевод - Произнести слово: транскрипция</string>
     <string name="pref_training_voice_show_transcription_summary">Показывать транскрипцию слова в тренировке Перевод - Произнести слово (подсказка для более точного произношения)</string>
+    <string name="msg_action_words_move_success">Selected words moved successfully to</string>
 
 </resources>

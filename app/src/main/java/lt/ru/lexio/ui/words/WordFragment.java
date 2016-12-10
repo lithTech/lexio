@@ -40,6 +40,9 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
+import org.droidparts.persist.sql.stmt.Is;
+import org.droidparts.persist.sql.stmt.Where;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -57,6 +60,7 @@ import lt.ru.lexio.fetcher.IPAEngFetcher;
 import lt.ru.lexio.fetcher.MSTranslator;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
+import lt.ru.lexio.ui.dictionary.DictionaryChooser;
 import lt.ru.lexio.util.AbbyyLingvoURL;
 import lt.ru.lexio.util.ClipboardHelper;
 import lt.ru.lexio.util.TutorialHelper;
@@ -98,9 +102,17 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         lWords.setLongClickable(true);
         registerForContextMenu(lWords);
 
+
         SwipeMenuCreator swypeMenuCreator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
+                SwipeMenuItem move = new SwipeMenuItem(getView().getContext());
+                move.setIcon(R.drawable.ic_menu_context_word_move);
+                move.setTitle(R.string.action_word_move);
+                move.setId(R.id.action_word_move);
+                move.setTitleColor(R.color.colorPrimaryDark);
+                move.setWidth(dp2px(64));
+
                 SwipeMenuItem edit = new SwipeMenuItem(getView().getContext());
                 edit.setIcon(R.drawable.ic_menu_context_word_edit);
                 edit.setTitle(R.string.action_word_edit);
@@ -116,6 +128,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 del.setTitleColor(R.color.colorPrimaryDark);
                 del.setIcon(R.drawable.ic_menu_context_object_delete);
 
+                menu.addMenuItem(move);
                 menu.addMenuItem(edit);
                 menu.addMenuItem(del);
             }
@@ -173,8 +186,32 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         return super.onOptionsItemSelected(item);
     }
 
-    private void chooseAction(int id, Collection<Integer> positions) {
-        if (id == R.id.action_word_add) {
+    private void chooseAction(int id, final Collection<Integer> positions) {
+        if (id == R.id.action_word_move) {
+            if (!positions.isEmpty())
+            {
+                Word word = wordDAO.read(lWords.getItemIdAtPosition(positions.iterator().next()));
+                Where where = new Where(Db.Dictionary.LANG, Is.EQUAL, word.getDictionary().getLanguage())
+                        .and(Db.Common.ID, Is.NOT_EQUAL, word.getDictionary().id);
+                DictionaryChooser.showChooser(getActivity(), where, R.string.action_word_move,
+                        new GeneralCallback() {
+                            @Override
+                            public void done(Object data) {
+                                Dictionary dictionary = (Dictionary) data;
+                                for (Integer p : positions) {
+                                    long wordId = lWords.getItemIdAtPosition(p);
+                                    wordDAO.moveWord(dictionary.id, wordId);
+                                }
+                                Toast.makeText(getActivity(),
+                                        getResources().getString(R.string.msg_action_words_move_success) +
+                                                " " + dictionary.getTitle()
+                                        , Toast.LENGTH_LONG).show();
+                                refreshList();
+                            }
+                        });
+            }
+        }
+        else if (id == R.id.action_word_add) {
             createWord(getActivity(), mainActivity.getCurrentDictionary());
         }
         else if (id == R.id.action_word_del) {
