@@ -413,18 +413,21 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
 
     private void presentTutorial() {
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(getResources().getInteger(R.integer.tutorial_delay));
+        config.setDelay(500);
 
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), "dictTut");
 
         sequence.setConfig(config);
 
         sequence.addSequenceItem(TutorialHelper.defElem(getActivity(),
-                R.string.tutorial_dict_list, false, lDictionaries).build()
+                R.string.tutorial_dict_list, false, lDictionaries)
+                .setDelay(getResources().getInteger(R.integer.tutorial_delay))
+                .build()
         );
 
         MaterialShowcaseView tmpView = TutorialHelper.defElem(getActivity(),
-                R.string.tutorial_dict_list_item, true, lDictionaries).build();
+                R.string.tutorial_dict_list_item, true, lDictionaries)
+                .build();
         Target wordItemTarget = new Target() {
             @Override
             public Point getPoint() {
@@ -444,7 +447,8 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
         sequence.addSequenceItem(tmpView);
 
         tmpView = TutorialHelper.defElem(getActivity(),
-                R.string.tutorial_dict_list_item_2, false, lDictionaries).build();
+                R.string.tutorial_dict_list_item_2, false, lDictionaries)
+                .build();
         tmpView.setTarget(wordItemTarget);
         sequence.addSequenceItem(tmpView);
 
