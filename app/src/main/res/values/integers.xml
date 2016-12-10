@@ -11,5 +11,5 @@
     <integer name="pref_word_progress_factor">10</integer>
     <integer name="pref_alarm_training_time">72000019</integer>
 
-    <integer name="tutorial_delay">2500</integer>
+    <integer name="tutorial_delay">1000</integer>
 </resources>

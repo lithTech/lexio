@@ -195,7 +195,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     private void nextQuestionInternal(boolean animateQuestionExit) {
         //exit from old question is not yet animated
-        if (animateQuestionExit) {
+        if (animateQuestionExit && trainingPageContainer.getVisibility() == View.VISIBLE) {
             trainingPageContainer.startAnimation(aniNextCloseLastQuestion);
         }
         //animation on end question is ended, present new question
@@ -268,6 +268,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         currentSessionId = 0;
 
         registerForContextMenu(getView());
+        getActivity().invalidateOptionsMenu();
 
         startTraining();
         nextQuestionInternal(false);
