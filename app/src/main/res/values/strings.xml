@@ -68,7 +68,7 @@
     <string name="settings.ClearAlert.Header">Statistics clear</string>
     <string name="settings.ClearAlert.Message">Are you sure you would like to delete all word statistics? (This will erase you wrong word statistic, new/old word. etc)</string>
     <string name="dialog_Clear">Clear</string>
-    <string name="training.Start.AnswerTimer">Limit time for \none word (in seconds)</string>
+    <string name="training.Start.AnswerTimer">Limit time for one word (in seconds)</string>
     <string name="Training.EnterWord.EnterWordHint">Enter translation</string>
     <string-array name="training_Start_AnswerTimerOptions">
         <item>No limit</item>

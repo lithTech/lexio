@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/cWordCount"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:src="@drawable/ic_counter"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/contrainer_list_separator"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/training.Start.WordCount"
+                android:id="@+id/textView2"
+                android:textColor="@color/textColor"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center_vertical" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="10 слов"
+
+                />
+            </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cWordOrder"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_below="@id/cWordCount"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/ic_sort"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+        <LinearLayout
+            android:background="@drawable/contrainer_list_separator"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/textColor"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/training.Start.WordOrder"
+                android:id="@+id/textView3"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center_vertical" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="@string/training.Order.Old"
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cTimer"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_below="@id/cWordOrder"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/ic_timer_hourglass"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+        <LinearLayout
+            android:background="@drawable/contrainer_list_separator"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:layout_marginBottom="4dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/training.Start.AnswerTimer"
+                android:id="@+id/textView4" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="Без ограничений по времени"
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center_horizontal|bottom"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/bTrainingStart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/ic_menu_start"
+            app:fab_colorNormal="@color/colorPrimaryDark"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

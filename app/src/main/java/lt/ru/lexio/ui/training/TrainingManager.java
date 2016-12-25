@@ -2,43 +2,37 @@ package lt.ru.lexio.ui.training;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import lt.ru.lexio.R;
-import lt.ru.lexio.db.Word;
-import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.settings.SettingsFragment;
-import lt.ru.lexio.util.NumberPickerHelper;
 
 /**
  * Created by lithTech on 06.05.2016.
  */
 public class TrainingManager extends ContentFragment implements View.OnClickListener{
 
-    private int loadTrainingId;
-    private int titleId;
-    private TrainingWordOrder[] wordOrders;
-    NumberPicker nbTrainingWordCount;
-    NumberPicker nbTrainingWordOrder1;
-    NumberPicker nbTrainingAnswerTimer;
+    TrainingWordOrder currentWordOrder;
+    int currentWordCount;
+    int currentWordTime;
+
+    int loadTrainingId;
+
     String[] answerTimerOptions;
 
     private SharedPreferences pref;
-    private long[] startWordList;
+
+    private long[] argStartWordList;
+    private int argWordOrder;
+    private int argWordCount;
+    private int argWordTimer;
 
     @Nullable
     @Override
@@ -47,7 +41,40 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
 
         loadTrainingId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
 
-        startWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
+        argStartWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
+        argWordOrder = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER);
+        argWordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
+        argWordTimer = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_TIME);
+
+        pref = getActivity().getSharedPreferences(SettingsFragment.SETTINGS_FILE_NAME,
+                Context.MODE_PRIVATE);
+        currentWordTime = pref.getInt(loadTrainingId + ".nbTrainingAnswerTimer", 0);
+        currentWordOrder = TrainingWordOrder.values()[pref.getInt(loadTrainingId + ".nbTrainingWordOrder1", 0)];
+        currentWordCount = pref.getInt(loadTrainingId + ".nbTrainingWordCount", 5);
+
+        View cWordCount = view.findViewById(R.id.cWordCount);
+        View cWordOrder = view.findViewById(R.id.cWordOrder);
+        View cWordTime = view.findViewById(R.id.cTimer);
+
+        cWordCount.setOnClickListener(this);
+        cWordOrder.setOnClickListener(this);
+        cWordTime.setOnClickListener(this);
+
+        return view;
+    }
+
+    /*          VERSION 1
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        loadTrainingId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
+
+        argStartWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
+        argWordOrder = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER);
+        argWordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
+        argWordTimer = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_TIME);
 
         pref = getActivity().getSharedPreferences(SettingsFragment.SETTINGS_FILE_NAME,
                 Context.MODE_PRIVATE);
@@ -95,13 +122,13 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         NumberPickerHelper.setDividerColor(nbTrainingWordOrder1, Color.GRAY);
 
         return view;
-    }
+    }*/
 
     @Override
     public void onStart() {
         super.onStart();
-        if (startWordList != null)
-            startTrainingWithList(startWordList);
+        if (argStartWordList != null)
+            startTrainingWithList(argStartWordList, argWordOrder, argWordCount, argWordTimer);
     }
 
     private ContentFragment getTraining(int loadTrainingId) {
@@ -128,9 +155,8 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         return trainingContent;
     }
 
-    public void startTrainingWithList(long[] startWordList) {
-        TrainingWordOrder wordOrder1 = wordOrders[nbTrainingWordOrder1.getValue()];
-        int count = nbTrainingWordCount.getValue();
+    public void startTrainingWithList(long[] startWordList, int wordOrder, int wordCount,
+                                      int wordTimer) {
         String title = "";
         int titleResId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE);
         if (titleResId != 0) {
@@ -139,9 +165,9 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
 
         Bundle args = new Bundle(5);
         args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, loadTrainingId);
-        args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT, count);
-        args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER, wordOrder1.ordinal());
-        args.putInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER, 0);
+        args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT, wordCount);
+        args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER, wordOrder);
+        args.putInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER, wordTimer);
         args.putLongArray(ContentFragment.ARG_TRAINING_START_LIST, startWordList);
 
         ContentFragment trainingContent = getTraining(loadTrainingId);
@@ -151,26 +177,34 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        TrainingWordOrder wordOrder1 = wordOrders[nbTrainingWordOrder1.getValue()];
-        int count = nbTrainingWordCount.getValue();
-        String title = getResources().getString(getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE));
+        switch (v.getId()) {
+            case R.id.bTrainingStart:
+                String title = getResources().getString(getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE));
 
-        Bundle args = new Bundle(5);
-        args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, loadTrainingId);
-        args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT, count);
-        args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER, wordOrder1.ordinal());
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt(loadTrainingId + ".nbTrainingAnswerTimer", currentWordTime);
+                editor.putInt(loadTrainingId + ".nbTrainingWordCount", currentWordCount);
+                editor.putInt(loadTrainingId + ".nbTrainingWordOrder1", currentWordOrder.ordinal());
+                editor.apply();
 
-        String timerOption = answerTimerOptions[nbTrainingAnswerTimer.getValue()];
-        if (nbTrainingAnswerTimer.getValue() == 0) timerOption = "0";
-        args.putInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER, Integer.valueOf(timerOption));
-        ContentFragment trainingContent = getTraining(loadTrainingId);
+                startTrainingWithList(null, currentWordOrder.ordinal(), currentWordCount, currentWordTime);
+                break;
 
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(loadTrainingId + ".nbTrainingAnswerTimer", Integer.valueOf(timerOption));
-        editor.putInt(loadTrainingId + ".nbTrainingWordCount", count);
-        editor.putInt(loadTrainingId + ".nbTrainingWordOrder1", wordOrder1.ordinal());
-        editor.apply();
+            case R.id.cWordCount:
+                Spinner spinner = new Spinner(getActivity(), Spinner.MODE_DIALOG);
+                spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        new String[]{"5", "6", "7"}));
+                spinner.showContextMenuForChild(getView());
+                break;
 
-        mainActivity.changeFragment(trainingContent, args, title);
+            case R.id.cWordOrder:
+
+                break;
+
+            case R.id.cTimer:
+
+                break;
+        }
     }
 }

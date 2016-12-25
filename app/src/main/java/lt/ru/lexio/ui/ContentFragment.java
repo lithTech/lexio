@@ -32,6 +32,7 @@ public class ContentFragment extends Fragment {
     public static final String ARG_TRAINING_WORD_ORDER = "trainingWordOrder";
     public static final String ARG_TRAINING_ANSWER_TIMER = "trainingAnswerTimer";
     public static final String ARG_TRAINING_WORD_COUNT = "trainingWordCount";
+    public static final String ARG_TRAINING_WORD_TIME = "trainingWordTime";
 
     protected MainActivity mainActivity;
 

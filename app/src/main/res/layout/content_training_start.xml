@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/cWordNumber"
+        android:id="@+id/cWordCount"
         android:background="@drawable/contrainer_list_separator"
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -40,7 +40,7 @@
         android:background="@drawable/contrainer_list_separator"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_below="@id/cWordNumber"
+        android:layout_below="@id/cWordCount"
         android:paddingTop="10dp"
         android:layout_height="wrap_content">
 

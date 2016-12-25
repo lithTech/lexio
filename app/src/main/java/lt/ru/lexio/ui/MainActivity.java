@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.training_cards) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_cards);
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start_v2);
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
                     FragmentTitleMapper.getTitleResId(res, R.layout.content_training_cards));
             title = res.getString(R.string.training_Start);
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.training_trans_audio) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_trans_voice);
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start_v2);
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
                     FragmentTitleMapper.getTitleResId(res, R.layout.content_training_trans_voice));
             title = res.getString(R.string.training_Start);
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.training_trans_word) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_trans_word);
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start_v2);
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
                     FragmentTitleMapper.getTitleResId(res, R.layout.content_training_trans_word));
             title = res.getString(R.string.training_Start);
@@ -224,14 +224,14 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.training_word_trans) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_word_trans);
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start_v2);
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
                     FragmentTitleMapper.getTitleResId(res, R.layout.content_training_word_trans));
             title = res.getString(R.string.training_Start);
             fragment = new TrainingManager();
         } else if (id == R.id.training_trans_write) {
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, R.layout.content_training_enter_word);
-            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
+            args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start_v2);
             args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
                     FragmentTitleMapper.getTitleResId(res, R.layout.content_training_enter_word));
             title = res.getString(R.string.training_Start);
