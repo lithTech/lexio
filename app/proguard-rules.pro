@@ -26,3 +26,7 @@
 -keep @interface org.droidparts.annotation.** { *; }
 -keepclassmembers class * { @org.droidparts.annotation.** *; }
 -dontwarn org.droidparts.**
+
+-keep public class org.jsoup.** {
+    public *;
+}
