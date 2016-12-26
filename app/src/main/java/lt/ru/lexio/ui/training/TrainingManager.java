@@ -48,6 +48,10 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        tvWordOrder = (TextView) view.findViewById(R.id.tvWordOrder);
+        tvWordCount = (TextView) view.findViewById(R.id.tvWordCount);
+        tvWordTime = (TextView) view.findViewById(R.id.tvWordTime);
+
         loadTrainingId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
 
         argStartWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
@@ -61,6 +65,10 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         currentWordOrder = TrainingWordOrder.values()[pref.getInt(loadTrainingId + ".nbTrainingWordOrder1", 0)];
         currentWordCount = pref.getInt(loadTrainingId + ".nbTrainingWordCount", 5);
 
+        applyTime(currentWordTime);
+        applyCount(currentWordCount);
+        applyOrder(currentWordOrder);
+
         View cWordCount = view.findViewById(R.id.cWordCount);
         View cWordOrder = view.findViewById(R.id.cWordOrder);
         View cWordTime = view.findViewById(R.id.cTimer);
@@ -69,76 +77,11 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         cWordOrder.setOnClickListener(this);
         cWordTime.setOnClickListener(this);
 
-        tvWordOrder = (TextView) view.findViewById(R.id.tvWordOrder);
-        tvWordCount = (TextView) view.findViewById(R.id.tvWordCount);
-        tvWordTime = (TextView) view.findViewById(R.id.tvWordTime);
-
         View bStart = view.findViewById(R.id.bTrainingStart);
         bStart.setOnClickListener(this);
 
         return view;
     }
-
-    /*          VERSION 1
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        loadTrainingId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
-
-        argStartWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
-        argWordOrder = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER);
-        argWordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
-        argWordTimer = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_TIME);
-
-        pref = getActivity().getSharedPreferences(SettingsFragment.SETTINGS_FILE_NAME,
-                Context.MODE_PRIVATE);
-
-        nbTrainingWordCount = (NumberPicker) view.findViewById(R.id.npCount);
-        nbTrainingWordCount.setMinValue(getResources().getInteger(R.integer.training_min_words));
-        nbTrainingWordCount.setMaxValue(getResources().getInteger(R.integer.training_max_words));
-
-        titleId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE);
-
-        nbTrainingWordOrder1 = (NumberPicker) view.findViewById(R.id.npWordOrder1);
-        wordOrders = TrainingWordOrder.values();
-        nbTrainingWordOrder1.setMinValue(0);
-        nbTrainingWordOrder1.setMaxValue(wordOrders.length - 1);
-
-        String[] orders = new String[wordOrders.length];
-        for (int i = 0; i < wordOrders.length; i++)
-            orders[i] = getResources().getString(wordOrders[i].getStringResTitleId());
-
-        nbTrainingWordOrder1.setDisplayedValues(orders);
-
-        int wOrder = pref.getInt(loadTrainingId + ".nbTrainingWordOrder1", 0);
-        nbTrainingWordOrder1.setValue(wOrder);
-        int wCnt = pref.getInt(loadTrainingId + ".nbTrainingWordCount", 5);
-        nbTrainingWordCount.setValue(wCnt);
-
-        nbTrainingWordOrder1.setWrapSelectorWheel(true);
-        nbTrainingWordCount.setWrapSelectorWheel(true);
-
-        nbTrainingAnswerTimer = (NumberPicker) view.findViewById(R.id.npAnswerTimer);
-        answerTimerOptions = getResources().getStringArray(R.array.training_Start_AnswerTimerOptions);
-        nbTrainingAnswerTimer.setMinValue(0);
-        nbTrainingAnswerTimer.setMaxValue(answerTimerOptions.length - 1);
-        nbTrainingAnswerTimer.setDisplayedValues(answerTimerOptions);
-        nbTrainingAnswerTimer.setWrapSelectorWheel(true);
-
-        int aTime = pref.getInt(loadTrainingId + ".nbTrainingAnswerTimer", 0);
-        nbTrainingAnswerTimer.setValue(aTime);
-
-        View bStart = view.findViewById(R.id.bTrainingStart);
-        bStart.setOnClickListener(this);
-
-        NumberPickerHelper.setDividerColor(nbTrainingAnswerTimer, Color.GRAY);
-        NumberPickerHelper.setDividerColor(nbTrainingWordCount, Color.GRAY);
-        NumberPickerHelper.setDividerColor(nbTrainingWordOrder1, Color.GRAY);
-
-        return view;
-    }*/
 
     @Override
     public void onStart() {
@@ -220,7 +163,7 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
                             public void done(Object data) {
                                 String sCnt = (String) data;
                                 currentWordCount = Integer.valueOf(sCnt);
-                                tvWordCount.setText(sCnt + " " + getString(R.string.words_suffix));
+                                applyCount(currentWordCount);
                             }
                         });
                 break;
@@ -230,8 +173,8 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
                     @Override
                     public void done(Object data) {
                         TrainingWordOrder order = (TrainingWordOrder) data;
-                        tvWordOrder.setText(order.getStringResTitleId());
                         currentWordOrder = order;
+                        applyOrder(order);
                     }
                 });
                 break;
@@ -250,14 +193,26 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
                                 if (TextUtils.isDigitsOnly(sTime))
                                     time = Integer.parseInt(sTime);
 
-                                currentWordTime = time;
-                                if (currentWordTime == 0)
-                                    tvWordTime.setText(R.string.training_Start_AnswerTimerNoLimit);
-                                else
-                                    tvWordTime.setText(sTime + " " + getString(R.string.seconds));
+                                applyTime(time);
                             }
                         });
                 break;
         }
+    }
+
+    private void applyOrder(TrainingWordOrder order) {
+        tvWordOrder.setText(order.getStringResTitleId());
+    }
+
+    private void applyCount(int cnt) {
+        tvWordCount.setText(cnt + " " + getString(R.string.words_suffix));
+    }
+
+    private void applyTime(int time) {
+        currentWordTime = time;
+        if (currentWordTime == 0)
+            tvWordTime.setText(R.string.training_Start_AnswerTimerNoLimit);
+        else
+            tvWordTime.setText(time + " " + getString(R.string.seconds));
     }
 }

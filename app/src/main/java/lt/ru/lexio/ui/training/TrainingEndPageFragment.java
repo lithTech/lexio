@@ -93,6 +93,9 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
         else {
             for (int tb : trainingButtons) {
                 if (v.getId() == tb && v.getTag() != null) {
+                    TrainingFragmentBase fragment = (TrainingFragmentBase) getActivity().getFragmentManager()
+                            .findFragmentById(R.id.content_fragment_parent);
+
                     String idName = (String) v.getTag();
 
                     int id = getResources().getIdentifier(idName, "layout", getActivity().getPackageName());
@@ -104,6 +107,14 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
                     args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
                     args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
                             FragmentTitleMapper.getTitleResId(getResources(), id));
+
+                    args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT,
+                            fragment.getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT));
+                    args.putInt(ContentFragment.ARG_TRAINING_WORD_ORDER,
+                            fragment.getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER));
+                    args.putInt(ContentFragment.ARG_TRAINING_WORD_TIME,
+                            fragment.getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_TIME));
+
                     ((MainActivity) getActivity()).changeFragment(trainingManager, args, "");
                 }
             }
