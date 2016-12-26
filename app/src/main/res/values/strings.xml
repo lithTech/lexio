@@ -13,6 +13,7 @@
     <string name="nav.Settings">Settings</string>
     <string name="dictionaries.Add">Add dictionary</string>
     <string name="dialog.Create">Create</string>
+    <string name="dialog.Choose">Ok</string>
     <string name="dialog.Cancel">Cancel</string>
     <string name="dictionaries.EnterTitle">Enter dictionary name</string>
     <string name="dialog.EnterTextHint">Enter text here..</string>
@@ -56,6 +57,11 @@
     <string name="training.Order.Hard">Mistaken</string>
     <string name="training.Order.New">New</string>
     <string name="training.Order.Old">Old</string>
+    <string name="training_Order_Random">Random</string>
+    <string name="training.Order.Hard_Descr">Words in which you have many mistakes</string>
+    <string name="training.Order.New_Descr">Newest added words to the dictionary</string>
+    <string name="training.Order.Old_Descr">The most old-trained words</string>
+    <string name="training_Order_Random_Descr">Random words from dictionary</string>
     <string name="training.Start">Start training</string>
     <string name="training.Start.WordCount">Word count:</string>
     <string name="training.Start.WordOrder">Word order:</string>
@@ -161,5 +167,12 @@
     <string name="pref_training_voice_show_transcription">Перевод - Произнести слово: транскрипция</string>
     <string name="pref_training_voice_show_transcription_summary">Показывать транскрипцию слова в тренировке Перевод - Произнести слово (подсказка для более точного произношения)</string>
     <string name="msg_action_words_move_success">Selected words moved successfully to</string>
+    <string name="dialog_word_orders">Select word order</string>
+    <string name="dialog_word_count">Select word count</string>
+    <string name="dialog_word_count_descr">Select word count to show in training</string>
+    <string name="words_suffix">words</string>
+    <string name="dialog_word_time">Select time for one word</string>
+    <string name="training_Start_AnswerTimerNoLimit">No time limit</string>
+    <string name="seconds">seconds</string>
 
 </resources>

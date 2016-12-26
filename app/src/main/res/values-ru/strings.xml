@@ -55,6 +55,11 @@
     <string name="training.Order.New">Самые последние добавленные слова</string>
     <string name="training.Order.Hard">Самые ошибочные слова</string>
     <string name="training.Order.Old">Давно не тренировавшиеся слова</string>
+    <string name="training_Order_Random">Случайные слова</string>
+    <string name="training.Order.Hard_Descr">Слова, в которых было много ошибок на тренировках. Отвечайте правильно, и слова эти слова постепенно перестанут считаться ошибочными</string>
+    <string name="training.Order.New_Descr">Последние добавленные слова в словарь. Изучайте вновь добавленные слова</string>
+    <string name="training.Order.Old_Descr">Слова, которые давно не были у вас на тренировках. Вспоминайте слова, которые давно не тренировались</string>
+    <string name="training_Order_Random_Descr">Просто случайные слова из всего словаря</string>
     <string name="training.Start">Запуск тренировки</string>
     <string name="training.Start.WordCount">Количество слов:</string>
     <string name="training.Start.WordOrder">Порядок подбора:</string>
@@ -158,4 +163,12 @@
         <item>telefon</item>
         <item>organisation</item>
     </string-array>
+    <string name="dialog.Choose">Выбрать</string>
+    <string name="dialog_word_orders">Выберите порядок подбора</string>
+    <string name="dialog_word_count">Выберите количество слов</string>
+    <string name="dialog_word_count_descr">Это количество будет показано вам в тренировке</string>
+    <string name="words_suffix">слов</string>
+    <string name="dialog_word_time">Выберите время на одно слово</string>
+    <string name="training_Start_AnswerTimerNoLimit">Нет ограничений по времени</string>
+    <string name="seconds">секунд</string>
 </resources>

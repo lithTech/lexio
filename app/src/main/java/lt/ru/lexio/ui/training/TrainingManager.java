@@ -4,15 +4,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.ui.settings.SettingsFragment;
+import lt.ru.lexio.ui.widget.ListSinglePicker;
+import lt.ru.lexio.ui.widget.WordOrderPicker;
 
 /**
  * Created by lithTech on 06.05.2016.
@@ -24,6 +29,10 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
     int currentWordTime;
 
     int loadTrainingId;
+
+    TextView tvWordOrder;
+    TextView tvWordCount;
+    TextView tvWordTime;
 
     String[] answerTimerOptions;
 
@@ -59,6 +68,13 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         cWordCount.setOnClickListener(this);
         cWordOrder.setOnClickListener(this);
         cWordTime.setOnClickListener(this);
+
+        tvWordOrder = (TextView) view.findViewById(R.id.tvWordOrder);
+        tvWordCount = (TextView) view.findViewById(R.id.tvWordCount);
+        tvWordTime = (TextView) view.findViewById(R.id.tvWordTime);
+
+        View bStart = view.findViewById(R.id.bTrainingStart);
+        bStart.setOnClickListener(this);
 
         return view;
     }
@@ -179,8 +195,6 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bTrainingStart:
-                String title = getResources().getString(getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE));
-
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt(loadTrainingId + ".nbTrainingAnswerTimer", currentWordTime);
                 editor.putInt(loadTrainingId + ".nbTrainingWordCount", currentWordCount);
@@ -191,19 +205,58 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
                 break;
 
             case R.id.cWordCount:
-                Spinner spinner = new Spinner(getActivity(), Spinner.MODE_DIALOG);
-                spinner.setAdapter(new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        new String[]{"5", "6", "7"}));
-                spinner.showContextMenuForChild(getView());
+                int min = getResources().getInteger(R.integer.training_min_words);
+                int max = getResources().getInteger(R.integer.training_max_words);
+                String[] values = new String[max - min + 1];
+                int j = 0;
+                for (int i = min; i <= max; i++)
+                {
+                    values[j++] = String.valueOf(i);
+                }
+                ListSinglePicker.show(getActivity(),
+                        values, R.string.dialog_word_count,
+                        new GeneralCallback() {
+                            @Override
+                            public void done(Object data) {
+                                String sCnt = (String) data;
+                                currentWordCount = Integer.valueOf(sCnt);
+                                tvWordCount.setText(sCnt + " " + getString(R.string.words_suffix));
+                            }
+                        });
                 break;
 
             case R.id.cWordOrder:
-
+                WordOrderPicker.show(getActivity(), new GeneralCallback() {
+                    @Override
+                    public void done(Object data) {
+                        TrainingWordOrder order = (TrainingWordOrder) data;
+                        tvWordOrder.setText(order.getStringResTitleId());
+                        currentWordOrder = order;
+                    }
+                });
                 break;
 
             case R.id.cTimer:
+                String[] answerTimerOptions = getResources()
+                        .getStringArray(R.array.training_Start_AnswerTimerOptions);
 
+                ListSinglePicker.show(getActivity(),
+                        answerTimerOptions, R.string.dialog_word_time,
+                        new GeneralCallback() {
+                            @Override
+                            public void done(Object data) {
+                                String sTime = (String) data;
+                                int time = 0;
+                                if (TextUtils.isDigitsOnly(sTime))
+                                    time = Integer.parseInt(sTime);
+
+                                currentWordTime = time;
+                                if (currentWordTime == 0)
+                                    tvWordTime.setText(R.string.training_Start_AnswerTimerNoLimit);
+                                else
+                                    tvWordTime.setText(sTime + " " + getString(R.string.seconds));
+                            }
+                        });
                 break;
         }
     }

@@ -38,6 +38,7 @@
                 android:layout_marginBottom="4dp"
                 android:layout_gravity="center_vertical" />
             <TextView
+                android:id="@+id/tvWordCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
@@ -77,6 +78,7 @@
                 android:layout_marginBottom="4dp"
                 android:layout_gravity="center_vertical" />
             <TextView
+                android:id="@+id/tvWordOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
@@ -116,6 +118,7 @@
                 android:id="@+id/textView4" />
 
             <TextView
+                android:id="@+id/tvWordTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
