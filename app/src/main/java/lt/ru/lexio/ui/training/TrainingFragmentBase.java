@@ -1,5 +1,6 @@
 package lt.ru.lexio.ui.training;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +31,10 @@ import org.droidparts.persist.sql.stmt.Where;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 import lt.ru.lexio.R;
@@ -101,12 +106,12 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     private Word wordDummy = new Word();
     protected WordStatisticDAO wordStatisticDAO = null;
     protected WordDAO wordDAO = null;
-    protected MainActivity activity = null;
     protected TrainingWordBuilder trainingWordBuilder = null;
     protected List<Word> sessionWords = null;
     protected Random random = new Random(System.nanoTime());
     protected int currentPage = 0;
     protected Date sessionDate = new Date();
+    protected TextToSpeech tts;
 
     protected int wordCount;
     protected TrainingWordOrder wordOrder;
@@ -126,11 +131,6 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     Animation aniPrevStartNewQuestion;
     private int answerTime;
 
-    public MainActivity getMainActivity() {
-
-        return activity;
-    }
-
     protected abstract int getTrainingPageContainerId();
 
     protected abstract int getEndPageContainerId();
@@ -139,8 +139,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     public Dictionary getCurrentDictionary() {
         Dictionary dictionary = null;
-        if (activity != null) {
-            return activity.getCurrentDictionary();
+        if (getActivity() != null && getActivity() instanceof MainActivity) {
+            return ((MainActivity) getActivity()).getCurrentDictionary();
         }
         else {
             dictionary = new Dictionary();
@@ -237,6 +237,27 @@ public abstract class TrainingFragmentBase extends ContentFragment {
                                              WordDAO wordDAO,
                                              WordStatisticDAO wordStatisticDAO);
 
+    @SuppressWarnings("deprecation")
+    private void ttsUnder20(String text) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "MessageId");
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, map);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void ttsGreater21(String text) {
+        String utteranceId=this.hashCode() + "";
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
+    }
+
+    protected void textToSpeech(String text) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ttsGreater21(text);
+        } else {
+            ttsUnder20(text);
+        }
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -273,21 +294,6 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         startTraining();
         nextQuestionInternal(false);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        activity = (MainActivity) context;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (Build.VERSION.SDK_INT < 23) {
-            this.activity = (MainActivity) activity;
-        }
     }
 
     protected long storeStatistic(long wordId, boolean isSuccess, long sessionId) {
@@ -405,6 +411,15 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         answerTime = getArguments().getInt(ContentFragment.ARG_TRAINING_ANSWER_TIMER);
 
         onQuestionExpireTimer = new QuestionExpireTimer(answerTime * 1000, this);
+
+        tts = new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                tts.setLanguage(new Locale(getCurrentDictionary().getLanguageTag()));
+                tts.setPitch(1.0f);
+                tts.setSpeechRate(0.8f);
+            }
+        });
 
         return view;
     }

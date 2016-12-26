@@ -121,5 +121,7 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
             wordTitle += " [" + word.getTranscription() + "]";
         ((TextView) getView().findViewById(R.id.edTrainingWord)).setText(wordTitle);
         ((TextView) getView().findViewById(R.id.tvTrainingContext)).setText(word.getContext());
+
+        textToSpeech(word.getTitle());
     }
 }
