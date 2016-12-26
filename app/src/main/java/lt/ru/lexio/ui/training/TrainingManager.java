@@ -65,20 +65,22 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
         currentWordOrder = TrainingWordOrder.values()[pref.getInt(loadTrainingId + ".nbTrainingWordOrder1", 0)];
         currentWordCount = pref.getInt(loadTrainingId + ".nbTrainingWordCount", 5);
 
-        applyTime(currentWordTime);
-        applyCount(currentWordCount);
-        applyOrder(currentWordOrder);
+        if (tvWordTime != null) {
+            applyTime(currentWordTime);
+            applyCount(currentWordCount);
+            applyOrder(currentWordOrder);
 
-        View cWordCount = view.findViewById(R.id.cWordCount);
-        View cWordOrder = view.findViewById(R.id.cWordOrder);
-        View cWordTime = view.findViewById(R.id.cTimer);
+            View cWordCount = view.findViewById(R.id.cWordCount);
+            View cWordOrder = view.findViewById(R.id.cWordOrder);
+            View cWordTime = view.findViewById(R.id.cTimer);
 
-        cWordCount.setOnClickListener(this);
-        cWordOrder.setOnClickListener(this);
-        cWordTime.setOnClickListener(this);
+            cWordCount.setOnClickListener(this);
+            cWordOrder.setOnClickListener(this);
+            cWordTime.setOnClickListener(this);
 
-        View bStart = view.findViewById(R.id.bTrainingStart);
-        bStart.setOnClickListener(this);
+            View bStart = view.findViewById(R.id.bTrainingStart);
+            bStart.setOnClickListener(this);
+        }
 
         return view;
     }

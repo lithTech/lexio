@@ -278,8 +278,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     private void saveWord(final Context creationWindowContext, final Dictionary dictionary,
                           final Word word) {
         final boolean needRefresh = this.getView() != null;
-        final boolean bingVisible = Locale.getDefault().getLanguage().equalsIgnoreCase("ru-ru");
-        final boolean lingvoVisible = Locale.getDefault().getLanguage().equalsIgnoreCase("ru-ru");
+        final boolean bingVisible = Locale.getDefault().getLanguage().equalsIgnoreCase("ru");
+        final boolean lingvoVisible = Locale.getDefault().getLanguage().equalsIgnoreCase("ru");
 
         String clipBoardText = "";
         final ClipboardManager clipMgr = (ClipboardManager) creationWindowContext.getSystemService(Context.CLIPBOARD_SERVICE);
