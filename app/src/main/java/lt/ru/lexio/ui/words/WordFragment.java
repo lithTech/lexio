@@ -442,6 +442,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         w.setTranslation(translation);
         w.setDictionary(dict);
         w.setCreated(new Date());
+        w.setTranscription("");
 
         if (wordDAO == null)
             wordDAO = new WordDAO(daoContext);

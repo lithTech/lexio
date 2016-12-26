@@ -21,33 +21,39 @@
         android:orientation="vertical"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:layout_weight="0.9"
         android:layout_marginBottom="5dp"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Delusion"
+            android:text="Long sentense than will wrap to the next line"
             android:textColor="@color/cardTextColor"
             android:paddingTop="5dp"
             android:paddingLeft="5dp"
             android:paddingBottom="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:id="@+id/tvWord" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Обман"
-            android:textColor="#D6D2D3"
+            android:text="Длинный текст который должен перенестись на новую строку и быть там так что посмотрим"
+            android:textColor="#9f9c9c"
             android:paddingLeft="5dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:paddingBottom="5dp"
             android:id="@+id/tvTranslation" />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:orientation="vertical"
         android:gravity="right|center"
+        android:layout_weight="0.1"
         android:layout_gravity="right|center"
         android:layout_height="match_parent">
         <TextView
@@ -58,8 +64,12 @@
             android:paddingRight="15dp"
             android:layout_marginBottom="5dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="[delusion]"
+            android:text="Long sentense than will wrap to the next line"
             android:textColor="@color/colorAccent"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:lines="1"
+            android:ellipsize="end"
             android:paddingLeft="5dp"
             android:id="@+id/tvTranscription" />
         <ProgressBar
