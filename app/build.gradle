@@ -37,6 +37,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     productFlavors {
+        withAds {
+            targetSdkVersion 24
+        }
+        withoutAds {
+            minSdkVersion 21
+            applicationId 'lt.ru.lexio'
+            signingConfig signingConfigs.config
+            targetSdkVersion 24
+            versionCode 1
+            versionName '1.0'
+        }
     }
 }
 

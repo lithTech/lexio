@@ -62,6 +62,7 @@ import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.dictionary.DictionaryChooser;
 import lt.ru.lexio.util.AbbyyLingvoURL;
+import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.ClipboardHelper;
 import lt.ru.lexio.util.TutorialHelper;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
@@ -102,7 +103,6 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         lWords.setLongClickable(true);
         registerForContextMenu(lWords);
 
-
         SwipeMenuCreator swypeMenuCreator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
@@ -136,6 +136,10 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         lWords.setMenuCreator(swypeMenuCreator);
         lWords.setOnMenuItemClickListener(this);
+
+        if (!AdvertiseHelper.isFlavorWithoutAds())
+            AdvertiseHelper.loadAd(getActivity(), (ViewGroup) view.findViewById(R.id.adView),
+                    getString(R.string.content_word_banner));
 
         return view;
     }
@@ -274,14 +278,11 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     private void saveWord(final Context creationWindowContext, final Dictionary dictionary,
                           final Word word) {
         final boolean needRefresh = this.getView() != null;
+        final boolean bingVisible = Locale.getDefault().getLanguage().equalsIgnoreCase("ru-ru");
+        final boolean lingvoVisible = Locale.getDefault().getLanguage().equalsIgnoreCase("ru-ru");
 
         String clipBoardText = "";
         final ClipboardManager clipMgr = (ClipboardManager) creationWindowContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        /*
-        if (ClipboardHelper.hasText(clipMgr)) {
-            clipBoardText = clipMgr.getPrimaryClip().getItemAt(0).getText().toString();
-        }*/
-
         LayoutInflater layoutInflater = LayoutInflater.from(creationWindowContext);
         final View promptView = layoutInflater.inflate(R.layout.dialog_add_word, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(creationWindowContext);
@@ -299,8 +300,12 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         edContext.setText(word.getContext());
 
         //translate button event
-        Button bTranslate = (Button) promptView.findViewById(R.id.bTranslate);
+        final Button bTranslate = (Button) promptView.findViewById(R.id.bTranslate);
+        if (!bingVisible)
+            bTranslate.setVisibility(View.GONE);
         final Button bTranslateLingvo = (Button) promptView.findViewById(R.id.bTranslateLingvo);
+        if (!lingvoVisible)
+            bTranslateLingvo.setVisibility(View.GONE);
         bTranslate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

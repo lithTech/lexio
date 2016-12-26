@@ -32,14 +32,10 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.droidparts.persist.sql.stmt.Is;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -51,6 +47,7 @@ import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.GeneralCallback;
+import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.TutorialHelper;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -119,6 +116,11 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
 
         lDictionaries.setLongClickable(true);
         registerForContextMenu(lDictionaries);
+
+        if (!AdvertiseHelper.isFlavorWithoutAds())
+            AdvertiseHelper.loadAd(getActivity(),
+                    (ViewGroup) view.findViewById(R.id.adView),
+                    getString(R.string.content_word_banner));
 
         return view;
     }
