@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Lexio</string>
     <string name="action_settings">Настройки</string>
-    <string name="LexioTitle">Словарь Lexio</string>
+    <string name="LexioTitle">Изучение слов Lexio</string>
     <string name="lexio.Decsription">Словарь с возможностями тренировки слов</string>
     <string name="navigation_drawer_close">Закрыть навигацию</string>
     <string name="navigation_drawer_open">Открыть навигацию</string>
