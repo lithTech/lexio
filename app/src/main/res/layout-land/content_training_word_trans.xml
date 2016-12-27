@@ -127,5 +127,4 @@
             android:name="lt.ru.lexio.ui.training.TrainingEndPageFragment"
             tools:layout="@layout/content_training_end_page" />
     </LinearLayout>
-
 </FrameLayout>

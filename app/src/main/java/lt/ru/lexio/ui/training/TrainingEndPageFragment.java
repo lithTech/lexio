@@ -84,15 +84,10 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.bTrainingEndPageTryAgain ||
-                v.getId() == R.id.bTrainingEndPageNext) {
+        if (v.getId() == R.id.bTrainingEndPageNext) {
             Fragment fragment = getActivity().getFragmentManager()
                     .findFragmentById(R.id.content_fragment_parent);
             if (fragment != null && fragment instanceof TrainingFragmentBase) {
-                if (v.getId() == R.id.bTrainingEndPageTryAgain) {
-                    int page = ((TrainingFragmentBase) fragment).getCurrentPage();
-                    ((TrainingFragmentBase) fragment).setCurrentPage(page - 1);
-                }
                 fragment.onStart();
             }
         }

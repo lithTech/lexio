@@ -23,19 +23,6 @@
         android:layout_height="wrap_content">
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/layout_train_end_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="lt.ru.lexio.ui.training.TrainingEndPageFragment"
-            tools:layout="@layout/content_training_end_page" />
-    </LinearLayout>
-
-    <LinearLayout
         android:orientation="vertical"
         android:id="@+id/layout_trans_word_train"
         android:layout_width="match_parent"
@@ -119,5 +106,17 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="25dp"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_train_end_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="lt.ru.lexio.ui.training.TrainingEndPageFragment"
+            tools:layout="@layout/content_training_end_page" />
     </LinearLayout>
 </FrameLayout>
