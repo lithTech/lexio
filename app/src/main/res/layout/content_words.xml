@@ -10,7 +10,7 @@
         android:id="@+id/adView"
         android:orientation="horizontal"
         android:visibility="gone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
@@ -39,18 +39,6 @@
             android:paddingRight="10dp"
             android:layout_marginLeft="10dp"
             android:background="#00ffffff" />
-            <!--android:layout_width="match_parent"-->
-            <!--android:paddingTop="5dp"-->
-            <!--android:hint="@string/common.Search"-->
-            <!--android:paddingRight="5dp"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:layout_marginRight="105dp"-->
-            <!--android:layout_height="wrap_content" />-->
-        <!--<ImageButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/ic_menu_close"/>-->
-
     </RelativeLayout>
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:layout_width="match_parent"
@@ -59,8 +47,6 @@
         android:layout_marginLeft="@dimen/list_cards_margin_default"
         android:layout_marginRight="@dimen/list_cards_margin_default"
         android:layout_marginBottom="@dimen/list_cards_margin_default"
-        android:divider="@null"
-        android:dividerHeight="@dimen/list_cards_divider_size"
         android:textFilterEnabled="true"
         android:fastScrollEnabled="true"
         android:contextClickable="true"

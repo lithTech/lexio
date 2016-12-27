@@ -261,6 +261,11 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        ViewGroup adView = (ViewGroup) getView().findViewById(R.id.adView);
+        if (adView != null)
+            adView.setVisibility(View.GONE);
+
         currentQuestionNum = -1;
         trainingWordBuilder.dictId = getCurrentDictionary().id;
         currentPage++;

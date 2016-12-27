@@ -17,6 +17,8 @@
 
     <dimen name="card_radius">6dp</dimen>
 
+    <dimen name="training_word_height">50dp</dimen>
+
     <dimen name="list_cards_margin_default">12dp</dimen>
     <dimen name="list_cards_divider_size">8dp</dimen>
 

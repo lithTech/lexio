@@ -20,6 +20,7 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.FragmentTitleMapper;
 import lt.ru.lexio.ui.MainActivity;
+import lt.ru.lexio.util.AdvertiseHelper;
 
 /**
  * Created by lithTech on 02.04.2016.
@@ -51,6 +52,11 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
         }
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     public void setData(List<EndPageStatistic> statistic) {

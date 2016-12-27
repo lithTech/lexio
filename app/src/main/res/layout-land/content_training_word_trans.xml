@@ -14,7 +14,13 @@
         android:progressDrawable="@drawable/training_progress_bar"
         android:indeterminate="false"
         android:indeterminateOnly="false" />
-
+    <LinearLayout
+        android:id="@+id/adView"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/layout_word_train"
@@ -25,14 +31,14 @@
         <TextView
             android:id="@+id/edTrainingWord"
             android:layout_width="match_parent"
-            android:paddingTop="25dp"
             android:text="Dread"
+            android:gravity="center_horizontal|bottom"
             android:focusableInTouchMode="false"
             android:focusable="false"
             android:textColor="@color/textColor"
             android:textAlignment="center"
             android:textSize="20dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/training_word_height" />
 
         <TextView
             android:id="@+id/tvTrainingContext"

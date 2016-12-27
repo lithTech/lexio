@@ -41,6 +41,8 @@ import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.Flip3dAnimation;
+import lt.ru.lexio.ui.GeneralCallback;
+import lt.ru.lexio.util.AdvertiseHelper;
 
 /**
  * Created by lithTech on 19.04.2016.
@@ -127,6 +129,12 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
         lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
+
+        ViewGroup adView = (ViewGroup) getView().findViewById(R.id.adView);
+        if (adView != null)
+            if (!AdvertiseHelper.isFlavorWithoutAds())
+                AdvertiseHelper.loadAd(getActivity(), adView,
+                        getString(R.string.content_endpagestat_banner), null);
     }
 
     @Override

@@ -139,7 +139,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
         if (!AdvertiseHelper.isFlavorWithoutAds())
             AdvertiseHelper.loadAd(getActivity(), (ViewGroup) view.findViewById(R.id.adView),
-                    getString(R.string.content_word_banner));
+                    getString(R.string.content_word_banner), null);
 
         return view;
     }

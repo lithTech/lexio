@@ -5,4 +5,11 @@
         ca-app-pub-3830913111778548/5553064115
     </string>
 
+    <string name="content_dictionary_banner" translatable="false" formatted="false">
+        ca-app-pub-3830913111778548/6910216111
+    </string>
+    <string name="content_endpagestat_banner" translatable="false" formatted="false">
+        ca-app-pub-3830913111778548/3817148918
+    </string>
+
 </resources>

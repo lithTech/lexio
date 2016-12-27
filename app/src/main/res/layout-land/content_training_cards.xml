@@ -14,7 +14,13 @@
         android:progressDrawable="@drawable/training_progress_bar"
         android:indeterminate="false"
         android:indeterminateOnly="false" />
-
+    <LinearLayout
+        android:id="@+id/adView"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +52,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
                 android:textSize="30dp"
-                android:textColor="#eeeeee"
+                android:textColor="@color/textColor"
                 />
             <lt.ru.lexio.ui.widget.AutoResizeTextView
                 android:id="@+id/tvTranscription"
@@ -60,7 +66,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
                 android:textSize="25dp"
-                android:textColor="#eeeeaa"
+                android:textColor="@color/cardTextColor"
                 />
         </LinearLayout>
 

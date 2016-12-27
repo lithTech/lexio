@@ -15,6 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import lt.ru.lexio.BuildConfig;
+import lt.ru.lexio.ui.GeneralCallback;
 
 /**
  * Created by lithTech on 26.12.2016.
@@ -30,7 +31,8 @@ public class AdvertiseHelper {
 
     public static AdView loadAd(final Activity activity,
                                 final ViewGroup adParent,
-                                final String adId) {
+                                final String adId,
+                                final GeneralCallback callback) {
         final AdView adView = new AdView(activity);
 
         new Timer().schedule(new TimerTask() {
@@ -47,6 +49,8 @@ public class AdvertiseHelper {
                             public void onAdLoaded() {
                                 super.onAdLoaded();
                                 adParent.setVisibility(View.VISIBLE);
+                                if (callback != null)
+                                    callback.done(adView);
                             }
                         });
 
@@ -60,7 +64,7 @@ public class AdvertiseHelper {
                     }
                 });
             }
-        }, 2000);
+        }, 1000);
 
         return adView;
     }

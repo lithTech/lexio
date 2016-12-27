@@ -15,25 +15,30 @@
         android:progressDrawable="@drawable/training_progress_bar"
         android:indeterminate="false"
         android:indeterminateOnly="false" />
-
+    <LinearLayout
+        android:id="@+id/adView"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/layout_trans_word_train"
         android:layout_width="match_parent"
         android:visibility="visible"
         android:layout_height="match_parent">
-
         <TextView
             android:id="@+id/edTrainingTranslation"
             android:layout_width="match_parent"
-            android:paddingTop="25dp"
+            android:gravity="center_horizontal|bottom"
             android:text="Ползти"
             android:focusableInTouchMode="false"
             android:focusable="false"
             android:textColor="@color/textColor"
             android:textAlignment="center"
             android:textSize="20dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/training_word_height" />
 
         <EditText
             android:layout_marginTop="45dp"

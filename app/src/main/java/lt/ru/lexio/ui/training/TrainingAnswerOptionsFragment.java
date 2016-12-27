@@ -23,6 +23,8 @@ import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
+import lt.ru.lexio.ui.GeneralCallback;
+import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.ColorAnimateHelper;
 
 /**
@@ -133,6 +135,13 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
                 .setText(String.valueOf(correct));
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageInCorrect))
                 .setText(String.valueOf(incorrect));
+
+        ViewGroup adView = (ViewGroup) getView().findViewById(R.id.adView);
+        if (adView != null)
+            if (!AdvertiseHelper.isFlavorWithoutAds()) {
+                AdvertiseHelper.loadAd(getActivity(), adView,
+                        getString(R.string.content_endpagestat_banner), null);
+            }
     }
 
     protected Button findCorrectAnswerButton() {

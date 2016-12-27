@@ -120,7 +120,7 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
         if (!AdvertiseHelper.isFlavorWithoutAds())
             AdvertiseHelper.loadAd(getActivity(),
                     (ViewGroup) view.findViewById(R.id.adView),
-                    getString(R.string.content_word_banner));
+                    getString(R.string.content_dictionary_banner), null);
 
         return view;
     }
