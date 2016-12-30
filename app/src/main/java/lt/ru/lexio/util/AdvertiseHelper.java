@@ -58,7 +58,8 @@ public class AdvertiseHelper {
                         final AdRequest.Builder adRequest = new AdRequest.Builder()
                                 .addKeyword("language");
                         if (BuildConfig.DEBUG || BuildConfig.BUILD_TYPE.equalsIgnoreCase("Debug"))
-                            adRequest.addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+                            adRequest.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                                    .addTestDevice("4633431AFD4129500546F41EE34F1591");
 
                         adView.loadAd(adRequest.build());
                     }

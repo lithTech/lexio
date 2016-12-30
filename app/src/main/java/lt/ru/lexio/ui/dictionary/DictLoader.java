@@ -8,69 +8,95 @@ import java.util.Date;
 
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
+import lt.ru.lexio.db.Word;
+import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.GeneralCallback;
 
 public class DictLoader implements Runnable {
 
-        DictionaryDAO dao;
-        InputStream sqlInsertsStream;
-        long dictId;
-        GeneralCallback callback = null;
+    WordDAO dao;
+    DictionaryDAO dictionaryDAO;
+    InputStream wordList;
+    long dictId;
+    GeneralCallback callback = null;
+    Word word = new Word();
+    Date crDate = new Date();
 
-        public DictLoader(DictionaryDAO dao, InputStream sqlInsertsStream, long dictId) {
-            this.dao = dao;
-            this.sqlInsertsStream = sqlInsertsStream;
-            this.dictId = dictId;
+    public DictLoader(WordDAO dao, DictionaryDAO dictionaryDAO, InputStream wordList, long dictId, GeneralCallback callback) {
+        this.dao = dao;
+        this.dictionaryDAO = dictionaryDAO;
+        this.wordList = wordList;
+        this.dictId = dictId;
+        this.callback = callback;
+    }
+
+    private boolean getWord(String string, Word word) {
+        String[] parts = string.split("[,;|]");
+        if (parts.length >= 2) {
+            word.id = 0;
+            word.setTranscription("");
+            word.setCreated(crDate);
+            word.setContext("");
+            word.setTitle(parts[0].toLowerCase().trim());
+            word.setTranslation(parts[1].toLowerCase().trim());
+
+            if (parts.length > 2)
+                word.setTranscription(parts[2].toLowerCase().trim());
+            if (parts.length > 3)
+                word.setContext(parts[3].trim());
+            return true;
         }
+        return false;
+    }
 
-        public DictLoader(DictionaryDAO dao, InputStream sqlInsertsStream, long dictId, GeneralCallback callback) {
-            this.dao = dao;
-            this.sqlInsertsStream = sqlInsertsStream;
-            this.dictId = dictId;
-            this.callback = callback;
-        }
+    @Override
+    public void run() {
+        final int bulk = 500;
+        int c = 0;
+        word.setDictionary(dictionaryDAO.read(dictId));
 
-        @Override
-        public void run() {
-            int c = 0;
-            final int bulk = 500;
-            try
-            {
-                int bulkI = 0;
-                BufferedReader reader = new BufferedReader(new InputStreamReader(sqlInsertsStream));
-                String line = reader.readLine();
-                dao.startTrans();
-                while (line != null) {
-                    Date date = new Date();
-                    dao.importWord(dictId, line, date);
-                    line = reader.readLine();
+        try {
+            int bulkI = 0;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(wordList));
+            String line = reader.readLine();
+            dao.startTrans();
+            while (line != null) {
+                if (getWord(line, word))
+                {
+                    try {
+                        dao.create(word);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                     c++;
                     bulkI++;
-                    if (bulkI >= bulk)
-                    {
-                        bulkI = 0;
-                        dao.transactionSuccessful();
-                        dao.endTrans();
-                        dao.startTrans();
-                    }
-                    if (line == null) {
-                        dao.endTrans();
-                    }
                 }
+                line = reader.readLine();
+                if (bulkI >= bulk) {
+                    bulkI = 0;
+                    dao.transactionSuccessful();
+                    dao.endTrans();
+                    dao.startTrans();
+                }
+            }
+            dao.transactionSuccessful();
+            dao.endTrans();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            Dictionary d = dictionaryDAO.read(dictId);
+            d.setWords(c);
+            dictionaryDAO.update(d);
+            try {
+                wordList.close();
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                Dictionary d = dao.read(dictId);
-                d.setWords(c);
-                dao.update(d);
-                try {
-                    sqlInsertsStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if (callback != null)
-                    callback.done(d);
             }
+
+            if (callback != null)
+                callback.done(d);
         }
     }
+}

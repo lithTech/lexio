@@ -4,6 +4,8 @@
         <item>English</item>
         <item>Deutsch</item>
         <item>Français</item>
+        <item>Italiano</item>
+        <item>Español</item>
     </string-array>
 
     <string-array name="dictionary_language_tags" translatable="false">
@@ -15,6 +17,12 @@
         </item>
         <item>
             fr
+        </item>
+        <item>
+            it
+        </item>
+        <item>
+            es
         </item>
     </string-array>
 </resources>

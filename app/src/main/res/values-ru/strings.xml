@@ -128,22 +128,22 @@
     <string name="pref_training_voice_show_transcription_summary">Показывать транскрипцию слова в тренировке Перевод - Произнести слово (подсказка для более точного произношения)</string>
     <string name="msg_action_words_move_success">Selected words moved successfully to</string>
     <string-array name="training_ExtraAnswers_ru">
-        <item>Пекарь</item>
-        <item>Библиотека</item>
-        <item>Ружье</item>
-        <item>Ежик</item>
-        <item>Овсянка</item>
-        <item>Телефон</item>
-        <item>Организация</item>
+        <item>пекарь</item>
+        <item>библиотека</item>
+        <item>ружье</item>
+        <item>ежик</item>
+        <item>овсянка</item>
+        <item>телефон</item>
+        <item>организация</item>
     </string-array>
     <string-array name="training_ExtraAnswers_en">
-        <item>Toad</item>
-        <item>Yellow</item>
-        <item>Free</item>
-        <item>Zoo</item>
-        <item>Wolf</item>
-        <item>Salmon</item>
-        <item>Brick</item>
+        <item>toad</item>
+        <item>yellow</item>
+        <item>free</item>
+        <item>zoo</item>
+        <item>wolf</item>
+        <item>salmon</item>
+        <item>brick</item>
     </string-array>
     <string-array name="training_ExtraAnswers_fr">
         <item>boulanger</item>
@@ -163,6 +163,24 @@
         <item>telefon</item>
         <item>organisation</item>
     </string-array>
+    <string-array name="training_ExtraAnswers_it">
+        <item>Baker</item>
+        <item>biblioteca</item>
+        <item>pistola</item>
+        <item>riccio</item>
+        <item>farina d\'avena</item>
+        <item>telefono</item>
+        <item>organizzazione</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_es">
+        <item>panadero</item>
+        <item>biblioteca</item>
+        <item>arma</item>
+        <item>erizo</item>
+        <item>avena</item>
+        <item>teléfono</item>
+        <item>organización</item>
+    </string-array>
     <string name="dialog.Choose">Выбрать</string>
     <string name="dialog_word_orders">Выберите порядок подбора</string>
     <string name="dialog_word_count">Выберите количество слов</string>
@@ -171,4 +189,5 @@
     <string name="dialog_word_time">Выберите время на одно слово</string>
     <string name="training_Start_AnswerTimerNoLimit">Нет ограничений по времени</string>
     <string name="seconds">секунд</string>
+    <string name="defdict_en_ru_medium">Английский средний уровень</string>
 </resources>

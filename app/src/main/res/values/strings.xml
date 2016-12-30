@@ -26,7 +26,7 @@
     <string name="dictionaries.ActiveFlag">active</string>
     <string name="nav.MyDictionary">No active dictionary</string>
     <string name="nav.MyDictionariesGroup">Dictionaries and words</string>
-    <string name="train.WordTrans">Word - Tranaslation</string>
+    <string name="train.WordTrans">Word - Translation</string>
     <string name="train.TransWord">Translation - Word</string>
     <string name="train.TransWrite">Write word by translation</string>
     <string name="train.WordAudio">Audio - Translation</string>
@@ -136,6 +136,24 @@
         <item>telefon</item>
         <item>organisation</item>
     </string-array>
+    <string-array name="training_ExtraAnswers_it">
+        <item>Baker</item>
+        <item>biblioteca</item>
+        <item>pistola</item>
+        <item>riccio</item>
+        <item>farina d\'avena</item>
+        <item>telefono</item>
+        <item>organizzazione</item>
+    </string-array>
+    <string-array name="training_ExtraAnswers_es">
+        <item>panadero</item>
+        <item>biblioteca</item>
+        <item>arma</item>
+        <item>erizo</item>
+        <item>avena</item>
+        <item>teléfono</item>
+        <item>organización</item>
+    </string-array>
 
     <!-- Strings related to Settings -->
     <string name="pref_clear_statistics">Word statistics clearing</string>
@@ -174,5 +192,6 @@
     <string name="dialog_word_time">Select time for one word</string>
     <string name="training_Start_AnswerTimerNoLimit">No time limit</string>
     <string name="seconds">seconds</string>
+    <string name="defdict_en_ru_medium">English medium level</string>
 
 </resources>

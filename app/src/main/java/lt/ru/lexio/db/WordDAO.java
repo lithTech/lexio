@@ -28,13 +28,28 @@ public class WordDAO extends EntityManager<Word> {
                 new Object[]{dictId});
     }
 
+    public void startTrans() {
+        getDB().beginTransaction();
+    }
+
+    public void transactionSuccessful() {
+        getDB().setTransactionSuccessful();
+    }
+
+    public void endTrans() {
+        getDB().endTransaction();
+    }
+
+
     @Override
     public boolean create(Word item) {
         getDB().beginTransaction();
         try {
             boolean r = super.create(item);
-            long dictId = item.getDictionary().id;
-            incWords(dictId, "+");
+            if (r) {
+                long dictId = item.getDictionary().id;
+                incWords(dictId, "+");
+            }
             getDB().setTransactionSuccessful();
             return r;
         }

@@ -44,6 +44,7 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
 import lt.ru.lexio.db.DictionaryDAO;
+import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.GeneralCallback;
@@ -141,8 +142,8 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
             }
         };
 
-        startLoadingIfDoesntExist(getResources().getString(R.string.defdict_eng_basic),
-                R.raw.dict_eng_basic, "English", callback);
+        startLoadingIfDoesntExist(getResources().getString(R.string.defdict_en_ru_medium),
+                R.raw.dict_en_ru_medium, "English", callback);
     }
 
     private void startLoadingIfDoesntExist(String dictTitle, int rId, String lang,
@@ -156,7 +157,8 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
                     lang);
             InputStream in = getResources().openRawResource(rId);
             executor.submit(
-                    new DictLoader(new DictionaryDAO(getView().getContext()), in, dictId, callback));
+                    new DictLoader(new WordDAO(getActivity()),
+                            new DictionaryDAO(getActivity()), in, dictId, callback));
         } else {
             if (callback != null)
                 callback.done(null);
