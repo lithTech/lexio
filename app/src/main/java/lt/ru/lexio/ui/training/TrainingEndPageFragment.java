@@ -14,6 +14,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ListView;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 import java.util.List;
 
 import lt.ru.lexio.R;
@@ -25,7 +27,7 @@ import lt.ru.lexio.util.AdvertiseHelper;
 /**
  * Created by lithTech on 02.04.2016.
  */
-public class TrainingEndPageFragment extends Fragment implements View.OnClickListener{
+public class TrainingEndPageFragment extends Fragment implements View.OnClickListener, FloatingActionMenu.OnMenuToggleListener {
 
     ListView lWordStatistic;
 
@@ -43,6 +45,9 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
         View view = inflater.inflate(R.layout.content_training_end_page, container, false);
 
         view.findViewById(R.id.bTrainingEndPageNext).setOnClickListener(this);
+
+        FloatingActionMenu trainingMenu = (FloatingActionMenu) view.findViewById(R.id.amTrainingMenu);
+        trainingMenu.setOnMenuToggleListener(this);
 
         lWordStatistic = (ListView) view.findViewById(R.id.lvTrainingEndPageWordStat);
 
@@ -120,5 +125,21 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
                 }
             }
         }
+    }
+
+    @Override
+    public void onMenuToggle(boolean opened) {
+        /*for (int button : trainingButtons) {
+            View view = getView().findViewById(button);
+            if (view != null) {
+                String idName = (String) view.getTag();
+                int id = getResources().getIdentifier(idName, "layout", getActivity().getPackageName());
+                int currentId = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN);
+
+                if (id == currentId) {
+                    view.setVisibility(opened ? View.GONE : View.VISIBLE);
+                }
+            }
+        }*/
     }
 }

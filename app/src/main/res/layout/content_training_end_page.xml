@@ -44,6 +44,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="bottom|center"
+        android:layout_marginLeft="83dp"
         android:layout_alignBottom="@+id/lvTrainingEndPageWordStat">
 
         <com.github.clans.fab.FloatingActionMenu

@@ -52,8 +52,8 @@
     <string name="Training_TransVoice_CorrectAnswerPrefix">Правильный ответ:</string>
     <string name="train.Cards">Карточки</string>
     <string name="Training.Cards.EndPageLabel">Вы только что прошли %d карточек. Вы можете заново их пройти, либо пройти следующие в наборе</string>
-    <string name="training.Order.New">Самые последние добавленные слова</string>
-    <string name="training.Order.Hard">Самые ошибочные слова</string>
+    <string name="training.Order.New">Последние добавленные слова</string>
+    <string name="training.Order.Hard">Ошибочные слова</string>
     <string name="training.Order.Old">Давно не тренировавшиеся слова</string>
     <string name="training_Order_Random">Случайные слова</string>
     <string name="training.Order.Hard_Descr">Слова, в которых было много ошибок на тренировках. Отвечайте правильно, и слова эти слова постепенно перестанут считаться ошибочными</string>
@@ -124,7 +124,7 @@
     <string name="tutorial_dict_list_item">Это словарь. Здесь отображается количество слов в словаре, и флажок активности. В один момент времени может быть активным только один словарь</string>
     <string name="tutorial_dict_list_item_2">Потяните справа налево для дополнительных действий со словарем (изменение, активация, удаление и т.д.)</string>
     <string name="tutorial_words_add_global">Это кнопка для добавления слова. Вы можете вызвать добавление слова из любого места Lexio</string>
-    <string name="pref_training_voice_show_transcription">Перевод - Произнести слово: транскрипция</string>
+    <string name="pref_training_voice_show_transcription">Произнести слово: транскрипция</string>
     <string name="pref_training_voice_show_transcription_summary">Показывать транскрипцию слова в тренировке Перевод - Произнести слово (подсказка для более точного произношения)</string>
     <string name="msg_action_words_move_success">Selected words moved successfully to</string>
     <string-array name="training_ExtraAnswers_ru">

@@ -6,7 +6,7 @@ import java.util.Locale;
  * Created by lithTech on 21.08.2016.
  */
 
-public class AbbyyLingvoURL {
+public class AbbyyLingvoURLHelper {
 
     public static String getUrl(String dictionaryLanguageTag, String word) {
         String defLoc = Locale.getDefault().getLanguage();

@@ -61,7 +61,7 @@ import lt.ru.lexio.fetcher.MSTranslator;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.dictionary.DictionaryChooser;
-import lt.ru.lexio.util.AbbyyLingvoURL;
+import lt.ru.lexio.util.AbbyyLingvoURLHelper;
 import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.ClipboardHelper;
 import lt.ru.lexio.util.TutorialHelper;
@@ -340,7 +340,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 //tell that lingvo button was pressed
                 bTranslateLingvo.setTag(Boolean.TRUE);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(AbbyyLingvoURL.getUrl(dictionary.getLanguageTag(),
+                        Uri.parse(AbbyyLingvoURLHelper.getUrl(dictionary.getLanguageTag(),
                                 edWord.getText().toString())));
                 creationWindowContext.startActivity(browserIntent);
             }

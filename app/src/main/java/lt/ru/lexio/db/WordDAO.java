@@ -118,7 +118,9 @@ public class WordDAO extends EntityManager<Word> {
 
     public List<Word> getWordsWithoutIPA(long dictId) {
         Where where = new Where(Db.Word.DICTIONARY_ID, Is.EQUAL, dictId);
-        where.and(Db.Word.TRANSCRIPTION, Is.NULL);
+        Where isEmptyWhere = new Where(Db.Word.TRANSCRIPTION, Is.NULL);
+        isEmptyWhere = isEmptyWhere.or(Db.Word.TRANSCRIPTION, Is.EQUAL, "");
+        where.and(isEmptyWhere);
         Select<Word> select = select().where(where);
 
         return readAll(select);

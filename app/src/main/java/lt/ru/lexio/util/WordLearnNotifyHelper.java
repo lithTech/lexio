@@ -49,7 +49,7 @@ public class WordLearnNotifyHelper extends BroadcastReceiver {
         Notification.Builder builder = new Notification.Builder(context);
         builder.setContentTitle(title);
         builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.ic_menu_flags);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
 
         Intent openAppIntent = new Intent(context, MainActivity.class);
         TaskStackBuilder stack = TaskStackBuilder.create(context);
@@ -73,8 +73,6 @@ public class WordLearnNotifyHelper extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = intent.getParcelableExtra(NOTIFICATION);
