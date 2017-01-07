@@ -101,6 +101,11 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
     }
 
     @Override
+    protected boolean isSpeechEnabled() {
+        return false;
+    }
+
+    @Override
     protected String getCorrectAnswer(Word word) {
         return word.getTitle();
     }

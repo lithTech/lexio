@@ -147,6 +147,11 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
                 getTrainingType());
     }
 
+    @Override
+    protected boolean isSpeechEnabled() {
+        return true;
+    }
+
     private Flip3dAnimation getFlipAnimation(float fD, float tD, Animation.AnimationListener onEnd) {
         float center = card.getMeasuredWidth() / 2.0f;
         Flip3dAnimation flip3dAnimation = new Flip3dAnimation(fD, tD, center, center);

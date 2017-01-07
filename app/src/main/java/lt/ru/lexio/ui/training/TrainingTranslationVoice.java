@@ -127,6 +127,11 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     }
 
     @Override
+    protected boolean isSpeechEnabled() {
+        return false;
+    }
+
+    @Override
     protected TrainingType getTrainingType() {
         return TrainingType.TRANS_VOICE;
     }

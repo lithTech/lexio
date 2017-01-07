@@ -32,6 +32,11 @@ public class TrainingEnterWordByTransFragment extends TrainingEnterTextFragment 
     }
 
     @Override
+    protected boolean isSpeechEnabled() {
+        return false;
+    }
+
+    @Override
     protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
         super.setEndPageStatistics(wordStatistics, correct, incorrect);
 

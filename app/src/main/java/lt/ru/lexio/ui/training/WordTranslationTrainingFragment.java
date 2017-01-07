@@ -110,6 +110,11 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
     }
 
     @Override
+    protected boolean isSpeechEnabled() {
+        return true;
+    }
+
+    @Override
     protected String getCorrectAnswer(Word word) {
         return word.getTranslation();
     }
@@ -121,7 +126,5 @@ public class WordTranslationTrainingFragment extends TrainingAnswerOptionsFragme
             wordTitle += " [" + word.getTranscription() + "]";
         ((TextView) getView().findViewById(R.id.edTrainingWord)).setText(wordTitle);
         ((TextView) getView().findViewById(R.id.tvTrainingContext)).setText(word.getContext());
-
-        textToSpeech(word.getTitle());
     }
 }

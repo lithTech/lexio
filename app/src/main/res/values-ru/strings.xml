@@ -190,4 +190,5 @@
     <string name="training_Start_AnswerTimerNoLimit">Нет ограничений по времени</string>
     <string name="seconds">секунд</string>
     <string name="defdict_en_ru_medium">Английский средний уровень</string>
+    <string name="action_word_speech">Произнести</string>
 </resources>

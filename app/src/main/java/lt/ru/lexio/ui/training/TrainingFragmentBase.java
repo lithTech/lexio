@@ -246,7 +246,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void ttsGreater21(String text) {
-        String utteranceId=this.hashCode() + "";
+        String utteranceId = this.hashCode() + "";
         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId);
     }
 
@@ -257,6 +257,15 @@ public abstract class TrainingFragmentBase extends ContentFragment {
             ttsUnder20(text);
         }
     }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem speech = menu.findItem(R.id.action_word_speech);
+        if (speech != null)
+            speech.setVisible(isSpeechEnabled());
+    }
+
+    protected abstract boolean isSpeechEnabled();
 
     @Override
     public void onStart() {
@@ -443,8 +452,9 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_word_copy) {
-
+        if (item.getItemId() == R.id.action_word_speech) {
+            if (currentWord != null)
+                textToSpeech(currentWord.getTitle());
         }
         else if (item.getItemId() == R.id.action_word_move)
         {
