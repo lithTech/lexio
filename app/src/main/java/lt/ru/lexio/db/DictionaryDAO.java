@@ -39,6 +39,14 @@ public class DictionaryDAO extends EntityManager<Dictionary> {
         getDB().endTransaction();
     }
 
+    public int getWordCount(long dictId) {
+        Cursor cursor = getDB().rawQuery("select count(1) from " + Db.Word.TABLE +
+                " where " + Db.Word.DICTIONARY_ID + " = ?", new String[]{String.valueOf(dictId)});
+        if (cursor.moveToNext())
+            return cursor.getInt(0);
+        return 0;
+    }
+
     public Dictionary setActive(long id) {
         getDB().beginTransaction();
         Dictionary c = read(id);

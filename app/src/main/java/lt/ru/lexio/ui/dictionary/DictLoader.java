@@ -31,7 +31,7 @@ public class DictLoader implements Runnable {
     }
 
     private boolean getWord(String string, Word word) {
-        String[] parts = string.split("[,;|]");
+        String[] parts = string.split("[;|]");
         if (parts.length >= 2) {
             word.id = 0;
             word.setTranscription("");
@@ -52,7 +52,6 @@ public class DictLoader implements Runnable {
     @Override
     public void run() {
         final int bulk = 500;
-        int c = 0;
         word.setDictionary(dictionaryDAO.read(dictId));
 
         try {
@@ -70,7 +69,6 @@ public class DictLoader implements Runnable {
                     {
                         e.printStackTrace();
                     }
-                    c++;
                     bulkI++;
                 }
                 line = reader.readLine();
@@ -87,7 +85,7 @@ public class DictLoader implements Runnable {
             e.printStackTrace();
         } finally {
             Dictionary d = dictionaryDAO.read(dictId);
-            d.setWords(c);
+            d.setWords(dictionaryDAO.getWordCount(dictId));
             dictionaryDAO.update(d);
             try {
                 wordList.close();
