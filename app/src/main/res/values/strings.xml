@@ -195,7 +195,7 @@
     <string name="defdict_en_ru_medium">English medium level</string>
     <string name="action_word_speech">Pronounce word</string>
     <string name="load_words_from_file">Load words from file</string>
-    <string name="file_choose">Select a file with word's list</string>
+    <string name="file_choose">Select a file with word\'s list</string>
     <string name="file_choose_no_fm">Please, install file manager application from Google Play to use this functionality</string>
 
 </resources>
