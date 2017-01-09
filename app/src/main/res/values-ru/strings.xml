@@ -191,4 +191,7 @@
     <string name="seconds">секунд</string>
     <string name="defdict_en_ru_medium">Английский средний уровень</string>
     <string name="action_word_speech">Произнести</string>
+    <string name="load_words_from_file">Загрузить из файла</string>
+    <string name="file_choose">Выберите файл со списком слов для словаря</string>
+    <string name="file_choose_no_fm">Пожалуйста, установите файловый менеджер из Google Play для использования данной функции</string>
 </resources>

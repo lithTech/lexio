@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -39,19 +40,25 @@ import com.baoyz.swipemenulistview.SwipeMenuAdapter;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.github.mikephil.charting.utils.FileUtils;
 
 import org.droidparts.persist.sql.stmt.Is;
 import org.droidparts.persist.sql.stmt.Where;
 
+import java.io.FileInputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
+import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.EventListenerManager;
@@ -60,10 +67,13 @@ import lt.ru.lexio.fetcher.IPAEngFetcher;
 import lt.ru.lexio.fetcher.MSTranslator;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
+import lt.ru.lexio.ui.MainActivity;
+import lt.ru.lexio.ui.dictionary.DictLoader;
 import lt.ru.lexio.ui.dictionary.DictionaryChooser;
 import lt.ru.lexio.util.AbbyyLingvoURLHelper;
 import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.ClipboardHelper;
+import lt.ru.lexio.util.FileHelper;
 import lt.ru.lexio.util.TutorialHelper;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -75,10 +85,13 @@ import uk.co.deanwild.materialshowcaseview.target.Target;
  */
 public class WordFragment extends ContentFragment implements TextWatcher, View.OnClickListener, SwipeMenuListView.OnMenuItemClickListener {
 
+    private static final int FILE_SELECT_CODE = 101;
     WordDAO wordDAO = null;
     SwipeMenuListView lWords = null;
     EditText edFilter = null;
     int wordProgressFactor;
+
+    ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Nullable
     @Override
@@ -226,6 +239,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 editWord(getActivity(), mainActivity.getCurrentDictionary(),
                         positions.iterator().next());
         }
+        else if (id == R.id.action_word_loadfromfile)
+            showFileChooser();
     }
 
     private void editWord(Activity activity, Dictionary currentDictionary, Integer position) {
@@ -259,13 +274,12 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         if (act == null)
             return;
 
-        lWords.setFilterText("");
-        edFilter.setText("");
-
         act.runOnUiThread(
                 new Runnable() {
                     @Override
                     public void run() {
+                        lWords.setFilterText("");
+                        edFilter.setText("");
                         lWords.setAdapter(initAdapter(((View) lWords.getParent()).getContext()));
                     }
                 });
@@ -497,6 +511,48 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         if (v.getId() == R.id.bWordsFilterClear) {
             getAdapter().getFilter().filter("");
             ((EditText) ((View) v.getParent()).findViewById(R.id.edWordsFilter)).setText("");
+        }
+    }
+
+    private void showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, getString(R.string.file_choose)),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), R.string.file_choose_no_fm,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri uri = data.getData();
+                    try {
+                        DictLoader dictLoader = new DictLoader(new WordDAO(getActivity()),
+                                new DictionaryDAO(getActivity()),
+                                FileHelper.getInputStream(getActivity(), uri),
+                                ((MainActivity) getActivity()).getCurrentDictionary().id,
+                                new GeneralCallback() {
+                                    @Override
+                                    public void done(Object data) {
+                                        refreshList();
+                                    }
+                                });
+                        executor.execute(dictLoader);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
         }
     }
 

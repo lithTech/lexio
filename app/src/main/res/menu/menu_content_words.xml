@@ -10,4 +10,6 @@
         android:title="@string/word.Del" />
     <item android:id="@+id/action_word_move"
         android:title="@string/action_word_move" />
+    <item android:id="@+id/action_word_loadfromfile"
+        android:title="@string/load_words_from_file" />
 </menu>
