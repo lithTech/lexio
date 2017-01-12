@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4D4D5B</color>
+    <color name="tutorialBackColor">#d14d4d5b</color>
     <color name="colorPrimaryDark">#425d7c</color>
     <color name="colorAccent">#F54E59</color>
     <color name="colorMandatory">#e21417</color>

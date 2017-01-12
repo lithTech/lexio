@@ -515,18 +515,41 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     }
 
     private void showFileChooser() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-        try {
-            startActivityForResult(
-                    Intent.createChooser(intent, getString(R.string.file_choose)),
-                    FILE_SELECT_CODE);
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getActivity(), R.string.file_choose_no_fm,
-                    Toast.LENGTH_SHORT).show();
-        }
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity());
+        sequence.setConfig(config);
+        sequence.addSequenceItem(TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_fileChooser, false, edFilter)
+                .setDelay(getResources().getInteger(R.integer.tutorial_delay))
+                .build());
+
+        final MaterialShowcaseView view = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_fileChooserExample, false, edFilter)
+                .setDelay(getResources().getInteger(R.integer.tutorial_delay))
+                .build();
+        sequence.addSequenceItem(view);
+
+        sequence.setOnItemDismissedListener(new MaterialShowcaseSequence.OnSequenceItemDismissedListener() {
+            @Override
+            public void onDismiss(MaterialShowcaseView materialShowcaseView, int i) {
+                if (materialShowcaseView == view) {
+                    try {
+                        startActivityForResult(
+                                Intent.createChooser(intent, getString(R.string.file_choose)),
+                                FILE_SELECT_CODE);
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(getActivity(), R.string.file_choose_no_fm,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        sequence.start();
     }
 
     @Override

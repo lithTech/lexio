@@ -198,4 +198,17 @@
     <string name="tutorial_ep_list">Это список слов, которые вы тренировали</string>
     <string name="tutorial_ep_reload_menu">Тут вы можете пройти текущие слова еще раз в любой тренировке, в которой вы хотите</string>
     <string name="tutorial_ep_next">Данная кнопка запустит для вас следующий набор слов в этом же типе тренировки</string>
+    <string name="tutorial_fileChooser">Выберите файл со списком слов для словаря. \n
+        Файл должен быть в текстовом формате и содержать слово, его перевод, транскрипцию и контекст.\n
+        Разделяйте слово/перевод/транскр./контекст спомощью символа ; или |.\n
+        Обязательно указывайте слово и его перевод.\n
+        Слова разделяются новой строкой.
+    </string>
+    <string name="tutorial_fileChooserExample">
+        Пример:\n
+        train|поезд\n
+        carrot|морковь\n
+        building|здание| |...one computer that took up a whole building\n
+        read|читать|riːd|to read a book
+    </string>
 </resources>
