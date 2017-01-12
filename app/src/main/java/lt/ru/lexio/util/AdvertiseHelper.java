@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import lt.ru.lexio.BuildConfig;
 import lt.ru.lexio.ui.GeneralCallback;
@@ -23,16 +24,27 @@ import lt.ru.lexio.ui.GeneralCallback;
 
 public class AdvertiseHelper {
 
+    private static AtomicBoolean _cancelShow = new AtomicBoolean(false);
+    private static AtomicBoolean _isLoading = new AtomicBoolean(false);
+
     private static final String FLAVOR_WA = "withoutAds";
 
     public static boolean isFlavorWithoutAds() {
         return BuildConfig.FLAVOR.equals(FLAVOR_WA);
     }
 
+    public static void cancelShow() {
+        if (_isLoading.get() == true)
+            _cancelShow.set(true);
+        _isLoading.set(false);
+    }
+
     public static AdView loadAd(final Activity activity,
                                 final ViewGroup adParent,
                                 final String adId,
                                 final GeneralCallback callback) {
+        _isLoading.set(true);
+        _cancelShow.set(false);
         final AdView adView = new AdView(activity);
 
         new Timer().schedule(new TimerTask() {
@@ -47,10 +59,14 @@ public class AdvertiseHelper {
                         adView.setAdListener(new AdListener() {
                             @Override
                             public void onAdLoaded() {
+                                _isLoading.set(false);
                                 super.onAdLoaded();
-                                adParent.setVisibility(View.VISIBLE);
-                                if (callback != null)
-                                    callback.done(adView);
+                                if (_cancelShow.get() == false) {
+                                    _cancelShow.set(false);
+                                    adParent.setVisibility(View.VISIBLE);
+                                    if (callback != null)
+                                        callback.done(adView);
+                                }
                             }
                         });
 

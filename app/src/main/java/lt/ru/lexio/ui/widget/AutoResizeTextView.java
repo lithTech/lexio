@@ -203,7 +203,8 @@ public class AutoResizeTextView extends AppCompatTextView {
         if (!_initialized)
             return;
         final int startSize = (int) _minTextSize;
-        final int heightLimit = getMeasuredHeight() - getCompoundPaddingBottom() - getCompoundPaddingTop();
+        int maxLines = _maxLines==NO_LINE_LIMIT?1:_maxLines;
+        final int heightLimit = maxLines * (getMeasuredHeight() - getCompoundPaddingBottom() - getCompoundPaddingTop());
         _widthLimit = getMeasuredWidth() - getCompoundPaddingLeft() - getCompoundPaddingRight();
         if (_widthLimit <= 0)
             return;

@@ -50,6 +50,7 @@ import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.dictionary.DictionariesListAdapter;
 import lt.ru.lexio.ui.dictionary.DictionaryChooser;
+import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.NumberPickerHelper;
 
 /**
@@ -272,8 +273,10 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         super.onStart();
 
         ViewGroup adView = (ViewGroup) getView().findViewById(R.id.adView);
-        if (adView != null)
+        if (adView != null) {
             adView.setVisibility(View.GONE);
+            AdvertiseHelper.cancelShow();
+        }
 
         currentQuestionNum = -1;
         trainingWordBuilder.dictId = getCurrentDictionary().id;

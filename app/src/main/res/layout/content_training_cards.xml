@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Charlie and me were already driving home when engine suddenly stopped"
+                android:text="аварийная сигнализация"
                 android:maxLines="4"
                 android:ellipsize="none"
                 android:paddingLeft="5dp"

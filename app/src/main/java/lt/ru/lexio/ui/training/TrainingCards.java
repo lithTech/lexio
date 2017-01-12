@@ -9,6 +9,7 @@ import android.support.annotation.StringDef;
 import android.support.design.widget.FloatingActionButton;
 import android.text.Layout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,6 +54,8 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     TextView tvTranscription;
     View content;
     LinearLayout card;
+
+    final int DEFAULT_CARD_TEXT_SIZE = 30;
 
     View bReload;
     View bNext;
@@ -103,12 +106,14 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     public void flipCard() {
 
+        tvWord.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_CARD_TEXT_SIZE);
+
         if ((boolean)tvWord.getTag() == true) {
             tvWord.setText(currentWord.getTranslation());
         }
         else
             tvWord.setText(currentWord.getTitle());
-        tvWord.setTag(!(boolean)tvWord.getTag());
+        tvWord.setTag(!(boolean) tvWord.getTag());
     }
 
     @Override
@@ -155,7 +160,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     private Flip3dAnimation getFlipAnimation(float fD, float tD, Animation.AnimationListener onEnd) {
         float center = card.getMeasuredWidth() / 2.0f;
         Flip3dAnimation flip3dAnimation = new Flip3dAnimation(fD, tD, center, center);
-        flip3dAnimation.setDuration(150);
+        flip3dAnimation.setDuration(200);
         flip3dAnimation.setFillAfter(false);
         flip3dAnimation.setInterpolator(new AccelerateInterpolator());
         flip3dAnimation.setAnimationListener(onEnd);
