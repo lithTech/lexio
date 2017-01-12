@@ -1,7 +1,6 @@
 package lt.ru.lexio.ui.training;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class TrainingEnterWordByTransFragment extends TrainingEnterTextFragment 
         }
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
-        lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
+        lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));
     }
 
     @Override

@@ -1,9 +1,7 @@
 package lt.ru.lexio.ui.training;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import lt.ru.lexio.R;
@@ -72,7 +69,7 @@ public class TranslationWordTrainingFragment extends TrainingAnswerOptionsFragme
         }
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
-        lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
+        lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));
     }
 
     @Override

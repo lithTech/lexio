@@ -54,6 +54,7 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 import uk.co.deanwild.materialshowcaseview.target.Target;
+import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
 
 /**
  * Created by User on 15.03.2016.
@@ -367,19 +368,21 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
         MaterialShowcaseView tmpView = TutorialHelper.defElem(getActivity(),
                 R.string.tutorial_dict_list_item, true, lDictionaries)
                 .build();
-        Target wordItemTarget = new Target() {
+        Target wordItemTarget = new ViewTarget(lDictionaries) {
             @Override
             public Point getPoint() {
-                int[] loc = new int[2];
-                lDictionaries.getLocationInWindow(loc);
-                return new Point(loc[0], loc[1] + dp2px(75));
+                int[] location = new int[2];
+                lDictionaries.getLocationInWindow(location);
+                return new Point(location[0] + lDictionaries.getMeasuredWidth() / 2,
+                        location[1] + dp2px(40));
             }
 
             @Override
             public Rect getBounds() {
-                int[] loc = new int[2];
-                lDictionaries.getLocationInWindow(loc);
-                return new Rect(0, 0, lDictionaries.getMeasuredWidth(), dp2px(80));
+                int[] location = new int[2];
+                lDictionaries.getLocationInWindow(location);
+                return new Rect(location[0], location[1],
+                        location[0] + lDictionaries.getMeasuredWidth(),  location[1] + dp2px(80));
             }
         };
         tmpView.setTarget(wordItemTarget);

@@ -2,16 +2,13 @@ package lt.ru.lexio.ui.training;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -22,7 +19,12 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.FragmentTitleMapper;
 import lt.ru.lexio.ui.MainActivity;
-import lt.ru.lexio.util.AdvertiseHelper;
+import lt.ru.lexio.util.TutorialHelper;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.target.Target;
+import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
 
 /**
  * Created by lithTech on 02.04.2016.
@@ -65,10 +67,10 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
     }
 
     public void setData(List<EndPageStatistic> statistic) {
-        lWordStatistic.setAdapter(initAdapter(getView().getContext(), statistic));
+        lWordStatistic.setAdapter(setData(getView().getContext(), statistic));
     }
 
-    public static EndPageStatAdapter initAdapter(Context context, List<EndPageStatistic> statistic) {
+    public static EndPageStatAdapter setData(Context context, List<EndPageStatistic> statistic) {
         EndPageStatAdapter adapter = new EndPageStatAdapter(context, R.layout.content_training_result_item,
                 R.id.tvCorrectAnswer,
                 statistic);

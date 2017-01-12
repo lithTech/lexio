@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -52,6 +54,12 @@ import lt.ru.lexio.ui.dictionary.DictionariesListAdapter;
 import lt.ru.lexio.ui.dictionary.DictionaryChooser;
 import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.NumberPickerHelper;
+import lt.ru.lexio.util.TutorialHelper;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.target.Target;
+import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
 
 /**
  * Created by lithTech on 27.03.2016.
@@ -175,6 +183,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         setEndPageStatistics(wordStatistics, correct, total - correct);
         endPageContainer.setVisibility(View.VISIBLE);
+
+        presentTutorial();
 
         //replace trainig menu with global action menu
         getActivity().invalidateOptionsMenu();
@@ -514,5 +524,59 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
+    }
+
+    private void presentTutorial() {
+        View v = getView();
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500);
+
+        final View vEndPageNext = v.findViewById(R.id.bTrainingEndPageNext);
+        final View vReloadMenu = v.findViewById(R.id.amTrainingMenu);
+        final View vWordStatList = v.findViewById(R.id.lvTrainingEndPageWordStat);
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), "endPageStatTut");
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_ep_summary, false, v.findViewById(R.id.cTrainingEndPageSummary))
+                .setDelay(getResources().getInteger(R.integer.tutorial_delay))
+                .build()
+        );
+
+
+        MaterialShowcaseView tmpView = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_ep_list, true, vWordStatList)
+                .build();
+        sequence.addSequenceItem(tmpView);
+
+
+        tmpView = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_ep_reload_menu, false, vReloadMenu)
+                .build();
+
+        Target wordItemTarget = new ViewTarget(vEndPageNext) {
+            @Override
+            public Point getPoint() {
+                int[] loc = new int[2];
+                vEndPageNext.getLocationInWindow(loc);
+                int[] cloc = new int[2];
+                vReloadMenu.getLocationInWindow(cloc);
+                int w = vEndPageNext.getMeasuredWidth();
+                int h = vEndPageNext.getMeasuredHeight();
+
+                return new Point(cloc[0] + w / 2, loc[1] + h / 2);
+            }
+        };
+        tmpView.setTarget(wordItemTarget);
+        sequence.addSequenceItem(tmpView);
+
+        tmpView = TutorialHelper.defElem(getActivity(),
+                R.string.tutorial_ep_next, false, vEndPageNext)
+                .build();
+        sequence.addSequenceItem(tmpView);
+
+        sequence.start();
     }
 }

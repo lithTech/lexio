@@ -6,16 +6,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +20,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import lt.ru.lexio.R;
@@ -113,7 +109,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         }
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
-        lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
+        lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));
     }
 
     @Override

@@ -1,16 +1,9 @@
 package lt.ru.lexio.ui.training;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
-import android.support.design.widget.FloatingActionButton;
-import android.text.Layout;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,17 +11,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewSwitcher;
-
-import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,9 +25,7 @@ import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
-import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.Flip3dAnimation;
-import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.util.AdvertiseHelper;
 
 /**
@@ -133,7 +116,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
         }
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
-        lWordStatistic.setAdapter(TrainingEndPageFragment.initAdapter(fragment.getContext(), statistics));
+        lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));
 
         ViewGroup adView = (ViewGroup) getView().findViewById(R.id.adView);
         if (adView != null)

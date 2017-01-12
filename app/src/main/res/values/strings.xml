@@ -197,5 +197,9 @@
     <string name="load_words_from_file">Load words from file</string>
     <string name="file_choose">Select a file with word\'s list</string>
     <string name="file_choose_no_fm">Please, install file manager application from Google Play to use this functionality</string>
+    <string name="tutorial_ep_summary">Это результаты вашей тренировки</string>
+    <string name="tutorial_ep_list">Это список слов, которые вы тренировали</string>
+    <string name="tutorial_ep_reload_menu">Тут вы можете пройти текущие слова еще раз в любой тренировке, в которой вы хотите</string>
+    <string name="tutorial_ep_next">Данная кнопка запустит для вас следующий набор слов в этом же типе тренировки</string>
 
 </resources>
