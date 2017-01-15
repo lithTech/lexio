@@ -15,21 +15,23 @@ import java.util.List;
 import java.util.Set;
 
 import lt.ru.lexio.R;
+import lt.ru.lexio.db.Db;
+import lt.ru.lexio.db.Word;
 
 /**
  * Created by lithTech on 22.03.2016.
  */
 public class WordListAdapter extends SimpleCursorAdapter{
 
-    Set<Integer> selectedWords = new HashSet<>();
+    Set<Long> selectedWords = new HashSet<>();
     List<Holder> backInfo = new ArrayList<>();
     int wordProgressFactor;
 
-    public Set<Integer> getSelectedWords() {
+    public Set<Long> getSelectedWords() {
         return selectedWords;
     }
 
-    public void setSelectedWords(Set<Integer> selectedWords) {
+    public void setSelectedWords(Set<Long> selectedWords) {
         this.selectedWords = selectedWords;
     }
 
@@ -60,10 +62,12 @@ public class WordListAdapter extends SimpleCursorAdapter{
             public void onClick(View v) {
                 CheckBox cb = (CheckBox) v.findViewById(R.id.cbWordChecked);
                 backInfo.get(position).checked = cb.isChecked();
+                Cursor c = (Cursor) getItem(position);
+                long id = c.getLong(c.getColumnIndex(Db.Common.ID));
                 if (cb.isChecked())
-                    selectedWords.add(position);
+                    selectedWords.add(id);
                 else
-                    selectedWords.remove(position);
+                    selectedWords.remove(id);
             }
         });
         cb.setChecked(backInfo.get(position).checked);
@@ -84,6 +88,10 @@ public class WordListAdapter extends SimpleCursorAdapter{
         return view;
     }
 
+    public long getIdByPosition(int pos) {
+        Cursor c = (Cursor) getItem(pos);
+        return c.getLong(c.getColumnIndex(Db.Common.ID));
+    }
 
     private class Holder {
         public boolean checked;

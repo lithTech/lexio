@@ -89,13 +89,13 @@
     <string name="action_word_edit">Изменить слово</string>
     <string name="dialog_Save">Сохранить</string>
     <string name="action_word_copy">Копировать</string>
-    <string name="action_word_move">Переместить выделенные слова</string>
+    <string name="action_word_move">Переместить</string>
     <string name="msg_action_word_move_success">перемещено в словарь</string>
     <string name="msg_action_word_nodict">Не найдено словарей для перемещения. Пожалуйста, создайте новый словарь с языком, таким же, как у текущего активного словаря</string>
     <string name="defaultDictDescription">Словарь, поставляемый с приложением</string>
     <string name="defdict_eng_basic">Базовые английские слова</string>
-    <string name="defdict_loading_title">Importing default dictionaries...</string>
-    <string name="defdict_loading_msg">Please wait, while lexio is loading default dictionaries</string>
+    <string name="defdict_loading_title">Импортирование словарей...</string>
+    <string name="defdict_loading_msg">Пожалуйста, подождите, пока Lexio импортирует стандартные словари...</string>
     <string name="dialog_move_to_dict">Переместить слово в словарь</string>
     <string name="dictionaries.Edit">Изменить словарь</string>
     <string name="pref_clear_statistics">Очистка статистики по словам</string>

@@ -191,7 +191,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         getAdapter().getSelectedWords().clear();
-        getAdapter().getSelectedWords().add(info.position);
+        WordListAdapter adapter = (WordListAdapter) ((SwipeMenuAdapter) lWords.getAdapter()).getWrappedAdapter();
+        getAdapter().getSelectedWords().add(adapter.getIdByPosition(info.position));
         return onOptionsItemSelected(item);
     }
 
@@ -203,11 +204,11 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         return super.onOptionsItemSelected(item);
     }
 
-    private void chooseAction(int id, final Collection<Integer> positions) {
+    private void chooseAction(int id, final Collection<Long> ids) {
         if (id == R.id.action_word_move) {
-            if (!positions.isEmpty())
+            if (!ids.isEmpty())
             {
-                Word word = wordDAO.read(lWords.getItemIdAtPosition(positions.iterator().next()));
+                Word word = wordDAO.read(ids.iterator().next());
                 Where where = new Where(Db.Dictionary.LANG, Is.EQUAL, word.getDictionary().getLanguage())
                         .and(Db.Common.ID, Is.NOT_EQUAL, word.getDictionary().id);
                 DictionaryChooser.showChooser(getActivity(), where, R.string.action_word_move,
@@ -215,8 +216,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                             @Override
                             public void done(Object data) {
                                 Dictionary dictionary = (Dictionary) data;
-                                for (Integer p : positions) {
-                                    long wordId = lWords.getItemIdAtPosition(p);
+                                for (Long wordId : ids) {
                                     wordDAO.moveWord(dictionary.id, wordId);
                                 }
                                 Toast.makeText(getActivity(),
@@ -232,24 +232,24 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             createWord(getActivity(), mainActivity.getCurrentDictionary());
         }
         else if (id == R.id.action_word_del) {
-            deleteWords(getActivity(), positions);
+            deleteWords(getActivity(), ids);
         }
         else if (id == R.id.action_word_edit) {
-            if (!positions.isEmpty())
+            if (!ids.isEmpty())
                 editWord(getActivity(), mainActivity.getCurrentDictionary(),
-                        positions.iterator().next());
+                        ids.iterator().next());
         }
         else if (id == R.id.action_word_loadfromfile)
             showFileChooser();
     }
 
-    private void editWord(Activity activity, Dictionary currentDictionary, Integer position) {
-        Word word = wordDAO.read(lWords.getItemIdAtPosition(position));
+    private void editWord(Activity activity, Dictionary currentDictionary, Long id) {
+        Word word = wordDAO.read(id);
         saveWord(activity, currentDictionary, word);
     }
 
-    private void deleteWords(final Activity activity, final Collection<Integer> positions) {
-        if (!positions.isEmpty()) {
+    private void deleteWords(final Activity activity, final Collection<Long> ids) {
+        if (!ids.isEmpty()) {
             DialogHelper.confirm(activity,
                     getResources().getString(R.string.words_Deletion),
                     getResources().getString(R.string.words_Delete_Alert),
@@ -258,8 +258,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                     new Runnable() {
                         @Override
                         public void run() {
-                            for (int pos : positions) {
-                                wordDAO.delete(lWords.getItemIdAtPosition(pos));
+                            for (long pos : ids) {
+                                wordDAO.delete(pos);
                                 refreshList();
                             }
                         }
@@ -588,10 +588,10 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
      */
     @Override
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-        List<Integer> pos = new ArrayList<>(1);
-        pos.add(position);
+        List<Long> ids = new ArrayList<>(1);
+        ids.add(((Word) lWords.getItemAtPosition(position)).id);
 
-        chooseAction(menu.getMenuItem(index).getId(), pos);
+        chooseAction(menu.getMenuItem(index).getId(), ids);
 
         return true;
     }

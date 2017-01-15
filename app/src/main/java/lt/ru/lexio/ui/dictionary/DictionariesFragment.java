@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -39,6 +40,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
@@ -48,6 +50,7 @@ import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.GeneralCallback;
+import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.TutorialHelper;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
@@ -134,12 +137,23 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
         final ProgressDialog progressDialog = ProgressDialog.show(getView().getContext(),
                 getString(R.string.defdict_loading_title),
                 getString(R.string.defdict_loading_msg));
+        final int MAX_STD_DICT = 1;
+        final AtomicInteger lc = new AtomicInteger(MAX_STD_DICT);
 
         GeneralCallback callback = new GeneralCallback() {
             @Override
             public void done(Object data) {
-                progressDialog.dismiss();
-                refreshDictionaryList();
+                if (data != null) {
+                    Dictionary d = (Dictionary) data;
+                    SharedPreferences pref = getActivity().getSharedPreferences(SettingsFragment.SETTINGS_FILE_NAME,
+                            Context.MODE_PRIVATE);
+                    SharedPreferences.Editor ed = pref.edit();
+                    ed.putBoolean(d.getTitle(), true);
+                    ed.commit();
+                    refreshDictionaryList();
+                }
+                if (lc.decrementAndGet() == 0)
+                    progressDialog.dismiss();
             }
         };
 
@@ -149,11 +163,20 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
 
     private void startLoadingIfDoesntExist(String dictTitle, int rId, String lang,
                                                 GeneralCallback callback) {
-        Cursor cursor = dictionaryDAO.select().where(Db.Common.TITLE, Is.EQUAL, dictTitle).execute();
+        SharedPreferences pref = getActivity().getSharedPreferences(SettingsFragment.SETTINGS_FILE_NAME,
+                Context.MODE_PRIVATE);
+
+        if (pref.contains(dictTitle)){
+            if (callback != null)
+                callback.done(null);
+            return;
+        }
+        Cursor cursor = dictionaryDAO.select().columns(Db.Common.ID).where(Db.Common.TITLE,
+                Is.EQUAL, dictTitle).execute();
         boolean hasDict = cursor.moveToNext();
-        cursor.close();
+        long dictId = 0;
         if (!hasDict) {
-            long dictId = saveDictionaryObject(0, dictTitle,
+            dictId = saveDictionaryObject(0, dictTitle,
                     getResources().getString(R.string.defaultDictDescription),
                     lang);
             InputStream in = getResources().openRawResource(rId);
@@ -161,9 +184,12 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
                     new DictLoader(new WordDAO(getActivity()),
                             new DictionaryDAO(getActivity()), in, dictId, callback));
         } else {
+            dictId = cursor.getLong(cursor.getColumnIndex(Db.Common.ID));
+            Dictionary d = dictionaryDAO.read(dictId);
             if (callback != null)
-                callback.done(null);
+                callback.done(d);
         }
+        cursor.close();
     }
 
     @Override
@@ -330,7 +356,10 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
         if (dictCnt == 0)
             dictionary.setActive(1);
         if (dictId > 0) {
+            Dictionary old = dictionaryDAO.read(dictId);
             dictionary.id = dictId;
+            dictionary.setWords(old.getWords());
+            dictionary.setActive(old.getActive());
             dictionaryDAO.update(dictionary);
         }
         else {
