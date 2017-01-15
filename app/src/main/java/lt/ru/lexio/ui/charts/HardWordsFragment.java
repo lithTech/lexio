@@ -23,6 +23,7 @@ import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.WordStatisticDAO;
 import lt.ru.lexio.ui.ContentFragment;
+import lt.ru.lexio.ui.MainActivity;
 
 /**
  * Created by lithTech on 13.04.2016.
@@ -54,7 +55,7 @@ public class HardWordsFragment extends ContentFragment {
     }
 
     public BarData getData() {
-        long dictId = mainActivity.getCurrentDictionary().id;
+        long dictId = ((MainActivity) getActivity()).getCurrentDictionary().id;
         StringBuilder q = new StringBuilder();
         cookStatQuery(q);
 

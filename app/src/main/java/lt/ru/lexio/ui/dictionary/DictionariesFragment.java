@@ -50,6 +50,7 @@ import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.DialogHelper;
 import lt.ru.lexio.ui.GeneralCallback;
+import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.TutorialHelper;
@@ -261,8 +262,8 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
 
     private void setActiveDictionary(long dictId) {
         Dictionary cd = dictionaryDAO.setActive(dictId);
-        if (mainActivity != null) {
-            mainActivity.setCurrentDictionary(cd);
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).setCurrentDictionary(cd);
         }
     }
 

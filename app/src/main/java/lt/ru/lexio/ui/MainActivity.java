@@ -59,6 +59,10 @@ public class MainActivity extends AppCompatActivity
         return currentDictionary;
     }
 
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
+
     public void setCurrentDictionary(Dictionary currentDictionary) {
         this.currentDictionary = currentDictionary;
         if (navMenu != null) {
@@ -285,8 +289,6 @@ public class MainActivity extends AppCompatActivity
         }
         else
             outArgs.putBoolean(ContentFragment.ARG_NEED_REFRESH, true);
-
-        fragment.mainActivity = this;
 
         return fragment;
     }

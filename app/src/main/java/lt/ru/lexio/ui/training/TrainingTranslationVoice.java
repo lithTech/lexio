@@ -27,6 +27,7 @@ import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
+import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.util.ColorAnimateHelper;
 
@@ -232,7 +233,8 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_RESULTS, 10);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, mainActivity.getCurrentDictionary().getLanguageTag());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+                ((MainActivity) getActivity()).getCurrentDictionary().getLanguageTag());
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 getString(R.string.TransVoiceSpeechPromt));
         try {

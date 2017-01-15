@@ -292,8 +292,12 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         trainingWordBuilder.dictId = getCurrentDictionary().id;
         currentPage++;
 
+        if (getArguments().containsKey(ContentFragment.ARG_TRAINING_TO_RUN_PAGE))
+            currentPage = getArguments().getInt(ContentFragment.ARG_TRAINING_TO_RUN_PAGE);
+
         long[] startWordList = getArguments().getLongArray(ContentFragment.ARG_TRAINING_START_LIST);
         getArguments().remove(ContentFragment.ARG_TRAINING_START_LIST);
+        getArguments().remove(ContentFragment.ARG_TRAINING_TO_RUN_PAGE);
         if (startWordList == null) {
             sessionWords = buildWords(random, sessionDate, currentPage, wordDAO, wordStatisticDAO);
         } else {

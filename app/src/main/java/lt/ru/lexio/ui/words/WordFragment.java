@@ -166,8 +166,8 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     private SimpleCursorAdapter initAdapter(Context context) {
         final long dictId;
-        if (mainActivity != null && mainActivity.getCurrentDictionary() != null)
-            dictId = mainActivity.getCurrentDictionary().id;
+        if (getActivity() != null && ((MainActivity) getActivity()).getCurrentDictionary() != null)
+            dictId = ((MainActivity) getActivity()).getCurrentDictionary().id;
         else dictId = 0;
 
         WordListAdapter adapter = new WordListAdapter(context, R.layout.content_word_item,
@@ -205,9 +205,9 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     }
 
     private void chooseAction(int id, final Collection<Long> ids) {
+        MainActivity mainActivity = (MainActivity) getActivity();
         if (id == R.id.action_word_move) {
-            if (!ids.isEmpty())
-            {
+            if (!ids.isEmpty()) {
                 Word word = wordDAO.read(ids.iterator().next());
                 Where where = new Where(Db.Dictionary.LANG, Is.EQUAL, word.getDictionary().getLanguage())
                         .and(Db.Common.ID, Is.NOT_EQUAL, word.getDictionary().id);
@@ -227,19 +227,15 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                             }
                         });
             }
-        }
-        else if (id == R.id.action_word_add) {
+        } else if (id == R.id.action_word_add) {
             createWord(getActivity(), mainActivity.getCurrentDictionary());
-        }
-        else if (id == R.id.action_word_del) {
+        } else if (id == R.id.action_word_del) {
             deleteWords(getActivity(), ids);
-        }
-        else if (id == R.id.action_word_edit) {
+        } else if (id == R.id.action_word_edit) {
             if (!ids.isEmpty())
                 editWord(getActivity(), mainActivity.getCurrentDictionary(),
                         ids.iterator().next());
-        }
-        else if (id == R.id.action_word_loadfromfile)
+        } else if (id == R.id.action_word_loadfromfile)
             showFileChooser();
     }
 
@@ -269,8 +265,6 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
 
     private void refreshList() {
         Activity act = getActivity();
-        if (getActivity() == null)
-            act = mainActivity;
         if (act == null)
             return;
 
@@ -361,6 +355,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         });
 
         //event when user returns to our application. If user returns from lingvo, trying to paste from clipboard into the translation field
+        final MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.getEventListenerManager().register(EventListenerManager.EVENT_TYPE_RESUME, "CreateWordDialog",
                 new GeneralCallback() {
                     @Override

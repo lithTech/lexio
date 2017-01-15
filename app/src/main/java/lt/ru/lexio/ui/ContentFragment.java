@@ -27,14 +27,13 @@ public class ContentFragment extends Fragment {
     public static final String ARG_ACTION_MENU_ID = "actionMenuId";
     public static final String ARG_NEED_REFRESH = "needRefresh";
     public static final String ARG_TRAINING_TO_RUN_TITLE = "trainingToRunTitle";
+    public static final String ARG_TRAINING_TO_RUN_PAGE = "trainingToRunPage";
     public static final String ARG_TRAINING_TO_RUN = "trainingToRun";
     public static final String ARG_TRAINING_START_LIST = "trainingStartWordList";
     public static final String ARG_TRAINING_WORD_ORDER = "trainingWordOrder";
     public static final String ARG_TRAINING_ANSWER_TIMER = "trainingAnswerTimer";
     public static final String ARG_TRAINING_WORD_COUNT = "trainingWordCount";
     public static final String ARG_TRAINING_WORD_TIME = "trainingWordTime";
-
-    protected MainActivity mainActivity;
 
     int actionMenuId;
 
@@ -45,21 +44,6 @@ public class ContentFragment extends Fragment {
         if (getActivity() == null) return 0;
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getActivity().getResources().getDisplayMetrics());
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mainActivity = (MainActivity) context;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (Build.VERSION.SDK_INT < 23) {
-            this.mainActivity = (MainActivity) activity;
-        }
     }
 
     @Override

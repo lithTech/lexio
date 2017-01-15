@@ -108,6 +108,9 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
 
                     int id = getResources().getIdentifier(idName, "layout", getActivity().getPackageName());
 
+                    TrainingFragmentBase trFr = (TrainingFragmentBase) ((MainActivity) getActivity()).getCurrentFragment();
+                    int currentPage = trFr.currentPage;
+
                     TrainingManager trainingManager = new TrainingManager();
                     Bundle args = new Bundle();
                     args.putInt(ContentFragment.ARG_TRAINING_TO_RUN, id);
@@ -115,6 +118,7 @@ public class TrainingEndPageFragment extends Fragment implements View.OnClickLis
                     args.putInt(ContentFragment.ARG_LAYOUT_TO_APPEND, R.layout.content_training_start);
                     args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_TITLE,
                             FragmentTitleMapper.getTitleResId(getResources(), id));
+                    args.putInt(ContentFragment.ARG_TRAINING_TO_RUN_PAGE, currentPage);
 
                     args.putInt(ContentFragment.ARG_TRAINING_WORD_COUNT,
                             fragment.getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT));

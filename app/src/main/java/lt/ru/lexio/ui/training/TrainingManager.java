@@ -15,6 +15,7 @@ import android.widget.TextView;
 import lt.ru.lexio.R;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.GeneralCallback;
+import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.settings.SettingsFragment;
 import lt.ru.lexio.ui.widget.ListSinglePicker;
 import lt.ru.lexio.ui.widget.WordOrderPicker;
@@ -133,7 +134,7 @@ public class TrainingManager extends ContentFragment implements View.OnClickList
 
         ContentFragment trainingContent = getTraining(loadTrainingId);
 
-        mainActivity.changeFragment(trainingContent, args, title);
+        ((MainActivity) getActivity()).changeFragment(trainingContent, args, title);
     }
 
     @Override
