@@ -86,16 +86,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <!--<android.support.design.widget.FloatingActionButton-->
-                    <!--android:id="@+id/bTrainingTransVoiceMic"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="bottom|center"-->
-                    <!--android:layout_margin="@dimen/fab_margin"-->
-                    <!--android:backgroundTint="@color/colorPrimary"-->
-                    <!--app:borderWidth="0dp"-->
-                    <!--app:elevation="6dp"-->
-                    <!--android:src="@drawable/ic_menu_mic" />-->
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/bTrainingTransVoiceMic"
                     android:layout_width="wrap_content"
@@ -104,16 +94,6 @@
                     android:src="@drawable/ic_menu_mic"
                     app:fab_colorNormal="@color/colorPrimaryDark"
                     />
-                <!--<android.support.design.widget.FloatingActionButton-->
-                    <!--android:id="@+id/bTrainingTransVoiceNext"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="bottom|right"-->
-                    <!--android:layout_margin="@dimen/fab_margin"-->
-                    <!--android:backgroundTint="@color/colorPrimary"-->
-                    <!--app:borderWidth="0dp"-->
-                    <!--app:elevation="6dp"-->
-                    <!--android:src="@drawable/ic_right_arrow" />-->
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/bTrainingTransVoiceNext"
                     android:layout_width="wrap_content"

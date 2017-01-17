@@ -3,6 +3,7 @@ package lt.ru.lexio.ui.training;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.transition.Visibility;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +15,8 @@ import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +40,10 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     TextView tvTranscription;
     View content;
     LinearLayout card;
+
+    FloatingActionButton bTrainingCardsWrong;
+    FloatingActionButton bTrainingCardsOk;
+    Boolean result = null;
 
     final int DEFAULT_CARD_TEXT_SIZE = 30;
 
@@ -74,11 +81,12 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     @Override
     protected void startTraining() {
-
+        showAnswerButtons((ViewGroup) getView(), View.VISIBLE);
     }
 
     @Override
     protected void onNextQuestion() {
+        result = null;
         tvWord.setText(currentWord.getTitle());
         tvWord.setTag(true);
 
@@ -101,7 +109,11 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     @Override
     protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
-        ViewGroup viewGroup = (ViewGroup) getView().findViewById(R.id.layout_train_end_page);
+        ViewGroup currentView = (ViewGroup) getView();
+
+        showAnswerButtons(currentView, View.GONE);
+
+        ViewGroup viewGroup = (ViewGroup) currentView.findViewById(R.id.layout_train_end_page);
         View fragment = viewGroup.getChildAt(0);
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageCorrect))
                 .setText(String.valueOf(sessionWords.size()));
@@ -123,6 +135,11 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
             if (!AdvertiseHelper.isFlavorWithoutAds())
                 AdvertiseHelper.loadAd(getActivity(), adView,
                         getString(R.string.content_endpagestat_banner), null);
+    }
+
+    private void showAnswerButtons(ViewGroup currentView, int visible) {
+        View answerButtons = currentView.findViewById(R.id.cTrainingCardAnswerButtons);
+        answerButtons.setVisibility(visible);
     }
 
     @Override
@@ -169,6 +186,11 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
         content.setOnTouchListener(this);
 
         createAnimationsAndResolveWidths();
+
+        bTrainingCardsOk = (FloatingActionButton) view.findViewById(R.id.bTrainingCardsOK);
+        bTrainingCardsWrong = (FloatingActionButton) view.findViewById(R.id.bTrainingCardsWrong);
+        bTrainingCardsOk.setOnClickListener(this);
+        bTrainingCardsWrong.setOnClickListener(this);
 
         return view;
     }
@@ -226,12 +248,12 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
                     boolean isSwipe = Math.abs(deltaX) > nqSWIPE_MIN;
                     if (isSwipe && isR2L)
                     {
-                        nextQuestion(null);
+                        nextQuestion(result);
                         return true;
                     }
                     else if (isSwipe && !isR2L)
                     {
-                        prevQuestion(null);
+                        prevQuestion(result);
                         return true;
                     }
                     break;
@@ -257,9 +279,9 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
                         return true;
                     }
                     else if (isR2L)
-                        nextQuestion(null);
+                        nextQuestion(result);
                     else
-                        prevQuestion(null);
+                        prevQuestion(result);
                     break;
             }
         }
@@ -274,6 +296,18 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
             onStart();
         } else if (v == bNext) {
             onStart();
+        } else if (v == bTrainingCardsOk) {
+            result = result == Boolean.TRUE ? null : Boolean.TRUE;
+        } else if (v == bTrainingCardsWrong) {
+            result = result == Boolean.FALSE ? null : Boolean.FALSE;
         }
+        setAnswerColors();
+    }
+
+    private void setAnswerColors() {
+        int h = bTrainingCardsOk.getColorPressed();
+        int n = getResources().getColor(R.color.colorPrimaryDark);
+        bTrainingCardsOk.setColorNormal(result == Boolean.TRUE ? h : n);
+        bTrainingCardsWrong.setColorNormal(result == Boolean.FALSE ? h : n);
     }
 }

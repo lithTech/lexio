@@ -41,7 +41,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="bottom|center"
-        android:layout_marginLeft="83dp"
+        android:layout_marginLeft="105dp"
         android:layout_alignBottom="@+id/lvTrainingEndPageWordStat">
 
         <com.github.clans.fab.FloatingActionMenu
@@ -115,7 +115,7 @@
             android:id="@+id/bTrainingEndPageNext"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="67dp"
             android:layout_alignLeft="@id/amTrainingMenu"
             android:layout_alignBottom="@id/amTrainingMenu"
             android:layout_marginBottom="15dp"
