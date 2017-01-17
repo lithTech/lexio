@@ -29,6 +29,7 @@ import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
 import lt.ru.lexio.ui.MainActivity;
 import lt.ru.lexio.ui.settings.SettingsFragment;
+import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.ColorAnimateHelper;
 
 /**
@@ -111,6 +112,12 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
         lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));
+
+        ViewGroup adView = (ViewGroup) getView().findViewById(R.id.adView);
+        if (adView != null)
+            if (!AdvertiseHelper.isFlavorWithoutAds())
+                AdvertiseHelper.loadAd(getActivity(), adView,
+                        getString(R.string.content_endpagestat_banner), null);
     }
 
     @Override

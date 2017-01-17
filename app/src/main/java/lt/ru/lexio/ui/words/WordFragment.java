@@ -584,7 +584,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
     @Override
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
         List<Long> ids = new ArrayList<>(1);
-        ids.add(((Word) lWords.getItemAtPosition(position)).id);
+        ids.add(getAdapter().getIdByPosition(position));
 
         chooseAction(menu.getMenuItem(index).getId(), ids);
 

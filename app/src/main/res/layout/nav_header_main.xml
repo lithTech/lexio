@@ -41,7 +41,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textAlignment="center"
             android:clickable="false"
-            android:capitalize="characters" />
+            android:inputType="none"
+            />
     </LinearLayout>
 
 </LinearLayout>

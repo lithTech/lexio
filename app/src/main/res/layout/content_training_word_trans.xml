@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,10 +24,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/layout_word_train"
-        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:visibility="visible"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/edTrainingWord"
@@ -105,6 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_below="@id/adView"
         android:visibility="gone">
         <fragment
             android:layout_width="match_parent"
@@ -113,4 +114,4 @@
             tools:layout="@layout/content_training_end_page" />
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
