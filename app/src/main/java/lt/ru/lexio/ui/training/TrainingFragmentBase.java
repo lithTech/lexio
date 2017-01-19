@@ -557,12 +557,18 @@ public abstract class TrainingFragmentBase extends ContentFragment {
                 .build()
         );
 
-
         MaterialShowcaseView tmpView = TutorialHelper.defElem(getActivity(),
                 R.string.tutorial_ep_list, true, vWordStatList)
                 .build();
+        tmpView.setTarget(new ViewTarget(vWordStatList){
+            @Override
+            public Point getPoint() {
+                Point p = super.getPoint();
+                p.offset(0 , dp2px(70));
+                return p;
+            }
+        });
         sequence.addSequenceItem(tmpView);
-
 
         tmpView = TutorialHelper.defElem(getActivity(),
                 R.string.tutorial_ep_reload_menu, false, vReloadMenu)
