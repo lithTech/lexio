@@ -303,9 +303,9 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
         } else if (v == bNext) {
             onStart();
         } else if (v == bTrainingCardsOk) {
-            result = result == Boolean.TRUE ? null : Boolean.TRUE;
+            result = Boolean.TRUE;
         } else if (v == bTrainingCardsWrong) {
-            result = result == Boolean.FALSE ? null : Boolean.FALSE;
+            result = Boolean.FALSE;
         }
         setAnswerColors();
     }
