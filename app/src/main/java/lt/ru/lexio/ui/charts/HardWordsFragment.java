@@ -3,6 +3,7 @@ package lt.ru.lexio.ui.charts;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,7 @@ import lt.ru.lexio.ui.MainActivity;
 public class HardWordsFragment extends ContentFragment {
 
     WordStatisticDAO wordStatisticDAO;
+    final int MIN_WORDS = 15;
 
     @Nullable
     @Override
@@ -60,7 +63,7 @@ public class HardWordsFragment extends ContentFragment {
         cookStatQuery(q);
 
         Cursor c = wordStatisticDAO.query(q.toString(), new String[]{String.valueOf(dictId)});
-        Map<String, Integer> xAxis = new HashMap<>();
+        Map<String, Integer> xAxis = new LinkedHashMap<>();
         List<BarEntry> barIncorrectWords = new ArrayList<>();
         List<BarEntry> barCorrectWords = new ArrayList<>();
         List<IBarDataSet> bars = new ArrayList<>();
@@ -79,6 +82,15 @@ public class HardWordsFragment extends ContentFragment {
             entry = new BarEntry(rCount, index);
             barCorrectWords.add(entry);
         }
+        //if graph is small, render it in more natural way
+        if (wordNum < MIN_WORDS) {
+            for (int i = wordNum; i <= MIN_WORDS; i++) {
+                xAxis.put("                             ".substring(0, i), i);
+                barCorrectWords.add(new BarEntry(0, i));
+                barIncorrectWords.add(new BarEntry(0, i));
+            }
+        }
+
         BarDataSet barDS = new BarDataSet(barIncorrectWords,
                 getResources().getString(R.string.chart_HardWords_IncorrectLabel));
         barDS.setColors(new int[]{getResources().getColor(R.color.colorMandatory)});
