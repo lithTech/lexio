@@ -1,14 +1,8 @@
 package lt.ru.lexio.ui.training;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -22,9 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -42,7 +33,6 @@ import java.util.Random;
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Db;
 import lt.ru.lexio.db.Dictionary;
-import lt.ru.lexio.db.DictionaryDAO;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
 import lt.ru.lexio.db.WordStatistic;
@@ -50,10 +40,8 @@ import lt.ru.lexio.db.WordStatisticDAO;
 import lt.ru.lexio.ui.ContentFragment;
 import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.ui.MainActivity;
-import lt.ru.lexio.ui.dictionary.DictionariesListAdapter;
 import lt.ru.lexio.ui.dictionary.DictionaryChooser;
 import lt.ru.lexio.util.AdvertiseHelper;
-import lt.ru.lexio.util.NumberPickerHelper;
 import lt.ru.lexio.util.TutorialHelper;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -112,11 +100,11 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     }
 
     protected QuestionExpireTimer onQuestionExpireTimer;
-    private Word wordDummy = new Word();
     protected WordStatisticDAO wordStatisticDAO = null;
     protected WordDAO wordDAO = null;
     protected TrainingWordBuilder trainingWordBuilder = null;
     protected List<Word> sessionWords = null;
+    protected Map<Long, WordStatistic> sessionStatistics = null;
     protected Random random = new Random(System.nanoTime());
     protected int currentPage = 0;
     protected Date sessionDate = new Date();
@@ -168,20 +156,13 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         trainingPageContainer.setVisibility(View.GONE);
         trainingPageContainer.invalidate();
 
-        Cursor statCur = wordStatisticDAO.getTrainStatisticsBySession(currentSessionId);
         int correct = 0;
-        int total = 0;
-        List<WordStatistic> wordStatistics = new ArrayList<>();
-        while (statCur.moveToNext()) {
-            WordStatistic wordStatistic = wordStatisticDAO.readRow(statCur);
-            wordStatisticDAO.fillForeignKeys(wordStatistic, Db.WordStatistic.WORD_ID);
-            total++;
-            if (wordStatistic.getTrainingResult() == 1)
+        for (WordStatistic statistic : sessionStatistics.values()) {
+            if (statistic.getTrainingResult() == 1)
                 correct++;
-            wordStatistics.add(wordStatistic);
         }
 
-        setEndPageStatistics(wordStatistics, correct, total - correct);
+        setEndPageStatistics(correct, sessionStatistics.size() - correct);
         endPageContainer.setVisibility(View.VISIBLE);
 
         presentTutorial();
@@ -190,8 +171,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         getActivity().invalidateOptionsMenu();
     }
 
-    protected abstract void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
-                                        int incorrect);
+    protected abstract void setEndPageStatistics(int correct,
+                                                 int incorrect);
 
     protected void nextQuestion(Boolean isLastQuestionCorrect) {
         if (currentWord != null && isLastQuestionCorrect != null)
@@ -306,6 +287,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
                 sessionWords.add(wordDAO.read(l));
             }
         }
+        sessionStatistics = new HashMap<>(sessionWords.size());
 
         if (sessionWords.isEmpty()) {
             Toast.makeText(getView().getContext(), getResources().getString(R.string.training_Word_Empty),
@@ -327,22 +309,48 @@ public abstract class TrainingFragmentBase extends ContentFragment {
         nextQuestionInternal(false);
     }
 
+    protected List<EndPageStatistic> getEndPageStatistic(EndPageStatisticFiller filler) {
+        List<EndPageStatistic> statistics = new ArrayList<>(sessionWords.size());
+        for (Word w : sessionWords) {
+            WordStatistic storedStat = sessionStatistics.get(w.id);
+            Boolean result = null;
+            if (storedStat != null)
+                result = storedStat.getTrainingResult() == 1;
+            EndPageStatistic s = new EndPageStatistic(w.id, null, null, result);
+
+            filler.fill(w, storedStat, s);
+            statistics.add(s);
+        }
+        return statistics;
+    }
+
     protected long storeStatistic(long wordId, boolean isSuccess, long sessionId) {
         if (getTrainingType() == null)
             return 0;
-        WordStatistic statistic = new WordStatistic();
-        wordDummy.id = wordId;
-        statistic.setWord(wordDummy);
-        if (sessionId > 0)
-            statistic.setSessionId(sessionId);
-        statistic.setTrainedOn(new Date());
-        statistic.setTrainingResult(isSuccess ? 1 : 0);
-        statistic.setTrainingType(getTrainingType().ordinal());
-
-        wordStatisticDAO.create(statistic);
-        if (sessionId > 0)
-            return sessionId;
-        return statistic.id;
+        WordStatistic statistic = sessionStatistics.get(wordId);
+        int result = isSuccess ? 1 : 0;
+        if (statistic == null) {
+            statistic = new WordStatistic();
+            sessionStatistics.put(wordId, statistic);
+            Word wordDummy = new Word();
+            wordDummy.id = wordId;
+            statistic.setWord(wordDummy);
+            if (sessionId > 0)
+                statistic.setSessionId(sessionId);
+            statistic.setTrainedOn(new Date());
+            statistic.setTrainingResult(result);
+            statistic.setTrainingType(getTrainingType().ordinal());
+        }
+        if (statistic.id > 0) {
+            if (statistic.getTrainingResult() != result) {
+                statistic.setTrainingResult(result);
+                wordStatisticDAO.update(statistic);
+            }
+        }
+        else {
+            wordStatisticDAO.create(statistic);
+        }
+        return sessionId > 0 ? sessionId : statistic.id;
     }
 
     protected abstract TrainingType getTrainingType();
@@ -583,4 +591,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         sequence.start();
     }
+}
+
+interface EndPageStatisticFiller {
+    void fill(final Word word, @Nullable WordStatistic storedStatistic, EndPageStatistic out);
 }

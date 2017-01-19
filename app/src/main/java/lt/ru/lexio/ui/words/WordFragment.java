@@ -354,9 +354,11 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
             }
         });
 
+        final MainActivity mainActivity = (creationWindowContext instanceof MainActivity) ? null : (MainActivity) creationWindowContext;
+
         //event when user returns to our application. If user returns from lingvo, trying to paste from clipboard into the translation field
-        final MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getEventListenerManager().register(EventListenerManager.EVENT_TYPE_RESUME, "CreateWordDialog",
+        if (mainActivity != null)
+            mainActivity.getEventListenerManager().register(EventListenerManager.EVENT_TYPE_RESUME, "CreateWordDialog",
                 new GeneralCallback() {
                     @Override
                     public void done(Object data) {
@@ -421,11 +423,14 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
         alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                mainActivity.getEventListenerManager().unregister(EventListenerManager.EVENT_TYPE_RESUME,
-                        "CreateWordDialog");
-                mainActivity.getWindow().setSoftInputMode(
-                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                );
+                if (mainActivity != null) {
+                    mainActivity.getEventListenerManager()
+                            .unregister(EventListenerManager.EVENT_TYPE_RESUME,
+                                    "CreateWordDialog");
+                    mainActivity.getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                    );
+                }
             }
         });
 

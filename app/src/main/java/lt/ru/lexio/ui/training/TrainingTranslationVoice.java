@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -94,7 +93,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     }
 
     @Override
-    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
+    protected void setEndPageStatistics(int correct, int incorrect) {
         View fragment = getView().findViewById(R.id.layout_train_end_page);
 
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageCorrect))
@@ -102,13 +101,13 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageInCorrect))
                 .setText(String.valueOf(incorrect));
 
-        List<EndPageStatistic> statistics = new ArrayList<>(wordStatistics.size());
-        for (WordStatistic ws : wordStatistics) {
-            EndPageStatistic e = new EndPageStatistic(ws.id,
-                    ws.getWord().getTranslation(),
-                    ws.getWord().getTitle(), ws.getTrainingResult() == 1);
-            statistics.add(e);
-        }
+        List<EndPageStatistic> statistics = getEndPageStatistic(new EndPageStatisticFiller() {
+            @Override
+            public void fill(Word word, @Nullable WordStatistic storedStatistic, EndPageStatistic out) {
+                out.question = word.getTranslation();
+                out.correctAnswer = word.getTitle();
+            }
+        });
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
         lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));

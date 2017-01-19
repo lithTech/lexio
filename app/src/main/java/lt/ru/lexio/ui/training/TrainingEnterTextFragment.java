@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.List;
-
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Word;
-import lt.ru.lexio.db.WordStatistic;
-import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.ColorAnimateHelper;
 
@@ -102,7 +96,7 @@ public abstract class TrainingEnterTextFragment extends TrainingFragmentBase imp
         setQuestionToUI(currentWord);
     }
 
-    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
+    protected void setEndPageStatistics(int correct,
                                         int incorrect) {
         ViewGroup viewGroup = (ViewGroup) getView().findViewById(R.id.layout_train_end_page);
         View fragment = viewGroup.getChildAt(0);

@@ -54,6 +54,8 @@ public class EndPageStatAdapter extends ArrayAdapter<EndPageStatistic> {
                 status.setBackground(view.getResources().getDrawable(R.drawable.ic_menu_close_2));
             }
         }
+        else
+            status.setBackground(null);
 
         return view;
     }

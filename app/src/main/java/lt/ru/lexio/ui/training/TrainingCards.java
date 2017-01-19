@@ -3,7 +3,6 @@ package lt.ru.lexio.ui.training;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.transition.Visibility;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -86,13 +84,19 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     @Override
     protected void onNextQuestion() {
-        result = null;
         tvWord.setText(currentWord.getTitle());
         tvWord.setTag(true);
 
         tvTranscription.setText("");
         if (currentWord.getTranscription() != null && !currentWord.getTranscription().isEmpty())
             tvTranscription.setText("[" + currentWord.getTranscription() + "]");
+
+        result = null;
+        WordStatistic statistic = sessionStatistics.get(currentWord.id);
+        if (statistic != null) {
+            result = statistic.getTrainingResult() == 1;
+        }
+        setAnswerColors();
     }
 
     public void flipCard() {
@@ -108,24 +112,26 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     }
 
     @Override
-    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
+    protected void setEndPageStatistics(int correct, int incorrect) {
         ViewGroup currentView = (ViewGroup) getView();
 
         showAnswerButtons(currentView, View.GONE);
 
+        EndPageStatisticFiller filler = new EndPageStatisticFiller() {
+            @Override
+            public void fill(Word word, @Nullable WordStatistic storedStatistic, EndPageStatistic out) {
+                out.question = word.getTitle();
+                out.correctAnswer = word.getTranslation();
+            }
+        };
+        List<EndPageStatistic> statistics = getEndPageStatistic(filler);
+
         ViewGroup viewGroup = (ViewGroup) currentView.findViewById(R.id.layout_train_end_page);
         View fragment = viewGroup.getChildAt(0);
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageCorrect))
-                .setText(String.valueOf(sessionWords.size()));
+                .setText(String.valueOf(correct));
         ((TextView) fragment.findViewById(R.id.tvTrainingEndPageInCorrect))
-                .setText(String.valueOf(0));
-
-        List<EndPageStatistic> statistics = new ArrayList<>(sessionWords.size());
-        for (Word word : sessionWords) {
-            EndPageStatistic s = new EndPageStatistic(word.id, word.getTitle(),
-                    word.getTranslation(), true);
-            statistics.add(s);
-        }
+                .setText(String.valueOf(incorrect));
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
         lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));
@@ -169,7 +175,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
 
     @Override
     protected TrainingType getTrainingType() {
-        return null;
+        return TrainingType.CARDS;
     }
 
     @Nullable

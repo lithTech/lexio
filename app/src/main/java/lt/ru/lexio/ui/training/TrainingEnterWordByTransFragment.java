@@ -1,9 +1,9 @@
 package lt.ru.lexio.ui.training;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -36,18 +36,18 @@ public class TrainingEnterWordByTransFragment extends TrainingEnterTextFragment 
     }
 
     @Override
-    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct, int incorrect) {
-        super.setEndPageStatistics(wordStatistics, correct, incorrect);
+    protected void setEndPageStatistics(int correct, int incorrect) {
+        super.setEndPageStatistics(correct, incorrect);
 
         View fragment = getView().findViewById(getEndPageContainerId());
 
-        List<EndPageStatistic> statistics = new ArrayList<>(wordStatistics.size());
-        for (WordStatistic ws : wordStatistics) {
-            EndPageStatistic e = new EndPageStatistic(ws.getWord().id,
-                    ws.getWord().getTranslation(),
-                    ws.getWord().getTitle(), ws.getTrainingResult() == 1);
-            statistics.add(e);
-        }
+        List<EndPageStatistic> statistics = getEndPageStatistic(new EndPageStatisticFiller() {
+            @Override
+            public void fill(Word word, @Nullable WordStatistic storedStatistic, EndPageStatistic out) {
+                out.question = word.getTranslation();
+                out.correctAnswer = word.getTitle();
+            }
+        });
 
         ListView lWordStatistic = (ListView) fragment.findViewById(R.id.lvTrainingEndPageWordStat);
         lWordStatistic.setAdapter(TrainingEndPageFragment.setData(fragment.getContext(), statistics));

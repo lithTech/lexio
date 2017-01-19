@@ -1,15 +1,12 @@
 package lt.ru.lexio.ui.training;
 
 import android.animation.Animator;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,9 +18,7 @@ import java.util.Random;
 import lt.ru.lexio.R;
 import lt.ru.lexio.db.Word;
 import lt.ru.lexio.db.WordDAO;
-import lt.ru.lexio.db.WordStatistic;
 import lt.ru.lexio.db.WordStatisticDAO;
-import lt.ru.lexio.ui.GeneralCallback;
 import lt.ru.lexio.util.AdvertiseHelper;
 import lt.ru.lexio.util.ColorAnimateHelper;
 
@@ -127,7 +122,7 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
         toggleEnabledControls(true);
     }
 
-    protected void setEndPageStatistics(List<WordStatistic> wordStatistics, int correct,
+    protected void setEndPageStatistics(int correct,
                                         int incorrect) {
         ViewGroup viewGroup = (ViewGroup) getView().findViewById(R.id.layout_train_end_page);
         View fragment = viewGroup.getChildAt(0);
