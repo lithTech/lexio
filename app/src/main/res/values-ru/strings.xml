@@ -189,7 +189,7 @@
     <string name="dialog_word_time">Выберите время на одно слово</string>
     <string name="training_Start_AnswerTimerNoLimit">Нет ограничений по времени</string>
     <string name="seconds">секунд</string>
-    <string name="defdict_en_ru_medium">Английский средний уровень</string>
+    <string name="defdict_en_ru_medium">Пример словаря (английский язык)</string>
     <string name="action_word_speech">Произнести</string>
     <string name="load_words_from_file">Загрузить из файла</string>
     <string name="file_choose">Выберите файл со списком слов для словаря</string>
