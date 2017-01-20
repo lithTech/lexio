@@ -202,9 +202,9 @@
     <string name="tutorial_ep_reload_menu">You can try this words again in other training</string>
     <string name="tutorial_ep_next">Continue this training with next word list</string>
     <string name="tutorial_fileChooser">Choose file with words to load into the dictionary. \n
-        File should be in text format. In every row there need to be word and it's translation. Optionally you can specify transcription and context.\n
+        File should be in text format. In every row there need to be word and it\'s translation. Optionally you can specify transcription and context.\n
         Delimiter for values in row is ; or |.\n
-        Word and it's translation is mandatory values.\n
+        Word and it\'s translation is mandatory values.\n
         Rows are separated by new line
     </string>
     <string name="tutorial_fileChooserExample">
