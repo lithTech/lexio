@@ -108,7 +108,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     protected Random random = new Random(System.nanoTime());
     protected int currentPage = 0;
     protected Date sessionDate = new Date();
-    protected static volatile TextToSpeech tts = null;
+    protected TextToSpeech tts = null;
 
     protected int wordCount;
     protected TrainingWordOrder wordOrder;
@@ -451,10 +451,6 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         onQuestionExpireTimer = new QuestionExpireTimer(answerTime * 1000, this);
 
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
         tts = new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -522,6 +518,13 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     public void onPause() {
         super.onPause();
         onQuestionExpireTimer.setPaused(true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (tts != null)
+            tts.stop();
     }
 
     @Override

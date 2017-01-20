@@ -321,6 +321,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                     final ProgressDialog progressDialog = ProgressDialog.show(promptView.getContext(),
                             creationWindowContext.getString(R.string.words_AddWord_Translation_ProgressTitle),
                             creationWindowContext.getString(R.string.words_AddWord_Translation_ProgressMessage));
+                    progressDialog.setCancelable(true);
                     MSTranslator translator = new MSTranslator(new GeneralCallback() {
                         @Override
                         public void done(Object data) {

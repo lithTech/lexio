@@ -38,6 +38,8 @@ public class MSTranslator extends AsyncTask<String, Void, String> {
             String textToSend = URLEncoder.encode(text, "UTF-8");
             URL translateUrl = new URL(String.format(httpsTranslateURLTemplate, from, to, accessTokenToSend, textToSend));
             HttpsURLConnection connection = (HttpsURLConnection) translateUrl.openConnection();
+            connection.setConnectTimeout(3 * 1000);
+            connection.setReadTimeout(10 * 1000);
             connection.getResponseCode();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(translateUrl.openStream(), StandardCharsets.UTF_8))) {
                 StringBuffer res = new StringBuffer();

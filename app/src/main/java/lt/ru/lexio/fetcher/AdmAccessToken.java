@@ -34,6 +34,7 @@ public class AdmAccessToken {
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=" + charset);
             connection.setDoOutput(true);
             connection.setConnectTimeout(3000);
+            connection.setReadTimeout(10 * 1000);
             try (OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream())) {
                 wr.write(params);
                 wr.flush();
