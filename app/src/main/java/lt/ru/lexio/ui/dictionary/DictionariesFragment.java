@@ -389,11 +389,26 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
 
         sequence.setConfig(config);
 
-        sequence.addSequenceItem(TutorialHelper.defElem(getActivity(),
+        MaterialShowcaseView item = TutorialHelper.defElem(getActivity(),
                 R.string.tutorial_dict_list, false, lDictionaries)
                 .setDelay(getResources().getInteger(R.integer.tutorial_delay))
-                .build()
-        );
+                .build();
+        item.setTarget(new ViewTarget(lDictionaries){
+            @Override
+            public Point getPoint() {
+                Point p = super.getPoint();
+                p.offset(0, dp2px(40));
+                return p;
+            }
+
+            @Override
+            public Rect getBounds() {
+                Rect r = super.getBounds();
+                r.top += dp2px(80);
+                return r;
+            }
+        });
+        sequence.addSequenceItem(item);
 
         MaterialShowcaseView tmpView = TutorialHelper.defElem(getActivity(),
                 R.string.tutorial_dict_list_item, true, lDictionaries)
@@ -409,10 +424,9 @@ public class DictionariesFragment extends ContentFragment implements SwipeMenuLi
 
             @Override
             public Rect getBounds() {
-                int[] location = new int[2];
-                lDictionaries.getLocationInWindow(location);
-                return new Rect(location[0], location[1],
-                        location[0] + lDictionaries.getMeasuredWidth(),  location[1] + dp2px(80));
+                Rect r = super.getBounds();
+                r.bottom = r.top + dp2px(80);
+                return r;
             }
         };
         tmpView.setTarget(wordItemTarget);

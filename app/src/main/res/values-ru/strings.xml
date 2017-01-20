@@ -59,7 +59,7 @@
     <string name="training.Order.Hard_Descr">Слова, в которых было много ошибок на тренировках. Отвечайте правильно, и слова эти слова постепенно перестанут считаться ошибочными</string>
     <string name="training.Order.New_Descr">Последние добавленные слова в словарь. Изучайте вновь добавленные слова</string>
     <string name="training.Order.Old_Descr">Слова, которые давно не были у вас на тренировках. Вспоминайте слова, которые давно не тренировались</string>
-    <string name="training_Order_Random_Descr">Просто случайные слова из всего словаря</string>
+    <string name="training_Order_Random_Descr">Случайные слова из словаря</string>
     <string name="training.Start">Запуск тренировки</string>
     <string name="training.Start.WordCount">Количество слов:</string>
     <string name="training.Start.WordOrder">Порядок подбора:</string>
@@ -103,7 +103,7 @@
     <string name="pref_word_progress_factor">Прогресс изучения слова</string>
     <string name="pref_word_progress_factor_summary">Прогресс в изучении слова считается на основе разницы между правильными и неправильными ответами. Укажите значение разницы, которое будет считаться за 100% изученность слова</string>
     <string name="pref_alarm_training">Напоминать о тренировках</string>
-    <string name="pref_alarm_training_summary_on">Lexio будет напоминать Вам, что неплохо бы поучить слова</string>
+    <string name="pref_alarm_training_summary_on">Lexio будет напоминать Вам поучить слова</string>
     <string name="pref_alarm_training_summary_off">Lexio не будет напоминать об изучении слов</string>
     <string name="pref_alarm_training_summary">Lexio может каждый день напоминать Вам, что нужно поучить слова</string>
     <string name="notify_word_learn_title">Lexio: Пора поучить слова</string>
@@ -126,7 +126,7 @@
     <string name="tutorial_words_add_global">Это кнопка для добавления слова. Вы можете вызвать добавление слова из любого места Lexio</string>
     <string name="pref_training_voice_show_transcription">Произнести слово: транскрипция</string>
     <string name="pref_training_voice_show_transcription_summary">Показывать транскрипцию слова в тренировке Перевод - Произнести слово (подсказка для более точного произношения)</string>
-    <string name="msg_action_words_move_success">Selected words moved successfully to</string>
+    <string name="msg_action_words_move_success">Выбранные слова успешно перемещены в словарь</string>
     <string-array name="training_ExtraAnswers_ru">
         <item>пекарь</item>
         <item>библиотека</item>
@@ -205,7 +205,7 @@
         Слова разделяются новой строкой.
     </string>
     <string name="tutorial_fileChooserExample">
-        Пример:\n
+        Пример содержимого файла:\n
         train|поезд\n
         carrot|морковь\n
         building|здание| |...one computer that took up a whole building\n

@@ -127,7 +127,7 @@ public class WordFragment extends ContentFragment implements TextWatcher, View.O
                 move.setWidth(dp2px(64));
 
                 SwipeMenuItem edit = new SwipeMenuItem(getView().getContext());
-                edit.setIcon(R.drawable.ic_menu_context_word_edit);
+                edit.setIcon(R.drawable.ic_menu_context_dict_edit);
                 edit.setTitle(R.string.action_word_edit);
                 edit.setId(R.id.action_word_edit);
                 edit.setTitleColor(R.color.colorPrimaryDark);

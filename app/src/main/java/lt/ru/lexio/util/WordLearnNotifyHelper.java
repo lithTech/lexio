@@ -60,7 +60,11 @@ public class WordLearnNotifyHelper extends BroadcastReceiver {
 
         builder.setContentIntent(pendingIntent);
 
-        return builder.build();
+        Notification n = builder.build();
+
+        n.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS;
+
+        return n;
     }
 
     public static void cancelNotificationSchedule(Context context) {
