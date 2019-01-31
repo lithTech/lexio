@@ -214,5 +214,6 @@
         building|здание| |...one computer that took up a whole building\n
         read|читать|riːd|to read a book
     </string>
+    <string name="notifyPhoneticTranscription">English phonetic transcription will be loaded from internet at next start</string>
 
 </resources>

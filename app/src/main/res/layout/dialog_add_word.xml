@@ -28,20 +28,24 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/bTranslate"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:drawableLeft="@drawable/ic_menu_microsoft"
             android:text="@string/word_get_translation"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/bTranslateLingvo"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:drawableLeft="@drawable/ic_menu_browser"
             android:text="@string/word_get_translation_lingvo"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -52,6 +56,12 @@
         android:layout_height="wrap_content"
         android:hint="@string/word.EnterContextHint"
         android:padding="15dp" />
+
+    <TextView
+        android:text="@string/notifyPhoneticTranscription"
+        android:textStyle="italic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>
