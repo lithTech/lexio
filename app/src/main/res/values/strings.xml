@@ -192,7 +192,7 @@
     <string name="dialog_word_time">Choose time for one word</string>
     <string name="training_Start_AnswerTimerNoLimit">No time limit</string>
     <string name="seconds">seconds</string>
-    <string name="defdict_en_ru_medium">English medium level</string>
+    <string name="defdict_en_ru_medium">English example dictionary</string>
     <string name="action_word_speech">Pronounce word</string>
     <string name="load_words_from_file">Load words from file</string>
     <string name="file_choose">Select a file with word\'s list</string>

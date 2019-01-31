@@ -24,21 +24,21 @@ analgesic;анальгетик
 apiece;кусок
 compensation;возмещение
 concoct;исповедоваться
-confess;пухленький
+confess;исподведоваться
 crummy;любопытство
 curiosity;ссыльный
-exile;фатальный
-fatal;беглец
-fugitive;кровоизлияние
-hemorrhage;инцидент
-incident;юношеский
-juvenile;законный
-legitimate;апатичный
-listless;нерадивый
-negligent;психиатрия
-psychiatry;приступ дурноты
-qualm;трезвый
-sober;
+exile;ссыльный
+fatal;роковой
+fugitive;беглец
+hemorrhage;кровоизлияние
+incident;инцидент
+juvenile;юношевский
+legitimate;законный
+listless;апатичный
+negligent;нерадивый
+psychiatry;психиатрия
+qualm;опасение
+sober;трезвый
 -
 alley;аллея
 appetite;аппетит
@@ -59,7 +59,7 @@ roam;странствовать
 slim;стройное
 struggle;борьба
 swell;зыбь
-upgrade;Обновить
+upgrade;обновить
 -
 alternative;альтернатива
 consumer;потребитель
@@ -256,7 +256,7 @@ cite;цитировать
 condominium;кондоминиум
 confront;противостоять
 evaluate;оценивать
-issue;вопрос
+issue;проблема
 parlance;манера говорить
 poll;голосование
 premarital;добрачный
@@ -288,5 +288,5 @@ province;провинция
 punish;наказать
 reinforce;усиливать
 significantly;существенно
-stow;набивать
+stow;укладывать
 transfer;перевод
