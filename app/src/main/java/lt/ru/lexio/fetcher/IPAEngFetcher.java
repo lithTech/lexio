@@ -36,7 +36,7 @@ import lt.ru.lexio.db.WordDAO;
 
 public class IPAEngFetcher extends AsyncTask<List<Word>, String, Collection<Word>> {
 
-    private String _URL = "http://lingorado.com/ipa/";
+    private String _URL = "https://tophonetics.com";
 
     private WordDAO wordDAO;
 
