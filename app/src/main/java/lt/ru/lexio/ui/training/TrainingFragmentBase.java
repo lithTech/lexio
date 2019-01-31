@@ -117,6 +117,8 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     long currentSessionId = 0;
     protected int currentQuestionNum = 0;
 
+    protected View rootView = null;
+
     private View trainingPageContainer = null;
     private View endPageContainer = null;
     private ProgressBar progressBar;
@@ -173,6 +175,10 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
     protected abstract void setEndPageStatistics(int correct,
                                                  int incorrect);
+
+    protected boolean isRootViewExists() {
+        return rootView != null;
+    }
 
     protected void nextQuestion(Boolean isLastQuestionCorrect) {
         if (currentWord != null && isLastQuestionCorrect != null)
@@ -358,17 +364,19 @@ public abstract class TrainingFragmentBase extends ContentFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        if (rootView != null) return rootView;
 
-        trainingPageContainer = view.findViewById(getTrainingPageContainerId());
-        endPageContainer = view.findViewById(getEndPageContainerId());
+        rootView = super.onCreateView(inflater, container, savedInstanceState);
 
-        wordStatisticDAO = new WordStatisticDAO(view.getContext());
-        wordDAO = new WordDAO(view.getContext());
+        trainingPageContainer = rootView.findViewById(getTrainingPageContainerId());
+        endPageContainer = rootView.findViewById(getEndPageContainerId());
+
+        wordStatisticDAO = new WordStatisticDAO(rootView.getContext());
+        wordDAO = new WordDAO(rootView.getContext());
         trainingWordBuilder = new TrainingWordBuilder(wordDAO, 0);
 
         //we are using 2 animations: the first for the old question gone, the second is for the new question arrive
-        aniNextCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
+        aniNextCloseLastQuestion = AnimationUtils.loadAnimation(rootView.getContext(),
                 R.anim.anim_word_translation_nextcloseold);
         aniNextCloseLastQuestion.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -386,7 +394,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
             }
         });
-        aniNextStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
+        aniNextStartNewQuestion = AnimationUtils.loadAnimation(rootView.getContext(),
                 R.anim.anim_word_translation_nextopennew);
         aniNextStartNewQuestion.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -406,7 +414,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
             }
         });
 
-        aniPrevCloseLastQuestion = AnimationUtils.loadAnimation(view.getContext(),
+        aniPrevCloseLastQuestion = AnimationUtils.loadAnimation(rootView.getContext(),
                 R.anim.anim_word_translation_prevcloseold);
         aniPrevCloseLastQuestion.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -424,7 +432,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
             }
         });
-        aniPrevStartNewQuestion = AnimationUtils.loadAnimation(view.getContext(),
+        aniPrevStartNewQuestion = AnimationUtils.loadAnimation(rootView.getContext(),
                 R.anim.anim_word_translation_prevopennew);
         aniPrevStartNewQuestion.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -443,7 +451,7 @@ public abstract class TrainingFragmentBase extends ContentFragment {
             }
         });
 
-        progressBar = (ProgressBar) view.findViewById(R.id.trainingProgress);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.trainingProgress);
 
         wordCount = getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_COUNT);
         wordOrder = TrainingWordOrder.values()[getArguments().getInt(ContentFragment.ARG_TRAINING_WORD_ORDER)];
@@ -460,7 +468,13 @@ public abstract class TrainingFragmentBase extends ContentFragment {
             }
         });
 
-        return view;
+        return rootView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        rootView = null;
     }
 
     @Override

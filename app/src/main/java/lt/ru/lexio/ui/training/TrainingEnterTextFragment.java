@@ -164,6 +164,7 @@ public abstract class TrainingEnterTextFragment extends TrainingFragmentBase imp
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (isRootViewExists()) return rootView;
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         tvTranslationQuestion = (TextView) view.findViewById(getTrainingQuestionId());

@@ -28,7 +28,7 @@ public class AdvertiseHelper {
     private static AtomicBoolean _cancelShow = new AtomicBoolean(false);
     private static AtomicBoolean _isLoading = new AtomicBoolean(false);
 
-    private static final String FLAVOR_WA = "withoutAds";
+    private static final String FLAVOR_WA = "defaultConfig";
 
     public static boolean isFlavorWithoutAds() {
         return BuildConfig.FLAVOR.equals(FLAVOR_WA);

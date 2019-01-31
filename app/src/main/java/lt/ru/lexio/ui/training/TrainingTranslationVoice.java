@@ -142,6 +142,7 @@ public class TrainingTranslationVoice extends TrainingFragmentBase implements Vi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (isRootViewExists()) return rootView;
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         bMic = view.findViewById(R.id.bTrainingTransVoiceMic);

@@ -163,6 +163,7 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (isRootViewExists()) return rootView;
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         int[] buttonAns = getButtonAnswersId();
@@ -174,12 +175,12 @@ public abstract class TrainingAnswerOptionsFragment extends TrainingFragmentBase
 
         bDontKnow = (Button) view.findViewById(getDontKnowButtonAnswerId());
 
-
         initialButtonBkg = bAnsArray[0].getBackground();
 
         for (Button ans : bAnsArray) {
             ans.setOnClickListener(this);
         }
+
         bDontKnow.setTag(false);
         bDontKnow.setOnClickListener(this);
 

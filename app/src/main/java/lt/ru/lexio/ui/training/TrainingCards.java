@@ -166,7 +166,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     private Flip3dAnimation getFlipAnimation(float fD, float tD, Animation.AnimationListener onEnd) {
         float center = card.getMeasuredWidth() / 2.0f;
         Flip3dAnimation flip3dAnimation = new Flip3dAnimation(fD, tD, center, center);
-        flip3dAnimation.setDuration(200);
+        flip3dAnimation.setDuration(280);
         flip3dAnimation.setFillAfter(false);
         flip3dAnimation.setInterpolator(new AccelerateInterpolator());
         flip3dAnimation.setAnimationListener(onEnd);
@@ -181,6 +181,7 @@ public class TrainingCards extends TrainingFragmentBase implements View.OnTouchL
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (isRootViewExists()) return rootView;
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         card = (LinearLayout) view.findViewById(R.id.cTrainingCard);
