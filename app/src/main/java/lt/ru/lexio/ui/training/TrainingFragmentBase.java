@@ -88,7 +88,9 @@ public abstract class TrainingFragmentBase extends ContentFragment {
 
         @Override
         public void onFinish() {
-            if (training != null && !paused)
+            if (training != null && !paused &&
+                    training.endPageContainer != null &&
+                    training.endPageContainer.getVisibility() != View.VISIBLE)
                 training.onQuestionTimeExpire();
         }
 
